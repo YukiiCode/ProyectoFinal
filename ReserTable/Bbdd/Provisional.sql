@@ -17,3 +17,7 @@ CREATE TABLE inventory();
 
 CREATE TABLE events();
 CREATE TABLE events_offers();
+
+
+CREATE TABLE tables();
+CREATE TABLE 
