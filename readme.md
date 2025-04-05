@@ -3,6 +3,7 @@
 [![Laravel](https://img.shields.io/badge/Laravel-12.0-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)](https://laravel.com)
 [![MySQL](https://img.shields.io/badge/MySQL-8.0-4479A1?style=for-the-badge&logo=mysql&logoColor=white)](https://www.mysql.com/)
 [![PHP](https://img.shields.io/badge/PHP-8.2-777BB4?style=for-the-badge&logo=php&logoColor=white)](https://www.php.net/)
+[![Vue.js](https://img.shields.io/badge/Vue.js-3.0-4FC08D?style=for-the-badge&logo=vue.js&logoColor=white)](https://vuejs.org/)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
 
 ## Descripción
@@ -49,6 +50,7 @@ ReserTable es un sistema integral de gestión para restaurantes desarrollado com
 
 ### Frontend
 - **Blade**: Motor de plantillas de Laravel
+- **Vue.js**: Framework progresivo para construir interfaces de usuario
 - **JavaScript/Vite**: Para interactividad en el lado del cliente
 
 ## Arquitectura de Base de Datos
