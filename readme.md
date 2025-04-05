@@ -62,39 +62,6 @@ El sistema está respaldado por una arquitectura de base de datos normalizada y 
 - Restricciones de integridad mediante claves foráneas y validaciones
 - Campos de auditoría para seguimiento de cambios
 
-## Instalación
-
-```bash
-# Clonar el repositorio
-git clone https://github.com/yourusername/ProyectoFinal.git
-cd ProyectoFinal/ReserTable
-
-# Instalar dependencias
-composer install
-npm install
-
-# Configurar entorno
-cp .env.example .env
-php artisan key:generate
-
-# Configurar base de datos en .env
-# DB_CONNECTION=mysql
-# DB_HOST=127.0.0.1
-# DB_PORT=3306
-# DB_DATABASE=reservtable
-# DB_USERNAME=root
-# DB_PASSWORD=
-
-# Ejecutar migraciones y seeders
-php artisan migrate --seed
-
-# Compilar assets
-npm run build
-
-# Iniciar servidor de desarrollo
-php artisan serve
-```
-
 ## Contribución
 
 Si deseas contribuir a este proyecto, por favor:
