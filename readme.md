@@ -109,8 +109,8 @@ Este proyecto está licenciado bajo la Licencia MIT - ver el archivo [LICENSE](L
 
 ## Autor
 
-Desarrollado como Trabajo de Fin de Grado por [Tu Nombre].
+Desarrollado como Trabajo de Fin de Grado por Fernando Nieves.
 
 ---
 
-© 2023 ReserTable. Todos los derechos reservados.
+© 2025 ReserTable. Todos los derechos reservados.
