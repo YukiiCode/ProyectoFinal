@@ -72,14 +72,34 @@ CREATE TABLE reservations (
     FOREIGN KEY (discount_coupon_id) REFERENCES discount_coupons(id) ON DELETE SET NULL
 );
 
+-- Tabla de categorías de productos
+CREATE TABLE product_categories (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100) UNIQUE NOT NULL,
+    description TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
 -- Tabla de productos (platos/bebidas)
 CREATE TABLE products (
     id SERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     description TEXT,
     price DECIMAL(10, 2) NOT NULL,
-    category ENUM('food', 'drink', 'dessert') NOT NULL,
+    category_id INT NOT NULL,
     available BOOLEAN DEFAULT TRUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (category_id) REFERENCES product_categories(id) ON DELETE RESTRICT
+);
+
+-- Tabla de ingredientes
+CREATE TABLE ingredients (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) UNIQUE NOT NULL,
+    unit_of_measure VARCHAR(50) NOT NULL,
+    allergen_info TEXT, -- Información sobre alérgenos que contiene el ingrediente
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
@@ -88,21 +108,22 @@ CREATE TABLE products (
 CREATE TABLE product_ingredients (
     id SERIAL PRIMARY KEY,
     product_id INT NOT NULL,
-    ingredient_name VARCHAR(255) NOT NULL,
+    ingredient_id INT NOT NULL,
     quantity_required DECIMAL(10, 2) NOT NULL, -- Cantidad requerida por unidad
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE
+    FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE,
+    FOREIGN KEY (ingredient_id) REFERENCES ingredients(id) ON DELETE CASCADE
 );
 
 -- Tabla de inventario
 CREATE TABLE inventory (
     id SERIAL PRIMARY KEY,
-    ingredient_name VARCHAR(255) NOT NULL,
+    ingredient_id INT NOT NULL,
     quantity_in_stock DECIMAL(10, 2) NOT NULL,
-    unit_of_measure VARCHAR(50) NOT NULL, -- Unidad de medida (kg, litros, etc.)
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (ingredient_id) REFERENCES ingredients(id) ON DELETE CASCADE
 );
 
 -- Tabla de eventos/promociones
@@ -149,4 +170,59 @@ CREATE TABLE logs (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
 );
+
+-- Tabla de pedidos
+CREATE TABLE orders (
+    id SERIAL PRIMARY KEY,
+    client_id INT NOT NULL,
+    reservation_id INT DEFAULT NULL,
+    status ENUM('pending', 'in_progress', 'completed', 'cancelled') DEFAULT 'pending',
+    order_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (client_id) REFERENCES clients(id) ON DELETE CASCADE,
+    FOREIGN KEY (reservation_id) REFERENCES reservations(id) ON DELETE SET NULL
+);
+
+-- Tabla de items de pedidos
+CREATE TABLE order_items (
+    id SERIAL PRIMARY KEY,
+    order_id INT NOT NULL,
+    product_id INT NOT NULL,
+    quantity INT NOT NULL,
+    unit_price DECIMAL(10, 2) NOT NULL,
+    notes TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE,
+    FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE
+);
+
+-- Tabla de horarios del restaurante
+CREATE TABLE restaurant_hours (
+    id SERIAL PRIMARY KEY,
+    day_of_week TINYINT NOT NULL, -- 0=Domingo, 1=Lunes, etc.
+    open_time TIME NOT NULL,
+    close_time TIME NOT NULL,
+    is_closed BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    CONSTRAINT unique_day UNIQUE (day_of_week)
+);
+
+-- Índices estratégicos para optimizar consultas frecuentes
+CREATE INDEX idx_reservations_date ON reservations(reservation_date);
+CREATE INDEX idx_products_category ON products(category_id);
+CREATE INDEX idx_discount_coupons_code ON discount_coupons(code);
+CREATE INDEX idx_tables_status ON tables(status);
+
+-- Restricciones adicionales para garantizar la integridad de datos
+ALTER TABLE reservations ADD CONSTRAINT check_party_size 
+    CHECK (party_size > 0);
+    
+ALTER TABLE products ADD CONSTRAINT check_price 
+    CHECK (price >= 0);
+    
+ALTER TABLE discount_coupons ADD CONSTRAINT check_dates 
+    CHECK (valid_from <= valid_to);
 
