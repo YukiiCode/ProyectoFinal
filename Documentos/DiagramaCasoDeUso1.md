@@ -9,31 +9,30 @@ flowchart TD
     %% Definición de actores
     classDef actorClass fill:#f9f,stroke:#333,stroke-width:2px
     
-    Cliente((Cliente)):::actorClass
-    Empleado((Empleado)):::actorClass
-    Administrador((Administrador)):::actorClass
+    subgraph Cliente
+        CU1[Registrarse]
+        CU2[Iniciar sesión]
+        CU3[Reservar mesa]
+        CU4[Ver historial de reservas]
+        CU5[Usar código de descuento]
+        CU6[Ver historial de consumo]
+    end
     
-    %% Casos de uso - Cliente
-    CU1[Registrarse]
-    CU2[Iniciar sesión]
-    CU3[Reservar mesa]
-    CU4[Ver historial de reservas]
-    CU5[Usar código de descuento]
-    CU6[Ver historial de consumo]
+    subgraph Empleado
+        CU7[Gestionar pedidos]
+        CU8[Procesar reservas]
+        CU9[Gestionar mesas]
+        CU10[Consultar inventario]
+    end
     
-    %% Casos de uso - Empleado
-    CU7[Gestionar pedidos]
-    CU8[Procesar reservas]
-    CU9[Gestionar mesas]
-    CU10[Consultar inventario]
-    
-    %% Casos de uso - Administrador
-    CU11[Gestionar usuarios]
-    CU12[Configurar mesas]
-    CU13[Crear códigos de descuento]
-    CU14[Gestionar menú]
-    CU15[Administrar inventario]
-    CU16[Gestionar alérgenos]
+    subgraph Administrador
+        CU11[Gestionar usuarios]
+        CU12[Configurar mesas]
+        CU13[Crear códigos de descuento]
+        CU14[Gestionar menú]
+        CU15[Administrar inventario]
+        CU16[Gestionar alérgenos]
+    end
     
     %% Relaciones - Cliente
     Cliente --> CU1
