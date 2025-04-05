@@ -5,59 +5,51 @@ Este documento presenta el diagrama de caso de uso para el sistema de gestión d
 ## Diagrama
 
 ```mermaid
-flowchart TD
+flowchart TB
     %% Definición de actores
     classDef actorClass fill:#f9f,stroke:#333,stroke-width:2px
     
+    %% Actores
     Cliente((Cliente)):::actorClass
     Empleado((Empleado)):::actorClass
     Administrador((Administrador)):::actorClass
     
-    %% Casos de uso - Cliente
-    CU1[Registrarse]
-    CU2[Iniciar sesión]
-    CU3[Reservar mesa]
-    CU4[Ver historial de reservas]
-    CU5[Usar código de descuento]
-    CU6[Ver historial de consumo]
+    %% Agrupación de casos de uso por módulos
+    subgraph Módulo_Cliente
+        CU1[Registrarse]
+        CU2[Iniciar sesión]
+        CU3[Reservar mesa]
+        CU4[Ver historial de reservas]
+        CU5[Usar código de descuento]
+        CU6[Ver historial de consumo]
+    end
     
-    %% Casos de uso - Empleado
-    CU7[Gestionar pedidos]
-    CU8[Procesar reservas]
-    CU9[Gestionar mesas]
-    CU10[Consultar inventario]
+    subgraph Módulo_Empleado
+        CU7[Gestionar pedidos]
+        CU8[Procesar reservas]
+        CU9[Gestionar mesas]
+        CU10[Consultar inventario]
+    end
     
-    %% Casos de uso - Administrador
-    CU11[Gestionar usuarios]
-    CU12[Configurar mesas]
-    CU13[Crear códigos de descuento]
-    CU14[Gestionar menú]
-    CU15[Administrar inventario]
-    CU16[Gestionar alérgenos]
+    subgraph Módulo_Administrador
+        CU11[Gestionar usuarios]
+        CU12[Configurar mesas]
+        CU13[Crear códigos de descuento]
+        CU14[Gestionar menú]
+        CU15[Administrar inventario]
+        CU16[Gestionar alérgenos]
+    end
     
     %% Relaciones - Cliente
-    Cliente --> CU1
-    Cliente --> CU2
-    Cliente --> CU3
-    Cliente --> CU4
-    Cliente --> CU5
-    Cliente --> CU6
+    Cliente --> Módulo_Cliente
     
     %% Relaciones - Empleado
     Empleado --> CU2
-    Empleado --> CU7
-    Empleado --> CU8
-    Empleado --> CU9
-    Empleado --> CU10
+    Empleado --> Módulo_Empleado
     
     %% Relaciones - Administrador
     Administrador --> CU2
-    Administrador --> CU11
-    Administrador --> CU12
-    Administrador --> CU13
-    Administrador --> CU14
-    Administrador --> CU15
-    Administrador --> CU16
+    Administrador --> Módulo_Administrador
     
     %% Relaciones de inclusión/extensión
     CU3 -.-> |<<include>>| CU9
