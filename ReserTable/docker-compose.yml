@@ -22,7 +22,7 @@ services:
       PMA_HOST: mysql
       MYSQL_ROOT_PASSWORD: my-secret-pw
     ports:
-      - "8080:80"
+      - "8081:80"
     depends_on:
       - mysql
     restart: always
