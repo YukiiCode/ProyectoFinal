@@ -11,7 +11,7 @@ Route::get('/', function () {
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
     ]);
-});
+})->name('home'); // Puedes nombrar esta ruta como 'home' si lo deseas
 
 Route::middleware([
     'auth:sanctum',
@@ -21,4 +21,18 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');
     })->name('dashboard');
+    Route::get('/reserva', function () {
+        return Inertia::render('Reserva');
+    })->name('reserva');
+    Route::get('/home', function () {
+        return Inertia::render('Home');
+    })->name('home');
+    Route::get('/menu', function () {
+        return Inertia::render('Menu');
+    })->name('menu');
 });
+
+// Elimina la siguiente ruta duplicada si aún existe:
+// Route::get('/', function () {
+//     return view('home');
+// })->name('home');

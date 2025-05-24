@@ -1,6 +1,5 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
-import Welcome from '@/Components/Welcome.vue';
 </script>
 
 <template>
@@ -13,8 +12,9 @@ import Welcome from '@/Components/Welcome.vue';
 
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                    <Welcome />
+                <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-8">
+                    <h1 class="display-4 mb-4">Panel de Usuario</h1>
+                    <p>Bienvenido a tu panel de usuario.</p>
                 </div>
             </div>
         </div>
