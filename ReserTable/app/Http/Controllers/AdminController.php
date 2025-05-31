@@ -8,16 +8,20 @@ use App\Models\Table;
 use App\Models\Reservation;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Carbon\Carbon;
 
 class AdminController extends Controller
-{
-    /**
+{    /**
      * Display the admin dashboard
-     */
-    public function dashboard()
-    {        // Estadísticas para el dashboard
+     */    public function dashboard()
+    {        
+        // Obtener configuraciones del usuario autenticado
+        $user = Auth::user();
+        $settings = optional($user)->settings;
+        
+        // Estadísticas para el dashboard
         $stats = [
             'total_reservations' => Reservation::count(),
             'today_reservations' => Reservation::whereDate('reservation_date', Carbon::today())->count(),
@@ -137,14 +141,14 @@ class AdminController extends Controller
 
     /**
      * Display users management
-     */
-    public function users()
+     */    public function users()
     {
         $users = User::orderBy('name')->get()->map(function ($user) {
             return [
                 'id' => $user->id,
                 'name' => $user->name,
                 'email' => $user->email,
+                'role' => $user->role ?? 'employee', // Aseguramos que siempre tenga un rol
                 'email_verified_at' => $user->email_verified_at,
                 'created_at' => $user->created_at,
                 'updated_at' => $user->updated_at,

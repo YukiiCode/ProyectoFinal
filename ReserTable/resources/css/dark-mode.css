@@ -1,0 +1,287 @@
+/* Estilos para el modo oscuro */
+:root {
+    /* Colores en modo claro */
+    --primary-bg-light: #ffffff;
+    --secondary-bg-light: #f3f4f6;
+    --tertiary-bg-light: #f9fafb;
+    --border-light: #e5e7eb;
+    --border-strong-light: #d1d5db;
+    --text-primary-light: #111827;
+    --text-secondary-light: #4b5563;
+    --text-tertiary-light: #6b7280;
+    --shadow-light: rgba(0, 0, 0, 0.1);
+    
+    /* Colores en modo oscuro - Mejor paleta con tonos azules profundos */
+    --primary-bg-dark: #121212;       /* Fondo principal oscuro */
+    --secondary-bg-dark: #1e1e1e;     /* Fondo secundario oscuro */
+    --tertiary-bg-dark: #2a2a2a;      /* Fondo terciario oscuro */
+    --border-dark: #383838;           /* Bordes normales */
+    --border-strong-dark: #505050;    /* Bordes más prominentes */
+    --text-primary-dark: #f0f0f0;     /* Texto principal */
+    --text-secondary-dark: #c7c7c7;   /* Texto secundario */
+    --text-tertiary-dark: #9e9e9e;    /* Texto terciario */
+    --shadow-dark: rgba(0, 0, 0, 0.3);
+
+    /* Colores de acento - Versión light y dark */
+    --blue-500: #3b82f6;
+    --blue-600: #2563eb;
+    --blue-dark: #4d7cfe; /* Azul más brillante para modo oscuro */
+    
+    --green-500: #10b981;
+    --green-600: #059669;
+    --green-dark: #2ecc71;
+    
+    --purple-500: #8b5cf6;
+    --purple-600: #7c3aed;
+    --purple-dark: #a78bfa;
+    
+    --orange-500: #f97316;
+    --orange-600: #ea580c;
+    --orange-dark: #ff9f43;
+    
+    --red-500: #ef4444;
+    --red-600: #dc2626;
+    --red-dark: #ff6b6b;
+    
+    --gray-500: #6b7280;
+    --gray-600: #4b5563;
+    --gray-dark: #9ca3af;
+}
+
+/* Estilos generales para modo oscuro con transiciones suaves */
+body.dark-mode {
+    background-color: var(--primary-bg-dark);
+    color: var(--text-primary-dark);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Fondos */
+.dark .bg-white, 
+body.dark-mode .bg-white {
+    background-color: var(--secondary-bg-dark) !important;
+}
+
+.dark .bg-gray-50,
+.dark .bg-gray-100, 
+body.dark-mode .bg-gray-50,
+body.dark-mode .bg-gray-100 {
+    background-color: var(--primary-bg-dark) !important;
+}
+
+.dark .bg-gray-800,
+body.dark-mode .bg-gray-800 {
+    background-color: var(--tertiary-bg-dark) !important;
+}
+
+.dark .bg-gray-900, 
+body.dark-mode .bg-gray-900 {
+    background-color: var(--primary-bg-dark) !important;
+}
+
+/* Textos */
+.dark .text-gray-900,
+body.dark-mode .text-gray-900,
+body.dark-mode .text-dark {
+    color: var(--text-primary-dark) !important;
+}
+
+.dark .text-gray-800,
+body.dark-mode .text-gray-800 {
+    color: var(--text-primary-dark) !important;
+}
+
+.dark .text-gray-600,
+.dark .text-gray-700,
+.dark .text-gray-500,
+body.dark-mode .text-gray-600,
+body.dark-mode .text-gray-700,
+body.dark-mode .text-gray-500,
+body.dark-mode .text-muted {
+    color: var(--text-secondary-dark) !important;
+}
+
+.dark .text-gray-400,
+body.dark-mode .text-gray-400 {
+    color: var(--text-tertiary-dark) !important;
+}
+
+/* Bordes */
+.dark .border-gray-200,
+.dark .border-gray-300,
+body.dark-mode .border-gray-200,
+body.dark-mode .border-gray-300 {
+    border-color: var(--border-dark) !important;
+}
+
+.dark .border-gray-700,
+body.dark-mode .border-gray-700 {
+    border-color: var(--border-strong-dark) !important;
+}
+
+/* Inputs y botones */
+.dark .form-input,
+.dark .form-select,
+.dark .form-textarea,
+body.dark-mode .form-control,
+body.dark-mode .form-select,
+body.dark-mode textarea {
+    background-color: var(--tertiary-bg-dark) !important;
+    border-color: var(--border-dark) !important;
+    color: var(--text-primary-dark) !important;
+}
+
+/* Checkbox y radio */
+.dark input[type="checkbox"],
+.dark input[type="radio"],
+body.dark-mode .form-check-input {
+    background-color: var(--tertiary-bg-dark) !important;
+    border-color: var(--border-dark) !important;
+}
+
+.dark input[type="checkbox"]:checked,
+.dark input[type="radio"]:checked,
+body.dark-mode .form-check-input:checked {
+    background-color: var(--blue-dark) !important;
+    border-color: var(--blue-dark) !important;
+}
+
+/* Botones */
+.dark .btn-primary,
+body.dark-mode .btn-primary {
+    background-color: var(--blue-dark) !important;
+    border-color: var(--blue-dark) !important;
+    color: white !important;
+}
+
+.dark .btn-outline-primary,
+body.dark-mode .btn-outline-primary {
+    color: var(--blue-dark) !important;
+    border-color: var(--blue-dark) !important;
+}
+
+.dark .btn-outline-primary:hover,
+body.dark-mode .btn-outline-primary:hover {
+    background-color: var(--blue-dark) !important;
+    color: white !important;
+}
+
+.dark .btn-secondary,
+body.dark-mode .btn-secondary {
+    background-color: var(--tertiary-bg-dark) !important;
+    border-color: var(--border-strong-dark) !important;
+}
+
+/* Tarjetas */
+.dark .card,
+.dark .shadow-sm,
+body.dark-mode .card,
+body.dark-mode .shadow-sm,
+body.dark-mode .admin-card {
+    background-color: var(--secondary-bg-dark) !important;
+    border-color: var(--border-dark) !important;
+    box-shadow: 0 4px 12px var(--shadow-dark) !important;
+}
+
+body.dark-mode .admin-card-header {
+    background-color: var(--tertiary-bg-dark) !important;
+    border-color: var(--border-dark) !important;
+}
+
+/* Efectos hover bonitos para elementos interactivos */
+.dark .card:hover,
+.dark .btn:hover,
+body.dark-mode .card:hover,
+body.dark-mode .admin-card:hover {
+    box-shadow: 0 6px 16px var(--shadow-dark) !important;
+}
+
+/* PrimeVue componentes */
+.dark .p-component,
+body.dark-mode .p-component {
+    background-color: var(--tertiary-bg-dark);
+    color: var(--text-primary-dark);
+    border-color: var(--border-dark);
+}
+
+.dark .p-button,
+body.dark-mode .p-button {
+    background-color: var(--blue-dark);
+    border-color: var(--blue-dark);
+}
+
+.dark .p-button.p-button-secondary,
+body.dark-mode .p-button.p-button-secondary {
+    background-color: var(--gray-600);
+    border-color: var(--gray-600);
+}
+
+.dark .p-inputtext,
+body.dark-mode .p-inputtext {
+    background-color: var(--tertiary-bg-dark);
+    border-color: var(--border-dark);
+    color: var(--text-primary-dark);
+}
+
+.dark .p-dropdown,
+body.dark-mode .p-dropdown {
+    background-color: var(--tertiary-bg-dark);
+    border-color: var(--border-dark);
+}
+
+.dark .p-dropdown-panel,
+body.dark-mode .p-dropdown-panel {
+    background-color: var(--tertiary-bg-dark);
+    border-color: var(--border-dark);
+    box-shadow: 0 4px 12px var(--shadow-dark) !important;
+}
+
+.dark .p-dropdown-item,
+body.dark-mode .p-dropdown-item {
+    color: var(--text-primary-dark);
+}
+
+.dark .p-dropdown-item:hover,
+body.dark-mode .p-dropdown-item:hover,
+body.dark-mode .p-dropdown-item.p-highlight {
+    background-color: rgba(77, 124, 254, 0.2) !important;
+    color: var(--blue-dark) !important;
+}
+
+/* Crea un efecto de brillo sutil al pasar el cursor */
+.dark .p-button:hover,
+body.dark-mode .p-button:hover,
+body.dark-mode .btn-primary:hover {
+    filter: brightness(1.1);
+}
+
+/* Tablas */
+.dark table,
+body.dark-mode table {
+    color: var(--text-primary-dark) !important;
+    border-color: var(--border-dark) !important;
+}
+
+.dark table th,
+body.dark-mode table th,
+body.dark-mode .table-header {
+    background-color: var(--tertiary-bg-dark) !important;
+    color: var(--text-primary-dark) !important;
+    border-color: var(--border-dark) !important;
+}
+
+.dark table td,
+body.dark-mode table td {
+    border-color: var(--border-dark) !important;
+}
+
+.dark table tr:nth-child(even),
+body.dark-mode table tr:nth-child(even),
+body.dark-mode .table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(255, 255, 255, 0.02) !important;
+}
+
+.dark table tr:hover,
+body.dark-mode table tr:hover,
+body.dark-mode .table-hover tbody tr:hover {
+    background-color: rgba(77, 124, 254, 0.1) !important;
+}

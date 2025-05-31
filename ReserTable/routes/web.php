@@ -68,5 +68,12 @@ Route::middleware([
         Route::post('/users', [\App\Http\Controllers\UserController::class, 'store'])->name('users.store');
         Route::put('/users/{user}', [\App\Http\Controllers\UserController::class, 'update'])->name('users.update');
         Route::delete('/users/{user}', [\App\Http\Controllers\UserController::class, 'destroy'])->name('users.destroy');
+        
+        // Rutas para configuraciones
+        Route::get('/settings', [\App\Http\Controllers\SettingsController::class, 'index'])->name('settings');
+        Route::patch('/settings', [\App\Http\Controllers\SettingsController::class, 'update'])->name('settings.update');
+        Route::patch('/settings/dark-mode', [\App\Http\Controllers\SettingsController::class, 'toggleDarkMode'])->name('settings.dark-mode');
+        // Alias para acceder como admin.settings.dark-mode (solución a la inconsistencia de rutas)
+        Route::patch('/settings/dark-mode-alias', [\App\Http\Controllers\SettingsController::class, 'toggleDarkMode'])->name('admin.settings.dark-mode');
     });
 });

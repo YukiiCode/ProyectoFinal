@@ -12,6 +12,8 @@ export default {
         './resources/js/**/*.vue',
     ],
 
+    darkMode: 'class', // Habilitar modo oscuro por clase CSS
+    
     theme: {
         extend: {
             fontFamily: {

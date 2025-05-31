@@ -65,4 +65,30 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    /**
+     * Get the user's settings.
+     */
+    public function settings()
+    {
+        return $this->hasOne(UserSettings::class);
+    }
+
+    /**
+     * Get user settings or create default ones.
+     */
+    public function getUserSettings()
+    {
+        if (!$this->relationLoaded('settings') || !$this->settings) {
+            // Cargar la relación si no está cargada
+            $this->load('settings');
+            
+            // Si aún no existe, crear configuraciones por defecto
+            if (!$this->settings) {
+                $this->settings()->create(UserSettings::getDefaultSettings());
+                $this->load('settings');
+            }
+        }
+        return $this->settings;
+    }
 }

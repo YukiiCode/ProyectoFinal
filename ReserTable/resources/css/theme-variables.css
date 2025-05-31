@@ -1,0 +1,92 @@
+/* Variables CSS para temas claros y oscuros */
+:root {
+    /* Colores base */
+    --color-primary: #3b82f6; /* azul */
+    --color-success: #10b981; /* verde */
+    --color-warning: #f59e0b; /* amarillo */
+    --color-danger: #ef4444; /* rojo */
+    --color-info: #60a5fa; /* azul claro */
+    
+    /* Tema claro (default) */
+    --bg-primary: #ffffff;
+    --bg-secondary: #f9fafb;
+    --bg-tertiary: #f3f4f6;
+    --text-primary: #111827;
+    --text-secondary: #4b5563;
+    --text-tertiary: #6b7280;
+    --border-light: #e5e7eb;
+    --border-medium: #d1d5db;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    
+    /* Personalización de componentes */
+    --card-bg: var(--bg-primary);
+    --card-text: var(--text-primary);
+    --card-border: var(--border-light);
+    --input-bg: var(--bg-primary);
+    --input-text: var(--text-primary);
+    --input-border: var(--border-medium);
+    --button-primary-bg: var(--color-primary);
+    --button-primary-text: white;
+    --table-header-bg: var(--bg-tertiary);
+    --table-even-row-bg: var(--bg-secondary);
+    --table-hover-bg: #f0f9ff; /* azul muy claro */
+}
+
+/* Tema oscuro */
+.dark {
+    --bg-primary: #1f2937;
+    --bg-secondary: #111827;
+    --bg-tertiary: #374151;
+    --text-primary: #f9fafb;
+    --text-secondary: #e5e7eb;
+    --text-tertiary: #d1d5db;
+    --border-light: #374151;
+    --border-medium: #4b5563;
+    --shadow-color: rgba(0, 0, 0, 0.5);
+    
+    /* Personalización de componentes */
+    --card-bg: var(--bg-secondary);
+    --card-text: var(--text-primary);
+    --card-border: var(--border-light);
+    --input-bg: var(--bg-tertiary);
+    --input-text: var(--text-primary);
+    --input-border: var(--border-medium);
+    --table-header-bg: var(--bg-tertiary);
+    --table-even-row-bg: #1a202c; /* más oscuro que bg-secondary */
+    --table-hover-bg: #2d3748; /* gris oscuro con tono azul */
+}
+
+/* Aplicar las variables a elementos comunes */
+body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.card, .shadow-sm {
+    background-color: var(--card-bg);
+    border-color: var(--card-border);
+    color: var(--card-text);
+}
+
+input, select, textarea {
+    background-color: var(--input-bg);
+    color: var(--input-text);
+    border-color: var(--input-border);
+}
+
+table {
+    color: var(--text-primary);
+}
+
+table th {
+    background-color: var(--table-header-bg);
+}
+
+table tr:nth-child(even) {
+    background-color: var(--table-even-row-bg);
+}
+
+table tr:hover {
+    background-color: var(--table-hover-bg);
+}

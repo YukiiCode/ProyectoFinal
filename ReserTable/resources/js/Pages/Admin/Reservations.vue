@@ -1,228 +1,218 @@
 <template>
     <AdminLayout>
         <div class="container-fluid">
-            <!-- Header -->
-            <div class="d-flex justify-content-between align-items-center mb-4">
+            <!-- Header Mejorado -->            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-2 mb-6">
                 <div>
-                    <h1 class="h3 mb-0 text-dark">Gestión de Reservas</h1>
-                    <p class="text-muted mb-0">Administra todas las reservas del restaurante</p>
+                    <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-1 flex items-center gap-2 transition-colors main-title">
+                        <i class="pi pi-calendar-check text-primary text-2xl"></i>
+                        Gestión de Reservas
+                    </h1>
+                    <p class="text-gray-500 dark:text-gray-400 transition-colors">Administra todas las reservas del restaurante</p>
                 </div>
-                <button class="btn btn-primary" @click="openCreateModal">
-                    <i class="fas fa-plus me-2"></i>
-                    Nueva Reserva
-                </button>
+                <Button icon="pi pi-plus" label="Nueva Reserva" class="p-button-primary p-button-lg shadow interactive-element" @click="openCreateModal" />
             </div>
 
-            <!-- Filters -->
-            <div class="row mb-4">
-                <div class="col-md-3">
-                    <label class="form-label">Estado</label>
+            <!-- Filtros Mejorados -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">                <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 flex flex-col gap-2 transition-colors">
+                    <label class="font-semibold text-gray-700 dark:text-gray-300 flex items-center gap-2"><i class="pi pi-filter"></i> Estado</label>
                     <Dropdown 
                         v-model="filters.status" 
                         :options="statusOptions" 
                         optionLabel="label" 
                         optionValue="value" 
-                        class="w-100"
+                        class="w-full"
                         placeholder="Todos los estados"
                         :showClear="true"
                         @change="applyFilters"
                     />
-                </div>
-                <div class="col-md-3">
-                    <label class="form-label">Fecha</label>
+                </div>                <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 flex flex-col gap-2 transition-colors">
+                    <label class="font-semibold text-gray-700 dark:text-gray-300 flex items-center gap-2"><i class="pi pi-calendar"></i> Fecha</label>
                     <InputText 
                         type="date" 
                         v-model="filters.date" 
-                        class="w-100"
+                        class="w-full"
                         @change="applyFilters"
                     />
-                </div>
-                <div class="col-md-3">
-                    <label class="form-label">Mesa</label>
+                </div>                <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 flex flex-col gap-2 transition-colors">
+                    <label class="font-semibold text-gray-700 dark:text-gray-300 flex items-center gap-2"><i class="pi pi-table"></i> Mesa</label>
                     <InputText 
                         v-model="filters.table" 
-                        class="w-100"
+                        class="w-full"
                         placeholder="Número de mesa"
                         @input="applyFilters"
                     />
                 </div>
-                <div class="col-md-3 d-flex align-items-end">
-                    <button class="btn btn-outline-secondary w-100" @click="clearFilters">
-                        <i class="fas fa-times me-2"></i>
-                        Limpiar Filtros
-                    </button>
+                <div class="flex items-end">
+                    <Button icon="pi pi-times" label="Limpiar Filtros" class="p-button-outlined w-full" @click="clearFilters" />
                 </div>
             </div>
 
-            <!-- Reservations Table -->
-            <div class="row">
-                <div class="col-12">
-                    <div class="admin-card">
-                        <div class="admin-card-body">
-                            <DataTable 
-                                :value="filteredReservations" 
-                                responsive-layout="scroll" 
-                                striped-rows 
-                                paginator 
-                                :rows="15" 
-                                :rows-per-page-options="[10,15,25]"
-                                class="p-datatable-sm"
-                            >
-                                <Column field="client_name" header="Cliente" sortable>
-                                    <template #body="{ data }">
-                                        <div>
-                                            <div class="fw-medium">{{ data.client_name }}</div>
-                                            <small class="text-muted">{{ data.client_email }}</small>
-                                        </div>
-                                    </template>
-                                </Column>
-                                <Column field="table_number" header="Mesa" sortable>
-                                    <template #body="{ data }">
-                                        <span class="fw-bold">Mesa {{ data.table_number }}</span>
-                                    </template>
-                                </Column>
-                                <Column field="reservation_date" header="Fecha y Hora" sortable>
-                                    <template #body="{ data }">
-                                        <div>
-                                            <div>{{ formatDate(data.reservation_date) }}</div>
-                                            <small class="text-muted">{{ formatTime(data.reservation_date) }}</small>
-                                        </div>
-                                    </template>
-                                </Column>
-                                <Column field="party_size" header="Personas" sortable>
-                                    <template #body="{ data }">
-                                        <span>{{ data.party_size }} personas</span>
-                                    </template>
-                                </Column>
-                                <Column field="status" header="Estado" sortable>
-                                    <template #body="{ data }">
-                                        <span class="status-badge" :class="getStatusClass(data.status)">
-                                            {{ getStatusText(data.status) }}
-                                        </span>
-                                    </template>
-                                </Column>
-                                <Column field="created_at" header="Creada" sortable>
-                                    <template #body="{ data }">
-                                        {{ formatDate(data.created_at) }}
-                                    </template>
-                                </Column>
-                                <Column header="Acciones">
-                                    <template #body="{ data }">
-                                        <div class="d-flex gap-2">
-                                            <Button 
-                                                icon="pi pi-pencil" 
-                                                class="p-button-rounded p-button-info p-button-sm" 
-                                                @click="editReservation(data)"
-                                                v-tooltip="'Editar'" 
-                                            />
-                                            <Button 
-                                                icon="pi pi-check" 
-                                                class="p-button-rounded p-button-success p-button-sm" 
-                                                @click="confirmReservation(data)"
-                                                v-tooltip="'Confirmar'" 
-                                                v-if="data.status === 'pending'"
-                                            />
-                                            <Button 
-                                                icon="pi pi-times" 
-                                                class="p-button-rounded p-button-warning p-button-sm" 
-                                                @click="cancelReservation(data)"
-                                                v-tooltip="'Cancelar'" 
-                                                v-if="data.status !== 'cancelled'"
-                                            />
-                                            <Button 
-                                                icon="pi pi-trash" 
-                                                class="p-button-rounded p-button-danger p-button-sm" 
-                                                @click="deleteReservation(data)"
-                                                v-tooltip="'Eliminar'" 
-                                            />
-                                        </div>
-                                    </template>
-                                </Column>
-                            </DataTable>
-                        </div>
-                    </div>
+            <!-- Tabla de Reservas Mejorada -->
+            <div class="admin-card">
+                <div class="admin-card-body">
+                    <DataTable 
+                        :value="filteredReservations" 
+                        responsive-layout="scroll" 
+                        striped-rows 
+                        paginator 
+                        :rows="15" 
+                        :rows-per-page-options="[10,15,25]"
+                        class="p-datatable-sm"
+                    >
+                        <Column field="client_name" header="Cliente" sortable>
+                            <template #body="{ data }">
+                                <div>
+                                    <div class="font-semibold">{{ data.client_name }}</div>
+                                    <small class="text-gray-400">{{ data.client_email }}</small>
+                                </div>
+                            </template>
+                        </Column>
+                        <Column field="table_number" header="Mesa" sortable>
+                            <template #body="{ data }">
+                                <span class="font-bold text-primary">Mesa {{ data.table_number }}</span>
+                            </template>
+                        </Column>
+                        <Column field="reservation_date" header="Fecha y Hora" sortable>
+                            <template #body="{ data }">
+                                <div>
+                                    <div>{{ formatDate(data.reservation_date) }}</div>
+                                    <small class="text-gray-400">{{ formatTime(data.reservation_date) }}</small>
+                                </div>
+                            </template>
+                        </Column>
+                        <Column field="party_size" header="Personas" sortable>
+                            <template #body="{ data }">
+                                <span class="badge bg-blue-100 text-blue-800">{{ data.party_size }} personas</span>
+                            </template>
+                        </Column>
+                        <Column field="status" header="Estado" sortable>
+                            <template #body="{ data }">
+                                <span class="status-badge" :class="getStatusClass(data.status)">
+                                    {{ getStatusText(data.status) }}
+                                </span>
+                            </template>
+                        </Column>
+                        <Column field="created_at" header="Creada" sortable>
+                            <template #body="{ data }">
+                                <span class="text-xs text-gray-400">{{ formatDate(data.created_at) }}</span>
+                            </template>
+                        </Column>
+                        <Column header="Acciones">
+                            <template #body="{ data }">
+                                <div class="flex gap-2">
+                                    <Button 
+                                        icon="pi pi-pencil" 
+                                        class="p-button-rounded p-button-info p-button-sm" 
+                                        @click="editReservation(data)"
+                                        v-tooltip="'Editar'" 
+                                    />
+                                    <Button 
+                                        icon="pi pi-check" 
+                                        class="p-button-rounded p-button-success p-button-sm" 
+                                        @click="confirmReservation(data)"
+                                        v-tooltip="'Confirmar'" 
+                                        v-if="data.status === 'pending'"
+                                    />
+                                    <Button 
+                                        icon="pi pi-times" 
+                                        class="p-button-rounded p-button-warning p-button-sm" 
+                                        @click="cancelReservation(data)"
+                                        v-tooltip="'Cancelar'" 
+                                        v-if="data.status !== 'cancelled'"
+                                    />
+                                    <Button 
+                                        icon="pi pi-trash" 
+                                        class="p-button-rounded p-button-danger p-button-sm" 
+                                        @click="deleteReservation(data)"
+                                        v-tooltip="'Eliminar'" 
+                                    />
+                                </div>
+                            </template>
+                        </Column>
+                    </DataTable>
                 </div>
             </div>
 
-            <!-- Create/Edit Modal -->
+            <!-- Modal Mejorado -->
             <Dialog 
                 v-model:visible="showModal" 
                 :header="editingReservation ? 'Editar Reserva' : 'Nueva Reserva'" 
                 :modal="true" 
                 :closable="true" 
                 :style="{ width: '600px' }"
+                class="rounded-xl shadow-lg"
             >
-                <form @submit.prevent="submitReservation" class="row g-3">
-                    <div class="col-12">
-                        <label class="form-label">Cliente</label>
+                <form @submit.prevent="submitReservation" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="col-span-2">
+                        <label class="font-semibold text-gray-700">Cliente</label>
                         <InputText 
                             v-model="form.client_name" 
-                            class="w-100" 
+                            class="w-full" 
                             required 
                             placeholder="Nombre del cliente"
                         />
                     </div>
-                    <div class="col-12">
-                        <label class="form-label">Email del Cliente</label>
+                    <div class="col-span-2">
+                        <label class="font-semibold text-gray-700">Email del Cliente</label>
                         <InputText 
                             v-model="form.client_email" 
-                            class="w-100" 
+                            class="w-full" 
                             type="email"
                             required 
                             placeholder="email@ejemplo.com"
                         />
                     </div>
-                    <div class="col-6">
-                        <label class="form-label">Mesa</label>
+                    <div>
+                        <label class="font-semibold text-gray-700">Mesa</label>
                         <Dropdown 
                             v-model="form.table_id" 
                             :options="availableTables" 
                             optionLabel="label" 
                             optionValue="value" 
-                            class="w-100" 
+                            class="w-full" 
                             placeholder="Seleccionar mesa"
                         />
                     </div>
-                    <div class="col-6">
-                        <label class="form-label">Número de Personas</label>
+                    <div>
+                        <label class="font-semibold text-gray-700">Personas</label>
                         <InputText 
                             v-model="form.party_size" 
-                            class="w-100" 
-                            type="number"
+                            class="w-full" 
+                            type="number" 
+                            min="1" 
+                            max="20" 
                             required 
-                            :min="1"
-                            :max="20"
                         />
                     </div>
-                    <div class="col-6">
-                        <label class="form-label">Fecha</label>
+                    <div>
+                        <label class="font-semibold text-gray-700">Fecha</label>
                         <InputText 
+                            type="date" 
                             v-model="form.reservation_date" 
-                            class="w-100" 
-                            type="date"
+                            class="w-full" 
                             required 
                         />
                     </div>
-                    <div class="col-6">
-                        <label class="form-label">Hora</label>
+                    <div>
+                        <label class="font-semibold text-gray-700">Hora</label>
                         <InputText 
+                            type="time" 
                             v-model="form.reservation_time" 
-                            class="w-100" 
-                            type="time"
+                            class="w-full" 
                             required 
                         />
                     </div>
-                    <div class="col-12">
-                        <label class="form-label">Estado</label>
+                    <div class="col-span-2">
+                        <label class="font-semibold text-gray-700">Estado</label>
                         <Dropdown 
                             v-model="form.status" 
                             :options="statusOptions" 
                             optionLabel="label" 
                             optionValue="value" 
-                            class="w-100" 
+                            class="w-full" 
                         />
                     </div>
-                    <div class="col-12 d-flex justify-content-end gap-2 mt-4">
+                    <div class="col-span-2 flex justify-end gap-2 mt-4">
                         <Button 
                             label="Cancelar" 
                             icon="pi pi-times" 
@@ -457,27 +447,22 @@ const formatTime = (date) => {
     font-size: 0.875rem;
     font-weight: 500;
 }
-
 .status-badge-success {
     background-color: #d1e7dd;
     color: #0f5132;
 }
-
 .status-badge-warning {
     background-color: #fff3cd;
     color: #664d03;
 }
-
 .status-badge-danger {
     background-color: #f8d7da;
     color: #721c24;
 }
-
 .status-badge-info {
     background-color: #cff4fc;
     color: #055160;
 }
-
 .status-badge-secondary {
     background-color: #e2e3e5;
     color: #41464b;
