@@ -21,12 +21,10 @@ class Reservation extends Model
     public function table()
     {
         return $this->belongsTo(Table::class);
-    }
-
-    // Relación: una reserva pertenece a un cliente
+    }    // Relación: una reserva pertenece a un cliente/usuario
     public function client()
     {
-        return $this->belongsTo(Client::class);
+        return $this->belongsTo(User::class, 'client_id');
     }
 
     // Relación: una reserva puede tener un cupón de descuento

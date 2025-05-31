@@ -1,15 +1,21 @@
 <script setup>
+import Header from '@/Components/Header.vue';
+import Footer from '@/Components/Footer.vue';
 import Menu from '@/Components/Menu.vue';
+import { usePage } from '@inertiajs/vue3';
 
-const menuItems = [
-    { name: 'Lasaña Clásica', description: 'Capas de pasta fresca, ragú de ternera, bechamel y queso parmesano.', price: '€14.50', image: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=400&q=80' },
-    { name: 'Pizza Margherita', description: 'Salsa de tomate San Marzano, mozzarella fresca, albahaca y aceite de oliva virgen extra.', price: '€12.00', image: 'https://images.unsplash.com/photo-1519864600265-abb23847ef2c?auto=format&fit=crop&w=400&q=80' },
-    { name: 'Risotto ai Funghi Porcini', description: 'Arroz Carnaroli cremoso con setas porcini frescas y un toque de trufa.', price: '€16.00', image: 'https://images.unsplash.com/photo-1464306076886-debca5e8a6b0?auto=format&fit=crop&w=400&q=80' },
-    { name: 'Tiramisú Casero', description: 'Bizcochos de soletilla bañados en café, crema de mascarpone y cacao.', price: '€7.50', image: 'https://images.unsplash.com/photo-1504674900247-ec6b0b1b798e?auto=format&fit=crop&w=400&q=80' },
-    // Puedes añadir más platos aquí
-];
+const products = usePage().props.products || [];
 </script>
 
 <template>
-    <Menu :items="menuItems" />
+    <div class="d-flex flex-column min-vh-100 bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200">
+        <Header />
+        <main class="container flex-grow-1 mx-auto py-12 px-4">
+            <div class="alert alert-info text-center mb-4">
+                ¡Ahora puedes añadir productos a tu pedido y confirmarlo online!
+            </div>
+            <Menu :items="products" />
+        </main>
+        <Footer />
+    </div>
 </template>

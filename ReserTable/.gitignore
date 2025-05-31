@@ -1,3 +1,4 @@
+# Laravel specific
 /.phpunit.cache
 /node_modules
 /public/build
@@ -9,6 +10,8 @@
 .env
 .env.backup
 .env.production
+.env.local
+.env.testing
 .phpactor.json
 .phpunit.result.cache
 Homestead.json
@@ -16,9 +19,58 @@ Homestead.yaml
 npm-debug.log
 yarn-error.log
 /auth.json
+
+# IDEs and editors
 /.fleet
 /.idea
 /.nova
 /.vscode
 /.zed
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Docker and Database
 /mysql-data/
+/docker/mysql/
+*.sql.backup
+
+# Logs
+/storage/logs/*.log
+*.log
+
+# Cache and temporary files
+/bootstrap/cache/*
+!/bootstrap/cache/.gitignore
+/public/storage
+/storage/framework/cache/*
+!/storage/framework/cache/.gitignore
+/storage/framework/sessions/*
+!/storage/framework/sessions/.gitignore
+/storage/framework/testing/*
+!/storage/framework/testing/.gitignore
+/storage/framework/views/*
+!/storage/framework/views/.gitignore
+
+# Build files
+/public/build
+/public/mix-manifest.json
+/public/hot
+
+# Package manager
+package-lock.json
+yarn.lock
+composer.lock
+
+# Testing
+/coverage
+/.nyc_output
