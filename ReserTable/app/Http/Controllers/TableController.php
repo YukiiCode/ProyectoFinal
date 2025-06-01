@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Table;
-use Illuminate\Http\JsonResponse;
 
 class TableController extends Controller
 {
@@ -22,12 +21,10 @@ class TableController extends Controller
         });
 
         return response()->json($tables);
-    }
-
-    /**
+    }    /**
      * Store a newly created table
      */
-    public function store(Request $request): JsonResponse
+    public function store(Request $request)
     {
         $request->validate([
             'table_number' => 'required|integer|unique:tables,table_number',
@@ -45,26 +42,11 @@ class TableController extends Controller
             'position_y' => $request->position_y ?? 0,
         ]);
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Mesa creada exitosamente',
-            'table' => [
-                'id' => $table->id,
-                'table_number' => $table->table_number,
-                'capacity' => $table->capacity,
-                'status' => $table->status,
-                'position_x' => $table->position_x,
-                'position_y' => $table->position_y,
-                'created_at' => $table->created_at,
-                'updated_at' => $table->updated_at,
-            ]
-        ]);
-    }
-
-    // Actualiza la posición de una mesa (solo empleados)
+        return back()->with('success', 'Mesa creada exitosamente');
+    }// Actualiza la posición de una mesa (solo empleados)
     public function update(Request $request, Table $table)
     {
-        // Si es solo actualización de posición
+        // Si es solo actualización de posición (drag and drop)
         if ($request->has('position_x') && $request->has('position_y') && !$request->has('table_number')) {
             $request->validate([
                 'position_x' => ['required', 'integer', 'between:0,100'],
@@ -75,7 +57,8 @@ class TableController extends Controller
             $table->position_y = $request->position_y;
             $table->save();
 
-            return response()->json($table);
+            // Para drag and drop, devolver una respuesta simple que Inertia pueda manejar
+            return back()->with('success', 'Posición de mesa actualizada');
         }
 
         // Actualización completa de la mesa
@@ -95,26 +78,11 @@ class TableController extends Controller
             'position_y' => $request->position_y ?? 0,
         ]);
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Mesa actualizada exitosamente',
-            'table' => [
-                'id' => $table->id,
-                'table_number' => $table->table_number,
-                'capacity' => $table->capacity,
-                'status' => $table->status,
-                'position_x' => $table->position_x,
-                'position_y' => $table->position_y,
-                'created_at' => $table->created_at,
-                'updated_at' => $table->updated_at,
-            ]
-        ]);
-    }
-
-    /**
+        return back()->with('success', 'Mesa actualizada exitosamente');
+    }    /**
      * Remove the specified table
      */
-    public function destroy(Table $table): JsonResponse
+    public function destroy(Table $table)
     {
         // Check if table has active reservations
         $activeReservations = $table->reservations()
@@ -123,24 +91,18 @@ class TableController extends Controller
             ->count();
 
         if ($activeReservations > 0) {
-            return response()->json([
-                'success' => false,
-                'message' => 'No se puede eliminar la mesa porque tiene reservas activas'
-            ], 400);
+            return back()->withErrors(['message' => 'No se puede eliminar la mesa porque tiene reservas activas']);
         }
 
         $table->delete();
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Mesa eliminada exitosamente'
-        ]);
+        return back()->with('success', 'Mesa eliminada exitosamente');
     }
 
     /**
      * Update table status
      */
-    public function updateStatus(Request $request, Table $table): JsonResponse
+    public function updateStatus(Request $request, Table $table)
     {
         $request->validate([
             'status' => 'required|in:available,occupied,reserved,maintenance',
@@ -148,19 +110,6 @@ class TableController extends Controller
 
         $table->update(['status' => $request->status]);
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Estado de la mesa actualizado exitosamente',
-            'table' => [
-                'id' => $table->id,
-                'table_number' => $table->table_number,
-                'capacity' => $table->capacity,
-                'status' => $table->status,
-                'position_x' => $table->position_x,
-                'position_y' => $table->position_y,
-                'created_at' => $table->created_at,
-                'updated_at' => $table->updated_at,
-            ]
-        ]);
+        return back()->with('success', 'Estado de la mesa actualizado exitosamente');
     }
 }

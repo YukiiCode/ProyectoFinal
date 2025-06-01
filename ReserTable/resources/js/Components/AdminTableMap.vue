@@ -120,32 +120,59 @@ const setupDragAndDrop = () => {
         const draggableElements = document.querySelectorAll('.table-marker.draggable');
         console.log('Setting up drag for', draggableElements.length, 'elements');
         
+        // Verificar que los elementos existen antes de configurar
+        if (draggableElements.length === 0) {
+            console.warn('No draggable elements found, retrying...');
+            setTimeout(setupDragAndDrop, 200);
+            return;
+        }
+          // Configurar cada elemento individualmente para debugging
+        draggableElements.forEach((element, index) => {
+            console.log(`Setting up drag for element ${index}:`, element.dataset.id);
+            
+            // Asegurar que el elemento tenga los atributos correctos
+            if (!element.hasAttribute('data-x')) {
+                element.setAttribute('data-x', '0');
+            }
+            if (!element.hasAttribute('data-y')) {
+                element.setAttribute('data-y', '0');
+            }
+        });
+
         interact('.table-marker.draggable')
             .draggable({
-                inertia: true,
+                inertia: false, // Deshabilitar inercia temporalmente para debugging
                 modifiers: [
                     interact.modifiers.restrictRect({
                         restriction: '.restaurant-map',
-                        endOnly: true
+                        endOnly: false
                     })
                 ],
-                autoScroll: true,
+                autoScroll: false, // Deshabilitar temporalmente
                 listeners: {
                     start(event) {
                         const target = event.target.closest('.table-marker');
+                        console.log('Drag START for:', target.dataset.id);
                         target.style.zIndex = '100';
                         target.classList.add('dragging');
-                        console.log('Drag started for table ID:', target.dataset.id);
+                        target.style.transition = 'none';
                     },
                     move(event) {
                         const target = event.target.closest('.table-marker');
+                        
+                        // Obtener el desplazamiento acumulado
                         const x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx;
                         const y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
                         
+                        console.log('Drag MOVE for:', target.dataset.id, 'dx:', event.dx, 'dy:', event.dy, 'x:', x, 'y:', y);
+                        
+                        // Aplicar la transformación inmediatamente
                         target.style.transform = `translate(${x}px, ${y}px)`;
+                        
+                        // Actualizar los atributos
                         target.setAttribute('data-x', x);
                         target.setAttribute('data-y', y);
-                    },                    async end(event) {
+                    },async end(event) {
                         const target = event.target.closest('.table-marker');
                         target.style.zIndex = '';
                         target.classList.remove('dragging');
@@ -228,18 +255,27 @@ const setupDragAndDrop = () => {
                                     }
                                 });
                             });
-                            
-                            // Resetear transform
+                              // Resetear transform con transición suave
+                            target.style.transition = 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
                             target.style.transform = '';
                             target.setAttribute('data-x', 0);
                             target.setAttribute('data-y', 0);
+                            
+                            // Remover la transición después de que termine
+                            setTimeout(() => {
+                                target.style.transition = '';
+                            }, 300);
                             
                         } catch (error) {
                             console.error('Error updating table position:', error);
-                            // Revertir posición en caso de error
+                            // Revertir posición en caso de error con transición suave
+                            target.style.transition = 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
                             target.style.transform = '';
                             target.setAttribute('data-x', 0);
                             target.setAttribute('data-y', 0);
+                            setTimeout(() => {
+                                target.style.transition = '';
+                            }, 300);
                             alert('Error al actualizar la posición de la mesa');
                         }
                     }
@@ -499,14 +535,14 @@ const tableLegs = [
                     <div class="pending-marker">
                         <i class="pi pi-plus"></i>
                     </div>
-                </div>
-
-                <!-- Mesas existentes -->
+                </div>                <!-- Mesas existentes -->
                 <div
                     v-for="table in tables"
                     :key="table.id"
                     class="table-marker position-absolute draggable"
                     :data-id="table.id"
+                    data-x="0"
+                    data-y="0"
                     :style="{
                         left: `calc(${table.x}% - 35px)`,
                         top: `calc(${table.y}% - 35px)`,
@@ -746,43 +782,53 @@ const tableLegs = [
 
 .table-marker {
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     user-select: none;
     z-index: 10;
-    position: relative;
+    position: absolute !important; /* Forzar posición absoluta */
+    will-change: transform;
 }
 
 .table-marker.draggable {
     cursor: grab;
-    transition: transform 0.2s ease;
+    touch-action: none;
+    pointer-events: auto;
 }
 
-.table-marker.draggable:active,
+/* Importante: Sin transición durante el drag */
 .table-marker.dragging {
-    cursor: grabbing;
+    cursor: grabbing !important;
     z-index: 100 !important;
-    transform: scale(1.1) !important;
-    filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.3));
+    transition: none !important; /* Crítico: sin transiciones durante drag */
+    transform-origin: center center;
+    pointer-events: auto;
 }
 
-.table-marker.draggable:hover {
-    transform: scale(1.05);
+.table-marker.draggable:hover:not(.dragging) {
+    transform: scale(1.02);
+    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.1));
 }
 
-.table-marker:hover {
-    transform: scale(1.05);
+.table-marker:hover:not(.dragging) {
+    transform: scale(1.02);
     z-index: 15 !important;
+    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.1));
 }
 
 .table-svg {
     width: 100%;
     height: 100%;
-    transition: all 0.3s ease;
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.1));
+    will-change: filter;
 }
 
-.table-marker:hover .table-svg {
-    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+.table-marker:hover:not(.dragging) .table-svg {
+    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.15));
+}
+
+.table-marker.dragging .table-svg {
+    filter: drop-shadow(0 8px 25px rgba(0, 0, 0, 0.2));
 }
 
 .table-info {
