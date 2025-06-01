@@ -22,6 +22,7 @@ const showModal = ref(false);
 const editingTable = ref(null);
 const addingMode = ref(false);
 const pendingPosition = ref(null);
+const isDragging = ref(false); // Variable para detectar drag and drop
 
 const mapWidth = 900;
 const mapHeight = 600;
@@ -156,6 +157,7 @@ const setupDragAndDrop = () => {
                         target.style.zIndex = '100';
                         target.classList.add('dragging');
                         target.style.transition = 'none';
+                        isDragging.value = true; // Marcar que comenzó el drag
                     },
                     move(event) {
                         const target = event.target.closest('.table-marker');
@@ -278,6 +280,11 @@ const setupDragAndDrop = () => {
                             }, 300);
                             alert('Error al actualizar la posición de la mesa');
                         }
+                        
+                        // Pequeño delay antes de permitir clicks nuevamente
+                        setTimeout(() => {
+                            isDragging.value = false;
+                        }, 150);
                     }
                 }
             });
@@ -350,6 +357,21 @@ const editTable = (table) => {
     form.position_x = table.x;
     form.position_y = table.y;
     showModal.value = true;
+};
+
+// Manejar click en mesa (solo si no se hizo drag)
+const handleTableClick = (table, event) => {
+    // Prevenir si acabamos de hacer drag
+    if (isDragging.value) {
+        console.log('Click prevented: table was being dragged');
+        event.preventDefault();
+        event.stopPropagation();
+        return;
+    }
+    
+    // Solo abrir modal si no hubo drag
+    console.log('Opening edit modal for table:', table.id);
+    editTable(table);
 };
 
 // Cerrar modal
@@ -550,7 +572,7 @@ const tableLegs = [
                         height: '70px',
                         zIndex: selectedTable?.id === table.id ? 10 : 5
                     }"
-                    @click.stop="editTable(table)"
+                    @click.stop="handleTableClick(table, $event)"
                     @contextmenu.prevent="deleteTable(table)"
                 >
                     <!-- SVG de la mesa -->
