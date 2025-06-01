@@ -3,6 +3,7 @@ import Header from '@/Components/Header.vue';
 import Footer from '@/Components/Footer.vue';
 import HomeAbout from '@/Components/Home/HomeAbout.vue';
 import HomeFeatures from '@/Components/Home/HomeFeatures.vue';
+import ThemeManager from '@/Components/ThemeManager.vue';
 import { Head, Link } from '@inertiajs/vue3';
 
 defineProps({
@@ -21,38 +22,82 @@ const menuItems = [
 
 <template>
     <Head title="Bienvenido a El Sabor Auténtico" />
-    <div class="d-flex flex-column min-vh-100 bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200">
+    <ThemeManager />
+    <div class="d-flex flex-column min-vh-100 bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 transition-colors duration-300">
         <Header />
         <main class="container flex-grow-1 mx-auto py-12 px-4">
-            <section class="text-center mb-12">
-                <h1 class="display-4 fw-bold mb-3">Bienvenido a El Sabor Auténtico</h1>
-                <p class="lead mb-4">Descubre una experiencia culinaria inolvidable donde cada bocado cuenta una historia.</p>
-                <Link :href="route('reserva')" class="btn btn-primary btn-lg">¡Reserva tu Mesa Ahora!</Link>
+            <!-- Hero Section -->
+            <section class="text-center mb-12 py-5">
+                <div class="hero-content">
+                    <h1 class="display-4 fw-bold mb-4 text-primary dark:text-blue-400 transition-colors">
+                        Bienvenido a El Sabor Auténtico
+                    </h1>
+                    <p class="lead mb-5 text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+                        Descubre una experiencia culinaria inolvidable donde cada bocado cuenta una historia. 
+                        Tradición, calidad y sabores únicos que han cautivado paladares durante más de 25 años.
+                    </p>
+                    <div class="d-flex flex-column flex-sm-row gap-3 justify-content-center">
+                        <Link :href="route('reserva')" class="btn btn-primary btn-lg px-5 py-3 shadow-lg hover:shadow-xl transition-all">
+                            <i class="pi pi-calendar-plus me-2"></i>
+                            ¡Reserva tu Mesa Ahora!
+                        </Link>
+                        <Link :href="route('menu')" class="btn btn-outline-primary btn-lg px-5 py-3 hover:shadow-lg transition-all">
+                            <i class="pi pi-book me-2"></i>
+                            Ver Nuestro Menú
+                        </Link>
+                    </div>
+                </div>
             </section>
+            
             <HomeAbout />
+            
             <!-- Resumen del menú -->
             <section class="my-12" id="menu-resumen">
-                <h2 class="text-3xl font-semibold mb-8 text-center text-red-700 dark:text-red-500">Nuestro Menú Destacado</h2>
+                <div class="text-center mb-8">
+                    <h2 class="text-3xl fw-bold mb-3 text-red-700 dark:text-red-400 transition-colors">
+                        <i class="pi pi-star me-2"></i>
+                        Nuestro Menú Destacado
+                    </h2>
+                    <p class="lead text-gray-600 dark:text-gray-300">
+                        Descubre algunos de nuestros platos más populares, preparados con ingredientes frescos y técnicas tradicionales
+                    </p>
+                </div>
+                
                 <div class="row g-4 justify-content-center">
                     <div v-for="item in menuItems" :key="item.name" class="col-md-6 col-lg-4">
-                        <div class="card h-100 shadow-sm">
-                            <img :src="item.image" class="card-img-top" :alt="item.name" style="object-fit:cover; height:200px;">
-                            <div class="card-body d-flex flex-column">
-                                <h5 class="card-title">{{ item.name }}</h5>
-                                <p class="card-text flex-grow-1">{{ item.description }}</p>
+                        <div class="card h-100 shadow-sm hover:shadow-lg dark:bg-gray-800 dark:border-gray-700 transition-all duration-300 menu-card">
+                            <div class="position-relative overflow-hidden">
+                                <img :src="item.image" class="card-img-top" :alt="item.name" style="object-fit:cover; height:200px; transition: transform 0.3s ease;">
+                                <div class="card-img-overlay d-flex align-items-end p-0">
+                                    <div class="w-100 bg-gradient-to-t from-black/70 to-transparent p-3">
+                                        <span class="badge bg-primary text-white">Destacado</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body d-flex flex-column dark:text-gray-100">
+                                <h5 class="card-title fw-bold text-dark dark:text-gray-100">{{ item.name }}</h5>
+                                <p class="card-text flex-grow-1 text-gray-600 dark:text-gray-300 small">{{ item.description }}</p>
                                 <div class="d-flex justify-content-between align-items-center mt-3">
-                                    <span class="fw-bold text-success">{{ item.price }}</span>
+                                    <span class="fw-bold text-success fs-5">{{ item.price }}</span>
+                                    <Link :href="route('menu')" class="btn btn-outline-primary btn-sm hover:bg-primary hover:text-white transition-all">
+                                        <i class="pi pi-eye me-1"></i>
+                                        Ver más
+                                    </Link>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="text-center mt-4">
-                    <Link :href="route('menu')" class="btn btn-outline-primary btn-lg">
+                
+                <div class="text-center mt-5">
+                    <Link :href="route('menu')" class="btn btn-outline-primary btn-lg px-5 py-3 hover:bg-primary hover:text-white transition-all">
+                        <i class="pi pi-book me-2"></i>
                         Ver Menú Completo
+                        <i class="pi pi-arrow-right ms-2"></i>
                     </Link>
                 </div>
             </section>
+            
             <HomeFeatures />
         </main>
         <Footer />

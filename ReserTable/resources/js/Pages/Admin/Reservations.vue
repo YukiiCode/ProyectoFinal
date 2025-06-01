@@ -99,32 +99,31 @@
                         </Column>
                         <Column header="Acciones">
                             <template #body="{ data }">
-                                <div class="flex gap-2">
-                                    <Button 
+                                <div class="flex gap-2">                                    <Button 
                                         icon="pi pi-pencil" 
                                         class="p-button-rounded p-button-info p-button-sm" 
                                         @click="editReservation(data)"
-                                        v-tooltip="'Editar'" 
+                                        title="Editar" 
                                     />
                                     <Button 
                                         icon="pi pi-check" 
                                         class="p-button-rounded p-button-success p-button-sm" 
                                         @click="confirmReservation(data)"
-                                        v-tooltip="'Confirmar'" 
+                                        title="Confirmar" 
                                         v-if="data.status === 'pending'"
                                     />
                                     <Button 
                                         icon="pi pi-times" 
                                         class="p-button-rounded p-button-warning p-button-sm" 
                                         @click="cancelReservation(data)"
-                                        v-tooltip="'Cancelar'" 
+                                        title="Cancelar" 
                                         v-if="data.status !== 'cancelled'"
                                     />
                                     <Button 
                                         icon="pi pi-trash" 
                                         class="p-button-rounded p-button-danger p-button-sm" 
                                         @click="deleteReservation(data)"
-                                        v-tooltip="'Eliminar'" 
+                                        title="Eliminar" 
                                     />
                                 </div>
                             </template>

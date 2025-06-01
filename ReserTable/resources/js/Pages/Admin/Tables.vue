@@ -7,14 +7,48 @@
                     <h1 class="h3 mb-0 text-dark">Gestión de Mesas</h1>
                     <p class="text-muted mb-0">Administra las mesas del restaurante</p>
                 </div>
-                <button class="btn btn-primary" @click="openCreateModal">
-                    <i class="fas fa-plus me-2"></i>
-                    Nueva Mesa
-                </button>
+                <div class="d-flex gap-2">
+                    <Button 
+                        :label="activeView === 'table' ? 'Ver Mapa' : 'Ver Tabla'"
+                        :icon="activeView === 'table' ? 'pi pi-map' : 'pi pi-table'"
+                        class="p-button-outlined"
+                        @click="toggleView"
+                    />
+                    <button class="btn btn-primary" @click="openCreateModal">
+                        <i class="fas fa-plus me-2"></i>
+                        Nueva Mesa
+                    </button>
+                </div>
             </div>
 
-            <!-- Tables Grid -->
-            <div class="row">
+            <!-- View Toggle Tabs -->
+            <div class="mb-4">
+                <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                        <button 
+                            class="nav-link"
+                            :class="{ active: activeView === 'table' }"
+                            @click="activeView = 'table'"
+                        >
+                            <i class="pi pi-table me-2"></i>
+                            Vista de Tabla
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button 
+                            class="nav-link"
+                            :class="{ active: activeView === 'map' }"
+                            @click="activeView = 'map'"
+                        >
+                            <i class="pi pi-map me-2"></i>
+                            Mapa Interactivo
+                        </button>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Vista de Tabla -->
+            <div v-if="activeView === 'table'" class="row">
                 <div class="col-12">
                     <div class="admin-card">
                         <div class="admin-card-body">
@@ -56,23 +90,36 @@
                                 </Column>
                                 <Column header="Acciones">
                                     <template #body="{ data }">
-                                        <div class="d-flex gap-2">
-                                            <Button 
+                                        <div class="d-flex gap-2">                                            <Button 
                                                 icon="pi pi-pencil" 
                                                 class="p-button-rounded p-button-info p-button-sm" 
                                                 @click="editTable(data)"
-                                                v-tooltip="'Editar'" 
+                                                title="Editar" 
                                             />
                                             <Button 
                                                 icon="pi pi-trash" 
                                                 class="p-button-rounded p-button-danger p-button-sm" 
                                                 @click="deleteTable(data)"
-                                                v-tooltip="'Eliminar'" 
+                                                title="Eliminar" 
                                             />
                                         </div>
                                     </template>
-                                </Column>
-                            </DataTable>
+                                </Column>                            </DataTable>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Vista de Mapa -->
+            <div v-if="activeView === 'map'" class="row">
+                <div class="col-12">
+                    <div class="admin-card">
+                        <div class="admin-card-body p-4">
+                            <AdminTableMap 
+                                :tables="tables"
+                                @table-created="handleTableCreated"
+                                @table-updated="handleTableUpdated"
+                            />
                         </div>
                     </div>
                 </div>
@@ -161,6 +208,7 @@
 import { ref } from 'vue'
 import { useForm, router, usePage } from '@inertiajs/vue3'
 import AdminLayout from '@/Layouts/AdminLayout.vue'
+import AdminTableMap from '@/Components/AdminTableMap.vue'
 import DataTable from 'primevue/datatable'
 import Column from 'primevue/column'
 import Dialog from 'primevue/dialog'
@@ -175,6 +223,7 @@ const props = defineProps({
 const tables = ref(props.tables || [])
 const showModal = ref(false)
 const editingTable = ref(null)
+const activeView = ref('map') // Cambiar por defecto a vista de mapa
 
 const form = useForm({
     table_number: '',
@@ -243,6 +292,34 @@ const deleteTable = (table) => {
             }
         })
     }
+}
+
+// Alternar entre vistas
+const toggleView = () => {
+    activeView.value = activeView.value === 'table' ? 'map' : 'table'
+}
+
+// Manejar eventos del mapa
+const handleTableCreated = () => {
+    // Refrescar datos después de crear mesa desde el mapa
+    router.get(route('admin.tables'), {}, {
+        preserveState: true,
+        preserveScroll: true,
+        onSuccess: () => {
+            tables.value = usePage().props.tables || []
+        }
+    })
+}
+
+const handleTableUpdated = () => {
+    // Refrescar datos después de actualizar mesa desde el mapa
+    router.get(route('admin.tables'), {}, {
+        preserveState: true,
+        preserveScroll: true,
+        onSuccess: () => {
+            tables.value = usePage().props.tables || []
+        }
+    })
 }
 
 const getStatusClass = (status) => {

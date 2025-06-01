@@ -192,50 +192,55 @@ const tableLegs = [
                                 fill="#5a4e4e"
                             />
                         </g>
-                    </svg>
-
-                    <!-- Información de la mesa -->
+                    </svg>                    <!-- Información de la mesa -->
                     <div class="table-info">
-                        <div class="table-number">{{ table.id }}</div>
-                        <div class="table-capacity">{{ table.capacity }} Pax</div>
+                        <div class="table-number text-gray-900 dark:text-gray-100">{{ table.id }}</div>
+                        <div class="table-capacity text-gray-600 dark:text-gray-300">{{ table.capacity }} Pax</div>
                     </div>
                 </div>
             </div>
-        </div>
-
-        <!-- Modal de Reserva -->
+        </div>        <!-- Modal de Reserva -->
         <div class="modal fade" id="reservationModal" tabindex="-1">
             <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header bg-primary text-white">
-                        <h5 class="modal-title">Reservar Mesa {{ selectedTable?.id }}</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                <div class="modal-content bg-white dark:bg-gray-800 border-0">
+                    <div class="modal-header bg-blue-600 text-white border-0">
+                        <h5 class="modal-title">
+                            <i class="pi pi-calendar-plus mr-2"></i>
+                            Reservar Mesa {{ selectedTable?.id }}
+                        </h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                     </div>
-                    <div class="modal-body">
+                    <div class="modal-body p-6">
                         <form @submit.prevent="confirmReservation">
-                            <div class="mb-3">
-                                <label class="form-label">Fecha y Hora</label>
+                            <div class="mb-4">
+                                <label class="form-label text-gray-700 dark:text-gray-300 font-medium">
+                                    <i class="pi pi-calendar mr-2"></i>
+                                    Fecha y Hora
+                                </label>
                                 <input
                                     type="datetime-local"
                                     v-model="reservationDateTime"
-                                    class="form-control"
+                                    class="form-control bg-gray-50 dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 focus:border-blue-500 dark:focus:border-blue-400"
                                     required
                                 />
                             </div>
                             
-                            <div v-if="reservationError" class="alert alert-danger">
+                            <div v-if="reservationError" class="alert alert-danger bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 text-red-800 dark:text-red-200 rounded-lg p-3 mb-4">
+                                <i class="pi pi-exclamation-triangle mr-2"></i>
                                 {{ reservationError }}
                             </div>
-                            <div v-if="reservationSuccess" class="alert alert-success">
+                            <div v-if="reservationSuccess" class="alert alert-success bg-green-50 dark:bg-green-900/30 border border-green-200 dark:border-green-800 text-green-800 dark:text-green-200 rounded-lg p-3 mb-4">
+                                <i class="pi pi-check-circle mr-2"></i>
                                 ¡Reserva confirmada! <br>
-                                <small class="text-muted">Redirigiendo...</small>
+                                <small class="text-green-600 dark:text-green-400">Redirigiendo...</small>
                             </div>
                             
                             <button
                                 v-if="!reservationSuccess"
                                 type="submit"
-                                class="btn btn-primary w-100"
+                                class="btn btn-primary w-100 bg-blue-600 hover:bg-blue-700 border-blue-600 hover:border-blue-700 text-white font-medium py-3 rounded-lg transition-all duration-200"
                             >
+                                <i class="pi pi-check mr-2"></i>
                                 Confirmar Reserva
                             </button>
                         </form>

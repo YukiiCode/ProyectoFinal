@@ -107,25 +107,24 @@
                                 </Column>
                                 <Column header="Acciones">
                                     <template #body="{ data }">
-                                        <div class="d-flex gap-2">
-                                            <Button 
+                                        <div class="d-flex gap-2">                                            <Button 
                                                 icon="pi pi-pencil" 
                                                 class="p-button-rounded p-button-info p-button-sm" 
                                                 @click="editProduct(data)"
-                                                v-tooltip="'Editar'" 
+                                                title="Editar" 
                                             />
                                             <Button 
                                                 :icon="data.available ? 'pi pi-eye-slash' : 'pi pi-eye'" 
                                                 :class="data.available ? 'p-button-warning' : 'p-button-success'"
                                                 class="p-button-rounded p-button-sm" 
                                                 @click="toggleAvailability(data)"
-                                                :v-tooltip="data.available ? 'Ocultar' : 'Mostrar'" 
+                                                :title="data.available ? 'Ocultar' : 'Mostrar'" 
                                             />
                                             <Button 
                                                 icon="pi pi-trash" 
                                                 class="p-button-rounded p-button-danger p-button-sm" 
                                                 @click="deleteProduct(data)"
-                                                v-tooltip="'Eliminar'" 
+                                                title="Eliminar" 
                                             />
                                         </div>
                                     </template>

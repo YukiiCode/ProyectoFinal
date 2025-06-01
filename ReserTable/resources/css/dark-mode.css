@@ -285,3 +285,187 @@ body.dark-mode table tr:hover,
 body.dark-mode .table-hover tbody tr:hover {
     background-color: rgba(77, 124, 254, 0.1) !important;
 }
+
+/* Estilos forzados adicionales para elementos específicos */
+
+/* Headers y navegación */
+html.dark header,
+html.dark nav,
+body.dark-mode header,
+body.dark-mode nav,
+.dark-element header,
+.dark-element nav {
+    background-color: var(--secondary-bg-dark) !important;
+    color: var(--text-primary-dark) !important;
+}
+
+/* Contenedores principales */
+html.dark main,
+html.dark section,
+html.dark article,
+body.dark-mode main,
+body.dark-mode section,
+body.dark-mode article {
+    background-color: transparent !important;
+    color: var(--text-primary-dark) !important;
+}
+
+/* Divs con fondo blanco específicos */
+html.dark div[class*="bg-white"],
+html.dark div[style*="background-color: white"],
+html.dark div[style*="background-color: #fff"],
+html.dark div[style*="background-color: #ffffff"],
+body.dark-mode div[class*="bg-white"],
+body.dark-mode div[style*="background-color: white"],
+body.dark-mode div[style*="background-color: #fff"],
+body.dark-mode div[style*="background-color: #ffffff"] {
+    background-color: var(--secondary-bg-dark) !important;
+    color: var(--text-primary-dark) !important;
+}
+
+/* Títulos y texto específicos */
+html.dark h1,
+html.dark h2,
+html.dark h3,
+html.dark h4,
+html.dark h5,
+html.dark h6,
+body.dark-mode h1,
+body.dark-mode h2,
+body.dark-mode h3,
+body.dark-mode h4,
+body.dark-mode h5,
+body.dark-mode h6 {
+    color: var(--text-primary-dark) !important;
+}
+
+html.dark p,
+html.dark span,
+html.dark label,
+body.dark-mode p,
+body.dark-mode span,
+body.dark-mode label {
+    color: var(--text-secondary-dark) !important;
+}
+
+/* Enlaces */
+html.dark a,
+body.dark-mode a {
+    color: var(--blue-dark) !important;
+}
+
+html.dark a:hover,
+body.dark-mode a:hover {
+    color: var(--purple-dark) !important;
+}
+
+/* Contenedores flexbox y grid comunes */
+html.dark .container,
+html.dark .container-fluid,
+html.dark .row,
+html.dark .col,
+html.dark [class*="col-"],
+body.dark-mode .container,
+body.dark-mode .container-fluid,
+body.dark-mode .row,
+body.dark-mode .col,
+body.dark-mode [class*="col-"] {
+    background-color: transparent !important;
+}
+
+/* Clases utilitarias específicas para forzar modo oscuro */
+.dark-element,
+html.dark .force-dark,
+body.dark-mode .force-dark {
+    background-color: var(--secondary-bg-dark) !important;
+    color: var(--text-primary-dark) !important;
+    border-color: var(--border-dark) !important;
+}
+
+.dark-element *,
+html.dark .force-dark *,
+body.dark-mode .force-dark * {
+    color: inherit !important;
+}
+
+/* Footer específico */
+html.dark footer,
+body.dark-mode footer {
+    background-color: var(--tertiary-bg-dark) !important;
+    color: var(--text-primary-dark) !important;
+    border-color: var(--border-dark) !important;
+}
+
+/* Elementos de lista */
+html.dark ul,
+html.dark ol,
+html.dark li,
+body.dark-mode ul,
+body.dark-mode ol,
+body.dark-mode li {
+    color: var(--text-secondary-dark) !important;
+}
+
+/* Elementos de tabla específicos */
+html.dark table,
+html.dark thead,
+html.dark tbody,
+html.dark tfoot,
+html.dark th,
+html.dark td,
+body.dark-mode table,
+body.dark-mode thead,
+body.dark-mode tbody,
+body.dark-mode tfoot,
+body.dark-mode th,
+body.dark-mode td {
+    background-color: var(--secondary-bg-dark) !important;
+    color: var(--text-primary-dark) !important;
+    border-color: var(--border-dark) !important;
+}
+
+/* Modales y dropdowns */
+html.dark .modal,
+html.dark .dropdown-menu,
+body.dark-mode .modal,
+body.dark-mode .dropdown-menu {
+    background-color: var(--secondary-bg-dark) !important;
+    color: var(--text-primary-dark) !important;
+    border-color: var(--border-dark) !important;
+}
+
+/* Clases de Tailwind específicas para forzar */
+html.dark .bg-slate-50,
+html.dark .bg-slate-100,
+html.dark .bg-slate-200,
+body.dark-mode .bg-slate-50,
+body.dark-mode .bg-slate-100,
+body.dark-mode .bg-slate-200 {
+    background-color: var(--secondary-bg-dark) !important;
+}
+
+html.dark .text-slate-900,
+html.dark .text-slate-800,
+html.dark .text-slate-700,
+body.dark-mode .text-slate-900,
+body.dark-mode .text-slate-800,
+body.dark-mode .text-slate-700 {
+    color: var(--text-primary-dark) !important;
+}
+
+/* Forzar para elementos sin clases específicas */
+html.dark *:not([class*="text-"]):not([style*="color"]),
+body.dark-mode *:not([class*="text-"]):not([style*="color"]) {
+    color: inherit;
+}
+
+/* Asegurar que elementos con inline styles no sobreescriban */
+html.dark [style*="background-color"],
+body.dark-mode [style*="background-color"] {
+    background-color: var(--secondary-bg-dark) !important;
+}
+
+html.dark [style*="color"],
+body.dark-mode [style*="color"] {
+    color: var(--text-primary-dark) !important;
+}

@@ -137,7 +137,18 @@ const toggle = (event) => {
 const applyDarkMode = (isDark) => {
     if (isDark) {
         document.documentElement.classList.add('dark');
-        document.body.classList.add('dark-mode');
+        document.body.classList.add('dark-mode', 'dark');
+        
+        // Forzar estilos importantes
+        document.documentElement.style.colorScheme = 'dark';
+        document.body.style.backgroundColor = 'rgb(17, 24, 39)';
+        document.body.style.color = 'rgb(243, 244, 246)';
+        
+        // Aplicar clases a elementos comunes
+        const elements = document.querySelectorAll('.card, .admin-card, .bg-white, .bg-gray-50, .bg-gray-100');
+        elements.forEach(el => {
+            el.classList.add('dark-element');
+        });
         
         // Añadir atributos de datos para CSS avanzado
         document.querySelectorAll('.admin-card, .card, .button, .menu-item').forEach(element => {
@@ -154,7 +165,18 @@ const applyDarkMode = (isDark) => {
         });
     } else {
         document.documentElement.classList.remove('dark');
-        document.body.classList.remove('dark-mode');
+        document.body.classList.remove('dark-mode', 'dark');
+        
+        // Restaurar estilos por defecto
+        document.documentElement.style.colorScheme = 'light';
+        document.body.style.backgroundColor = '';
+        document.body.style.color = '';
+        
+        // Remover clases dark de elementos
+        const elements = document.querySelectorAll('.dark-element');
+        elements.forEach(el => {
+            el.classList.remove('dark-element');
+        });
         
         // Añadir atributo data para CSS avanzado incluso al volver al tema claro
         document.querySelectorAll('.admin-card, .card, .button, .menu-item').forEach(element => {

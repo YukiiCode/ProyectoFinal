@@ -1,4 +1,5 @@
 import './bootstrap';
+import './theme-init.js'; // Inicialización temprana del tema
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import '../css/app.css';

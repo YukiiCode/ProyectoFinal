@@ -31,6 +31,7 @@
         "bootstrap": "^5.3.6",
         "gsap": "^3.13.0",
         "interact.js": "^1.2.8",
+        "interactjs": "^1.10.27",
         "konva": "^9.3.20",
         "primeflex": "^4.0.0",
         "primeicons": "^7.0.0",
