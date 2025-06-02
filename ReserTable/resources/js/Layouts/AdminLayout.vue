@@ -19,12 +19,13 @@
             <div class="p-6" :class="isDarkMode ? 'bg-gray-900' : 'bg-gray-50'">
                 <slot />
             </div>
-        </div>
-
-        <!-- Mobile overlay -->
+        </div>        <!-- Mobile overlay -->
         <div v-if="mobileMenuActive && !isDesktop()" 
              class="fixed inset-0 z-30 bg-gray-900 bg-opacity-50 lg:hidden mobile-sidebar-overlay"
              @click="hideMenu"></div>
+
+        <!-- Toast global para notificaciones -->
+        <GlobalToast />
     </div>
 </template>
 
@@ -34,6 +35,7 @@ import { usePage } from '@inertiajs/vue3'
 import AppTopbar from './AppTopbar.vue'
 import AppSidebar from './AppSidebar.vue'
 import ThemeManager from '@/Components/ThemeManager.vue'
+import GlobalToast from '@/Components/GlobalToast.vue'
 
 const mobileMenuActive = ref(false)
 const page = usePage()

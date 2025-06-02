@@ -2,6 +2,7 @@
 import { ref, onMounted, computed, nextTick, watch } from 'vue';
 import interact from 'interactjs';
 import { useForm, router } from '@inertiajs/vue3';
+import { useNotifications } from '@/composables/useNotifications';
 import Button from 'primevue/button';
 import Dialog from 'primevue/dialog';
 import InputText from 'primevue/inputtext';
@@ -15,6 +16,9 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['table-created', 'table-updated']);
+
+// Inicializar notificaciones
+const { tableUpdated, tableUpdateError, tableCreated, tableDeleted, tableDeleteError, formError } = useNotifications();
 
 const tables = ref([]);
 const selectedTable = ref(null);
@@ -248,11 +252,19 @@ const setupDragAndDrop = () => {
                                             table.x = newX;
                                             table.y = newY;
                                         }
+                                        
+                                        // Mostrar notificación de éxito
+                                        tableUpdated(table.table_number || table.id);
+                                        
                                         emit('table-updated');
                                         resolve();
                                     },
                                     onError: (errors) => {
                                         console.error('Error updating table position:', errors);
+                                        
+                                        // Mostrar notificación de error
+                                        tableUpdateError();
+                                        
                                         reject(errors);
                                     }
                                 });
@@ -402,6 +414,7 @@ const submitTable = () => {
             },
             onError: (errors) => {
                 console.error('Error updating table:', errors);
+                formError('Error al actualizar la mesa');
             }
         });
     } else {
@@ -409,6 +422,7 @@ const submitTable = () => {
         form.post('/admin/tables', {
             preserveScroll: true,
             onSuccess: () => {
+                tableCreated(form.table_number);
                 emit('table-created');
                 closeModal();
                 
@@ -421,6 +435,7 @@ const submitTable = () => {
             },
             onError: (errors) => {
                 console.error('Error creating table:', errors);
+                formError('Error al crear la mesa');
             }
         });
     }
@@ -437,6 +452,7 @@ const deleteTable = async (table) => {
         router.delete(`/admin/tables/${table.id}`, {
             preserveScroll: true,
             onSuccess: () => {
+                tableDeleted(table.table_number || table.id);
                 emit('table-updated');
                 
                 // Reconfigurar drag and drop
@@ -448,12 +464,12 @@ const deleteTable = async (table) => {
             },
             onError: (errors) => {
                 console.error('Error deleting table:', errors);
-                alert('Error al eliminar la mesa.');
+                tableDeleteError();
             }
         });
     } catch (error) {
         console.error('Error deleting table:', error);
-        alert('Error al eliminar la mesa.');
+        tableDeleteError();
     }
 };
 
@@ -1006,5 +1022,74 @@ const tableLegs = [
         left: calc(var(--x) - 25px) !important;
         top: calc(var(--y) - 25px) !important;
     }
+}
+
+/* Estilos personalizados para Toast - Mejor legibilidad */
+:global(.p-toast) {
+    z-index: 1100 !important;
+}
+
+:global(.p-toast .p-toast-message) {
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    background: rgba(255, 255, 255, 0.95) !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2) !important;
+    border-radius: 12px !important;
+}
+
+/* Toast en modo oscuro */
+:global(.dark .p-toast .p-toast-message) {
+    background: rgba(30, 30, 30, 0.95) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4) !important;
+}
+
+/* Mejorar contraste del texto del Toast */
+:global(.p-toast .p-toast-message .p-toast-message-text) {
+    color: var(--text-color) !important;
+    font-weight: 500 !important;
+}
+
+:global(.p-toast .p-toast-message .p-toast-summary) {
+    font-weight: 600 !important;
+    color: var(--text-color) !important;
+}
+
+:global(.p-toast .p-toast-message .p-toast-detail) {
+    color: var(--text-color-secondary) !important;
+    opacity: 0.9 !important;
+}
+
+/* Toast de éxito */
+:global(.p-toast .p-toast-message.p-toast-message-success) {
+    background: rgba(34, 197, 94, 0.15) !important;
+    backdrop-filter: blur(20px) !important;
+    border: 1px solid rgba(34, 197, 94, 0.3) !important;
+}
+
+:global(.p-toast .p-toast-message.p-toast-message-success .p-toast-message-icon) {
+    color: #16a34a !important;
+}
+
+/* Toast de error */
+:global(.p-toast .p-toast-message.p-toast-message-error) {
+    background: rgba(239, 68, 68, 0.15) !important;
+    backdrop-filter: blur(20px) !important;
+    border: 1px solid rgba(239, 68, 68, 0.3) !important;
+}
+
+:global(.p-toast .p-toast-message.p-toast-message-error .p-toast-message-icon) {
+    color: #dc2626 !important;
+}
+
+/* Animación suave para el Toast */
+:global(.p-toast .p-toast-message) {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+:global(.p-toast .p-toast-message:hover) {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3) !important;
 }
 </style>

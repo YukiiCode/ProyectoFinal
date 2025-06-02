@@ -235,6 +235,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { useForm, router } from '@inertiajs/vue3'
+import { useNotifications } from '@/composables/useNotifications'
 import AdminLayout from '@/Layouts/AdminLayout.vue'
 import DataTable from 'primevue/datatable'
 import Column from 'primevue/column'
@@ -246,6 +247,15 @@ import Dropdown from 'primevue/dropdown'
 const props = defineProps({
     reservations: Array
 })
+
+// Inicializar notificaciones
+const { 
+    reservationCreated, 
+    reservationUpdated, 
+    reservationCancelled, 
+    reservationError,
+    formError 
+} = useNotifications()
 
 const reservations = ref(props.reservations || [])
 const showModal = ref(false)
@@ -343,15 +353,23 @@ const submitReservation = () => {
     if (editingReservation.value) {
         form.put(route('admin.reservations.update', editingReservation.value.id), {
             onSuccess: () => {
+                reservationUpdated()
                 closeModal()
                 router.get(route('admin.reservations'))
+            },
+            onError: () => {
+                formError('Error al actualizar la reserva')
             }
         })
     } else {
         form.post(route('admin.reservations.store'), {
             onSuccess: () => {
+                reservationCreated()
                 closeModal()
                 router.get(route('admin.reservations'))
+            },
+            onError: () => {
+                formError('Error al crear la reserva')
             }
         })
     }
@@ -362,7 +380,11 @@ const confirmReservation = (reservation) => {
         { status: 'confirmed' }, 
         {
             onSuccess: () => {
+                reservationUpdated()
                 router.get(route('admin.reservations'))
+            },
+            onError: () => {
+                reservationError('Error al confirmar la reserva')
             }
         }
     )
@@ -374,7 +396,11 @@ const cancelReservation = (reservation) => {
             { status: 'cancelled' }, 
             {
                 onSuccess: () => {
+                    reservationCancelled()
                     router.get(route('admin.reservations'))
+                },
+                onError: () => {
+                    reservationError('Error al cancelar la reserva')
                 }
             }
         )
@@ -385,7 +411,11 @@ const deleteReservation = (reservation) => {
     if (confirm('¿Estás seguro de que quieres eliminar esta reserva?')) {
         router.delete(route('admin.reservations.destroy', reservation.id), {
             onSuccess: () => {
+                reservationCancelled() // Usar la misma notificación que cancelar
                 router.get(route('admin.reservations'))
+            },
+            onError: () => {
+                reservationError('Error al eliminar la reserva')
             }
         })
     }

@@ -207,6 +207,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useForm, router, usePage } from '@inertiajs/vue3'
+import { useNotifications } from '@/composables/useNotifications'
 import AdminLayout from '@/Layouts/AdminLayout.vue'
 import AdminTableMap from '@/Components/AdminTableMap.vue'
 import DataTable from 'primevue/datatable'
@@ -219,6 +220,9 @@ import Dropdown from 'primevue/dropdown'
 const props = defineProps({
     tables: Array
 })
+
+// Inicializar notificaciones
+const { tableCreated, tableDeleted, formError, showSuccess } = useNotifications()
 
 const tables = ref(props.tables || [])
 const showModal = ref(false)
@@ -267,17 +271,27 @@ const submitTable = () => {
     if (editingTable.value) {
         form.put(route('admin.tables.update', editingTable.value.id), {
             onSuccess: () => {
+                showSuccess(`Mesa ${form.table_number} actualizada correctamente`, 'Mesa actualizada')
                 closeModal()
                 // Refresh the page or update tables list
                 router.get(route('admin.tables'))
+            },
+            onError: (errors) => {
+                console.error('Error updating table:', errors)
+                formError('Error al actualizar la mesa')
             }
         })
     } else {
         form.post(route('admin.tables.store'), {
             onSuccess: () => {
+                tableCreated(form.table_number)
                 closeModal()
                 // Refresh the page or update tables list
                 router.get(route('admin.tables'))
+            },
+            onError: (errors) => {
+                console.error('Error creating table:', errors)
+                formError('Error al crear la mesa')
             }
         })
     }

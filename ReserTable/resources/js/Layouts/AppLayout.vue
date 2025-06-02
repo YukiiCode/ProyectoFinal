@@ -8,6 +8,7 @@ import DropdownLink from '@/Components/DropdownLink.vue';
 import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import ThemeManager from '@/Components/ThemeManager.vue';
+import GlobalToast from '@/Components/GlobalToast.vue';
 
 defineProps({
     title: String,
@@ -292,5 +293,8 @@ const logout = () => {
                 <slot />
             </main>
         </div>
+
+        <!-- Toast global para notificaciones -->
+        <GlobalToast />
     </div>
 </template>
