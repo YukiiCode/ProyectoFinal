@@ -1,10 +1,8 @@
-@import './admin-template.css';
+@import './auth.css';
 @import './dark-mode.css';
-@import './dark-mode-effects.css';
-@import './light-mode-effects.css'; /* Nuevo archivo para efectos del modo claro */
-@import './theme-variables.css';
-@import './theme-transitions.css';
-@import './theme-glow-effects.css';
+@import './auth-animations.css';
+@import './admin-template.css';
+
 
 @tailwind base;
 @tailwind components;

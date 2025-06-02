@@ -1,16 +1,15 @@
 <script setup>
-import { Head, useForm } from '@inertiajs/vue3';
+import { Head, Link, useForm } from '@inertiajs/vue3';
 import AuthenticationCard from '@/Components/AuthenticationCard.vue';
 import AuthenticationCardLogo from '@/Components/AuthenticationCardLogo.vue';
-import InputError from '@/Components/InputError.vue';
-import InputLabel from '@/Components/InputLabel.vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
-import TextInput from '@/Components/TextInput.vue';
+import { useNotifications } from '@/composables/useNotifications';
 
 const props = defineProps({
     email: String,
     token: String,
 });
+
+const { showSuccess, showError } = useNotifications();
 
 const form = useForm({
     token: props.token,
@@ -22,64 +21,133 @@ const form = useForm({
 const submit = () => {
     form.post(route('password.update'), {
         onFinish: () => form.reset('password', 'password_confirmation'),
+        onSuccess: () => {
+            showSuccess('Contraseña actualizada', 'Tu contraseña ha sido restablecida exitosamente');
+        },
+        onError: () => {
+            showError('Error al restablecer contraseña', 'Verifica que los datos sean correctos');
+        }
     });
 };
 </script>
 
 <template>
-    <Head title="Reset Password" />
+    <Head title="Restablecer Contraseña - ReserTable" />
 
     <AuthenticationCard>
         <template #logo>
             <AuthenticationCardLogo />
         </template>
 
-        <form @submit.prevent="submit">
-            <div>
-                <InputLabel for="email" value="Email" />
-                <TextInput
-                    id="email"
-                    v-model="form.email"
-                    type="email"
-                    class="mt-1 block w-full"
-                    required
-                    autofocus
-                    autocomplete="username"
-                />
-                <InputError class="mt-2" :message="form.errors.email" />
+        <!-- Título del formulario -->
+        <div class="form-header">
+            <h2 class="form-title">Restablecer contraseña</h2>
+            <p class="form-subtitle">Ingresa tu nueva contraseña para acceder a tu cuenta</p>
+        </div>
+
+        <form @submit.prevent="submit" class="reset-form">
+            <!-- Campo Email -->
+            <div class="input-group">
+                <label for="email" class="input-label">
+                    <i class="fas fa-envelope"></i>
+                    Correo Electrónico
+                </label>
+                <div class="input-wrapper">
+                    <input
+                        id="email"
+                        v-model="form.email"
+                        type="email"
+                        class="form-input"
+                        :class="{ 'error': form.errors.email }"
+                        placeholder="tu@email.com"
+                        required
+                        autofocus
+                        autocomplete="username"
+                        readonly
+                    />
+                </div>
+                <div v-if="form.errors.email" class="input-error">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    {{ form.errors.email }}
+                </div>
             </div>
 
-            <div class="mt-4">
-                <InputLabel for="password" value="Password" />
-                <TextInput
-                    id="password"
-                    v-model="form.password"
-                    type="password"
-                    class="mt-1 block w-full"
-                    required
-                    autocomplete="new-password"
-                />
-                <InputError class="mt-2" :message="form.errors.password" />
+            <!-- Campo Nueva Contraseña -->
+            <div class="input-group">
+                <label for="password" class="input-label">
+                    <i class="fas fa-lock"></i>
+                    Nueva Contraseña
+                </label>
+                <div class="input-wrapper">
+                    <input
+                        id="password"
+                        v-model="form.password"
+                        type="password"
+                        class="form-input"
+                        :class="{ 'error': form.errors.password }"
+                        placeholder="Tu nueva contraseña"
+                        required
+                        autocomplete="new-password"
+                    />
+                </div>
+                <div v-if="form.errors.password" class="input-error">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    {{ form.errors.password }}
+                </div>
             </div>
 
-            <div class="mt-4">
-                <InputLabel for="password_confirmation" value="Confirm Password" />
-                <TextInput
-                    id="password_confirmation"
-                    v-model="form.password_confirmation"
-                    type="password"
-                    class="mt-1 block w-full"
-                    required
-                    autocomplete="new-password"
-                />
-                <InputError class="mt-2" :message="form.errors.password_confirmation" />
+            <!-- Campo Confirmar Contraseña -->
+            <div class="input-group">
+                <label for="password_confirmation" class="input-label">
+                    <i class="fas fa-lock"></i>
+                    Confirmar Nueva Contraseña
+                </label>
+                <div class="input-wrapper">
+                    <input
+                        id="password_confirmation"
+                        v-model="form.password_confirmation"
+                        type="password"
+                        class="form-input"
+                        :class="{ 'error': form.errors.password_confirmation }"
+                        placeholder="Confirma tu nueva contraseña"
+                        required
+                        autocomplete="new-password"
+                    />
+                </div>
+                <div v-if="form.errors.password_confirmation" class="input-error">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    {{ form.errors.password_confirmation }}
+                </div>
             </div>
 
-            <div class="flex items-center justify-end mt-4">
-                <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                    Reset Password
-                </PrimaryButton>
+            <!-- Botones de acción -->
+            <div class="form-actions">
+                <button 
+                    type="submit" 
+                    class="btn-primary"
+                    :class="{ 'loading': form.processing }" 
+                    :disabled="form.processing"
+                >
+                    <span v-if="!form.processing" class="btn-content">
+                        <i class="fas fa-key"></i>
+                        Restablecer Contraseña
+                    </span>
+                    <span v-else class="btn-loading">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        Restableciendo...
+                    </span>
+                </button>
             </div>
         </form>
+
+        <!-- Enlaces adicionales -->
+        <div class="auth-footer">
+            <p class="auth-footer-text">
+                ¿Recordaste tu contraseña? 
+                <Link :href="route('login')" class="auth-link">
+                    Volver al inicio de sesión
+                </Link>
+            </p>
+        </div>
     </AuthenticationCard>
 </template>

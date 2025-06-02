@@ -1,11 +1,21 @@
 <template>
-    <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100 dark:bg-gray-900 transition-colors">
-        <div>
-            <slot name="logo" />
+    <div class="auth-container">
+        <!-- Fondo de imagen de restaurante -->
+        <div class="auth-background">
+            <div class="auth-overlay"></div>
         </div>
+        
+        <!-- Contenido principal -->
+        <div class="auth-content">
+            <!-- Logo/Branding -->
+            <div class="auth-logo-section">
+                <slot name="logo" />
+            </div>
 
-        <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white dark:bg-gray-800 shadow-md overflow-hidden sm:rounded-lg transition-colors">
-            <slot />
+            <!-- Card de formulario -->
+            <div class="auth-card">
+                <slot />
+            </div>
         </div>
     </div>
 </template>

@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <!-- Gradientes suaves para fondo elegante -->
+    <radialGradient id="mainGradient" cx="50%" cy="50%" r="80%">
+      <stop offset="0%" style="stop-color:#667eea;stop-opacity:0.3" />
+      <stop offset="50%" style="stop-color:#764ba2;stop-opacity:0.2" />
+      <stop offset="100%" style="stop-color:#f093fb;stop-opacity:0.1" />
+    </radialGradient>
+    
+    <!-- Gradiente para elementos decorativos -->
+    <linearGradient id="accentGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffecd2;stop-opacity:0.4" />
+      <stop offset="100%" style="stop-color:#fcb69f;stop-opacity:0.2" />
+    </linearGradient>
+    
+    <!-- Patrón sutil de textura -->
+    <pattern id="subtleTexture" patternUnits="userSpaceOnUse" width="60" height="60">
+      <rect width="60" height="60" fill="none"/>
+      <circle cx="30" cy="30" r="1" fill="#ffffff" opacity="0.1"/>
+      <circle cx="10" cy="10" r="0.5" fill="#ffffff" opacity="0.05"/>
+      <circle cx="50" cy="50" r="0.5" fill="#ffffff" opacity="0.05"/>
+    </pattern>
+
+    <!-- Filtros para efectos suaves -->
+    <filter id="blur" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="3"/>
+    </filter>
+    
+    <filter id="softGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="2"/>
+      <feColorMatrix values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0.3 0"/>
+    </filter>
+  </defs>
+
+  <!-- Fondo base -->
+  <rect width="100%" height="100%" fill="url(#mainGradient)"/>
+  
+  <!-- Textura sutil -->
+  <rect width="100%" height="100%" fill="url(#subtleTexture)"/>
+  
+  <!-- Elementos decorativos abstractos -->
+  <g opacity="0.15">
+    <!-- Formas orgánicas en las esquinas -->
+    <path d="M0,0 Q200,100 400,50 T800,80 Q1000,60 1200,100 L1200,0 Z" 
+          fill="url(#accentGradient)" filter="url(#blur)"/>
+    
+    <path d="M0,800 Q200,700 400,750 T800,720 Q1000,740 1200,700 L1200,800 Z" 
+          fill="url(#accentGradient)" filter="url(#blur)"/>
+  </g>
+  
+  <!-- Elementos decorativos centrales muy sutiles -->
+  <g opacity="0.08">
+    <!-- Círculos decorativos -->
+    <circle cx="200" cy="200" r="80" fill="#ffffff" filter="url(#softGlow)"/>
+    <circle cx="1000" cy="600" r="120" fill="#ffffff" filter="url(#softGlow)"/>
+    <circle cx="600" cy="150" r="60" fill="#ffffff" filter="url(#softGlow)"/>
+    <circle cx="300" cy="650" r="90" fill="#ffffff" filter="url(#softGlow)"/>
+    
+    <!-- Líneas decorativas suaves -->
+    <path d="M100,300 Q300,250 500,300 T900,280" 
+          stroke="#ffffff" stroke-width="2" fill="none" opacity="0.3" filter="url(#blur)"/>
+    <path d="M200,500 Q400,450 600,500 T1000,480" 
+          stroke="#ffffff" stroke-width="1.5" fill="none" opacity="0.2" filter="url(#blur)"/>
+  </g>
+  
+  <!-- Elementos temáticos muy sutiles (cubiertos estilizados) -->
+  <g opacity="0.05" transform="translate(900, 100)">
+    <!-- Tenedor estilizado -->
+    <g transform="scale(0.5)">
+      <rect x="10" y="0" width="2" height="60" fill="#ffffff"/>
+      <rect x="6" y="0" width="2" height="20" fill="#ffffff"/>
+      <rect x="14" y="0" width="2" height="20" fill="#ffffff"/>
+      <rect x="18" y="0" width="2" height="20" fill="#ffffff"/>
+    </g>
+  </g>
+  
+  <g opacity="0.05" transform="translate(100, 600)">
+    <!-- Cuchillo estilizado -->
+    <g transform="scale(0.5)">
+      <rect x="10" y="0" width="3" height="50" fill="#ffffff"/>
+      <polygon points="10,50 13,50 15,65 8,65" fill="#ffffff"/>
+    </g>
+  </g>
+  
+  <!-- Overlay final para uniformidad -->
+  <rect width="100%" height="100%" fill="rgba(255, 255, 255, 0.02)"/>
+</svg>
