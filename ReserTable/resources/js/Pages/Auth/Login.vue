@@ -3,6 +3,16 @@ import { Head, Link, useForm } from '@inertiajs/vue3';
 import AuthenticationCard from '@/Components/AuthenticationCard.vue';
 import AuthenticationCardLogo from '@/Components/AuthenticationCardLogo.vue';
 import { useNotifications } from '@/composables/useNotifications';
+import { ref } from 'vue';
+
+// PrimeVue components
+import Button from 'primevue/button';
+import InputText from 'primevue/inputtext';
+import Checkbox from 'primevue/checkbox';
+import Password from 'primevue/password';
+import Message from 'primevue/message';
+import Card from 'primevue/card';
+import FloatLabel from 'primevue/floatlabel';
 
 defineProps({
     canResetPassword: Boolean,
@@ -16,6 +26,8 @@ const form = useForm({
     password: '',
     remember: false,
 });
+
+const passwordVisible = ref(false);
 
 const submit = () => {
     form.transform(data => ({
@@ -41,116 +53,117 @@ const submit = () => {
             <AuthenticationCardLogo />
         </template>
 
-        <!-- Mensaje de estado -->
-        <div v-if="status" class="status-message success">
-            <i class="fas fa-check-circle"></i>
+        <!-- Mensaje de estado con PrimeVue -->
+        <Message 
+            v-if="status" 
+            severity="success" 
+            :closable="false"
+            class="mb-4"
+        >
+            <i class="pi pi-check-circle mr-2"></i>
             {{ status }}
-        </div>
+        </Message>
 
         <!-- Título del formulario -->
-        <div class="form-header">
-            <h2 class="form-title">Bienvenido de nuevo</h2>
-            <p class="form-subtitle">Inicia sesión en tu cuenta para continuar</p>
+        <div class="text-center mb-6">
+            <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+                Bienvenido de nuevo
+            </h2>
+            <p class="text-gray-600 dark:text-gray-400">
+                Inicia sesión en tu cuenta para continuar
+            </p>
         </div>
 
-        <form @submit.prevent="submit" class="login-form">
-            <!-- Campo Email -->
-            <div class="input-group">
-                <label for="email" class="input-label">
-                    <i class="fas fa-envelope"></i>
+        <form @submit.prevent="submit" class="space-y-6">
+            <!-- Campo Email con PrimeVue -->
+            <div class="field">
+                <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    <i class="pi pi-envelope mr-2"></i>
                     Correo Electrónico
                 </label>
-                <div class="input-wrapper">
-                    <input
-                        id="email"
-                        v-model="form.email"
-                        type="email"
-                        class="form-input"
-                        :class="{ 'error': form.errors.email }"
-                        placeholder="tu@email.com"
-                        required
-                        autofocus
-                        autocomplete="username"
-                    />
-                </div>
-                <div v-if="form.errors.email" class="input-error">
-                    <i class="fas fa-exclamation-triangle"></i>
+                <InputText
+                    id="email"
+                    v-model="form.email"
+                    type="email"
+                    class="w-full"
+                    :class="{ 'p-invalid': form.errors.email }"
+                    placeholder="tu@email.com"
+                    autocomplete="username"
+                    autofocus
+                />
+                <small v-if="form.errors.email" class="p-error">
+                    <i class="pi pi-exclamation-triangle mr-1"></i>
                     {{ form.errors.email }}
-                </div>
+                </small>
             </div>
 
-            <!-- Campo Password -->
-            <div class="input-group">
-                <label for="password" class="input-label">
-                    <i class="fas fa-lock"></i>
+            <!-- Campo Password con PrimeVue -->
+            <div class="field">
+                <label for="password" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    <i class="pi pi-lock mr-2"></i>
                     Contraseña
                 </label>
-                <div class="input-wrapper">
-                    <input
-                        id="password"
-                        v-model="form.password"
-                        type="password"
-                        class="form-input"
-                        :class="{ 'error': form.errors.password }"
-                        placeholder="Tu contraseña"
-                        required
-                        autocomplete="current-password"
-                    />
-                </div>
-                <div v-if="form.errors.password" class="input-error">
-                    <i class="fas fa-exclamation-triangle"></i>
+                <Password
+                    id="password"
+                    v-model="form.password"
+                    :feedback="false"
+                    :toggle-mask="true"
+                    class="w-full"
+                    :class="{ 'p-invalid': form.errors.password }"
+                    placeholder="Tu contraseña"
+                    autocomplete="current-password"
+                    input-class="w-full"
+                />
+                <small v-if="form.errors.password" class="p-error">
+                    <i class="pi pi-exclamation-triangle mr-1"></i>
                     {{ form.errors.password }}
-                </div>
+                </small>
             </div>
 
-            <!-- Remember me -->
-            <div class="form-options">
-                <label class="checkbox-label">
-                    <input 
-                        v-model="form.remember" 
-                        type="checkbox" 
-                        name="remember" 
-                        class="checkbox-input"
-                    />
-                    <span class="checkbox-custom"></span>
-                    <span class="checkbox-text">Recordar mi sesión</span>
+            <!-- Remember me con PrimeVue Checkbox -->
+            <div class="flex items-center">
+                <Checkbox
+                    id="remember"
+                    v-model="form.remember"
+                    :binary="true"
+                    class="mr-2"
+                />
+                <label for="remember" class="text-sm text-gray-700 dark:text-gray-300 cursor-pointer">
+                    Recordar mi sesión
                 </label>
             </div>
 
-            <!-- Botones de acción -->
-            <div class="form-actions">
-                <button 
-                    type="submit" 
-                    class="btn-primary"
-                    :class="{ 'loading': form.processing }" 
-                    :disabled="form.processing"
-                >
-                    <span v-if="!form.processing" class="btn-content">
-                        <i class="fas fa-sign-in-alt"></i>
-                        Iniciar Sesión
-                    </span>
-                    <span v-else class="btn-loading">
-                        <i class="fas fa-spinner fa-spin"></i>
-                        Iniciando sesión...
-                    </span>
-                </button>
+            <!-- Botón de envío con PrimeVue -->
+            <Button
+                type="submit"
+                label="Iniciar Sesión"
+                icon="pi pi-sign-in"
+                class="w-full p-3 text-lg"
+                :loading="form.processing"
+                loading-icon="pi pi-spinner pi-spin"
+                severity="primary"
+            />
 
+            <!-- Enlace de contraseña olvidada -->
+            <div v-if="canResetPassword" class="text-center">
                 <Link 
-                    v-if="canResetPassword" 
                     :href="route('password.request')" 
-                    class="forgot-password-link"
+                    class="text-sm text-primary-600 hover:text-primary-800 dark:text-primary-400 dark:hover:text-primary-200 transition-colors duration-200"
                 >
-                    <i class="fas fa-key"></i>
+                    <i class="pi pi-key mr-1"></i>
                     ¿Olvidaste tu contraseña?
                 </Link>
             </div>
         </form>
 
         <!-- Enlaces adicionales -->
-        <div class="auth-footer">
-            <p class="auth-footer-text">
+        <div class="text-center mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
+            <p class="text-sm text-gray-600 dark:text-gray-400">
                 ¿No tienes cuenta? 
-                <Link :href="route('register')" class="auth-link">
+                <Link 
+                    :href="route('register')" 
+                    class="font-medium text-primary-600 hover:text-primary-800 dark:text-primary-400 dark:hover:text-primary-200 transition-colors duration-200 ml-1"
+                >
                     Regístrate aquí
                 </Link>
             </p>

@@ -21,6 +21,10 @@ import Button from 'primevue/button';
 import Dialog from 'primevue/dialog';
 import InputText from 'primevue/inputtext';
 import Dropdown from 'primevue/dropdown';
+import Password from 'primevue/password';
+import Checkbox from 'primevue/checkbox';
+import Message from 'primevue/message';
+import FloatLabel from 'primevue/floatlabel';
 import ToastService from 'primevue/toastservice';
 import Toast from 'primevue/toast';
 
@@ -48,6 +52,10 @@ createInertiaApp({
         vueApp.component('Dialog', Dialog);
         vueApp.component('InputText', InputText);
         vueApp.component('Dropdown', Dropdown);
+        vueApp.component('Password', Password);
+        vueApp.component('Checkbox', Checkbox);
+        vueApp.component('Message', Message);
+        vueApp.component('FloatLabel', FloatLabel);
         vueApp.component('Toast', Toast);
         vueApp.use(ZiggyVue, Ziggy);
         vueApp.use(VueKonva);

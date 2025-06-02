@@ -1,9 +1,5 @@
 <template>
     <div class="auth-container">
-        <!-- Fondo de imagen de restaurante -->
-        <div class="auth-background">
-            <div class="auth-overlay"></div>
-        </div>
         
         <!-- Contenido principal -->
         <div class="auth-content">
