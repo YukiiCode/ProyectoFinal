@@ -1,0 +1,606 @@
+/* ============================================ */
+/* MODO OSCURO OPTIMIZADO - RESER TABLE */
+/* ============================================ */
+
+:root {
+    /* Variables de modo oscuro */
+    --bg-primary-dark: #0f172a;      /* slate-900 */
+    --bg-secondary-dark: #1e293b;    /* slate-800 */
+    --bg-tertiary-dark: #334155;     /* slate-700 */
+    --bg-quaternary-dark: #475569;   /* slate-600 */
+    
+    --text-primary-dark: #f8fafc;    /* slate-50 */
+    --text-secondary-dark: #e2e8f0;  /* slate-200 */
+    --text-tertiary-dark: #cbd5e1;   /* slate-300 */
+    
+    --border-dark: #475569;          /* slate-600 */
+    --border-light-dark: #64748b;    /* slate-500 */
+    
+    --shadow-dark: rgba(0, 0, 0, 0.5);
+    --shadow-dark-lg: rgba(0, 0, 0, 0.7);
+    
+    /* Estados en modo oscuro */
+    --success-bg-dark: rgba(34, 197, 94, 0.15);
+    --success-text-dark: #4ade80;
+    --success-border-dark: rgba(34, 197, 94, 0.3);
+    
+    --danger-bg-dark: rgba(239, 68, 68, 0.15);
+    --danger-text-dark: #f87171;
+    --danger-border-dark: rgba(239, 68, 68, 0.3);
+    
+    --warning-bg-dark: rgba(245, 158, 11, 0.15);
+    --warning-text-dark: #fbbf24;
+    --warning-border-dark: rgba(245, 158, 11, 0.3);
+    
+    --info-bg-dark: rgba(59, 130, 246, 0.15);
+    --info-text-dark: #60a5fa;
+    --info-border-dark: rgba(59, 130, 246, 0.3);
+    
+    --secondary-bg-dark: rgba(148, 163, 184, 0.15);
+    --secondary-text-dark: #e2e8f0;
+    --secondary-border-dark: rgba(148, 163, 184, 0.3);
+    
+    --purple-bg-dark: rgba(168, 85, 247, 0.15);
+    --purple-text-dark: #c084fc;
+    --purple-border-dark: rgba(168, 85, 247, 0.3);
+}
+
+/* ============================================ */
+/* APLICACIÓN DE MODO OSCURO */
+/* ============================================ */
+
+.dark,
+html.dark,
+body.dark-mode {
+    color-scheme: dark;
+}
+
+.dark body,
+html.dark body,
+body.dark-mode {
+    background-color: var(--bg-primary-dark) !important;
+    color: var(--text-primary-dark) !important;
+}
+
+/* ============================================ */
+/* FONDOS EN MODO OSCURO */
+/* ============================================ */
+
+.dark .bg-white,
+html.dark .bg-white,
+body.dark-mode .bg-white {
+    background-color: var(--bg-secondary-dark) !important;
+}
+
+.dark .bg-gray-50,
+.dark .bg-gray-100,
+html.dark .bg-gray-50,
+html.dark .bg-gray-100,
+body.dark-mode .bg-gray-50,
+body.dark-mode .bg-gray-100 {
+    background-color: var(--bg-tertiary-dark) !important;
+}
+
+.dark .bg-gray-800,
+.dark .bg-gray-900,
+html.dark .bg-gray-800,
+html.dark .bg-gray-900,
+body.dark-mode .bg-gray-800,
+body.dark-mode .bg-gray-900 {
+    background-color: var(--bg-primary-dark) !important;
+}
+
+/* ============================================ */
+/* TEXTO EN MODO OSCURO */
+/* ============================================ */
+
+.dark .text-gray-900,
+.dark .text-gray-800,
+.dark .text-dark,
+html.dark .text-gray-900,
+html.dark .text-gray-800,
+html.dark .text-dark,
+body.dark-mode .text-gray-900,
+body.dark-mode .text-gray-800,
+body.dark-mode .text-dark {
+    color: var(--text-primary-dark) !important;
+}
+
+.dark .text-gray-600,
+.dark .text-gray-700,
+.dark .text-gray-500,
+.dark .text-muted,
+html.dark .text-gray-600,
+html.dark .text-gray-700,
+html.dark .text-gray-500,
+html.dark .text-muted,
+body.dark-mode .text-gray-600,
+body.dark-mode .text-gray-700,
+body.dark-mode .text-gray-500,
+body.dark-mode .text-muted {
+    color: var(--text-secondary-dark) !important;
+}
+
+.dark .text-gray-400,
+html.dark .text-gray-400,
+body.dark-mode .text-gray-400 {
+    color: var(--text-tertiary-dark) !important;
+}
+
+/* ============================================ */
+/* BORDES EN MODO OSCURO */
+/* ============================================ */
+
+.dark .border-gray-200,
+.dark .border-gray-300,
+html.dark .border-gray-200,
+html.dark .border-gray-300,
+body.dark-mode .border-gray-200,
+body.dark-mode .border-gray-300 {
+    border-color: var(--border-dark) !important;
+}
+
+.dark .border-gray-700,
+html.dark .border-gray-700,
+body.dark-mode .border-gray-700 {
+    border-color: var(--border-light-dark) !important;
+}
+
+/* ============================================ */
+/* COMPONENTES BASE EN MODO OSCURO */
+/* ============================================ */
+
+/* Cards */
+.dark .card-base,
+html.dark .card-base,
+body.dark-mode .card-base,
+.dark .card,
+.dark .shadow-sm,
+html.dark .card,
+html.dark .shadow-sm,
+body.dark-mode .card,
+body.dark-mode .shadow-sm {
+    background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.08) 0%,
+        rgba(255, 255, 255, 0.04) 100%
+    ) !important;
+    backdrop-filter: blur(20px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    box-shadow: 
+        0 8px 32px var(--shadow-dark),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+}
+
+.dark .card-base:hover,
+html.dark .card-base:hover,
+body.dark-mode .card-base:hover,
+.dark .card:hover,
+html.dark .card:hover,
+body.dark-mode .card:hover {
+    background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.12) 0%,
+        rgba(255, 255, 255, 0.06) 100%
+    ) !important;
+    border-color: rgba(255, 255, 255, 0.18) !important;
+    transform: translateY(-2px);
+    box-shadow: 
+        0 12px 40px var(--shadow-dark-lg),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15) !important;
+}
+
+/* Form controls */
+.dark .form-control-base,
+.dark input[type="text"],
+.dark input[type="number"],
+.dark input[type="email"],
+.dark input[type="password"],
+.dark select,
+.dark textarea,
+html.dark .form-control-base,
+html.dark input,
+html.dark select,
+html.dark textarea,
+body.dark-mode .form-control-base,
+body.dark-mode input,
+body.dark-mode select,
+body.dark-mode textarea,
+body.dark-mode .form-control,
+body.dark-mode .form-select {
+    background: rgba(255, 255, 255, 0.05) !important;
+    backdrop-filter: blur(10px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    color: var(--text-primary-dark) !important;
+}
+
+.dark .form-control-base:focus,
+.dark input:focus,
+.dark select:focus,
+.dark textarea:focus,
+html.dark input:focus,
+html.dark select:focus,
+html.dark textarea:focus,
+body.dark-mode input:focus,
+body.dark-mode select:focus,
+body.dark-mode textarea:focus {
+    background: rgba(255, 255, 255, 0.1) !important;
+    border: 2px solid rgba(99, 102, 241, 0.6) !important;
+    box-shadow: 
+        0 0 0 4px rgba(99, 102, 241, 0.1),
+        0 4px 16px var(--shadow-dark),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Tables */
+.dark .table-base,
+.dark table,
+html.dark .table-base,
+html.dark table,
+body.dark-mode .table-base,
+body.dark-mode table {
+    background-color: transparent !important;
+    color: var(--text-primary-dark) !important;
+}
+
+.dark .table-base th,
+.dark table th,
+html.dark .table-base th,
+html.dark table th,
+body.dark-mode .table-base th,
+body.dark-mode table th {
+    background-color: var(--bg-tertiary-dark) !important;
+    color: var(--text-primary-dark) !important;
+    border-color: var(--border-dark) !important;
+}
+
+.dark .table-base td,
+.dark table td,
+html.dark .table-base td,
+html.dark table td,
+body.dark-mode .table-base td,
+body.dark-mode table td {
+    border-color: var(--border-dark) !important;
+}
+
+.dark .table-base tbody tr:hover,
+.dark table tr:hover,
+html.dark .table-base tbody tr:hover,
+html.dark table tr:hover,
+body.dark-mode .table-base tbody tr:hover,
+body.dark-mode table tr:hover {
+    background-color: rgba(99, 102, 241, 0.1) !important;
+}
+
+/* ============================================ */
+/* BADGES EN MODO OSCURO */
+/* ============================================ */
+
+/* Success */
+.dark .badge-success,
+.dark .bg-green-100,
+html.dark .badge-success,
+html.dark .bg-green-100,
+body.dark-mode .badge-success,
+body.dark-mode .bg-green-100 {
+    background-color: var(--success-bg-dark) !important;
+    border: 1px solid var(--success-border-dark) !important;
+}
+
+.dark .badge-success,
+.dark .text-green-800,
+html.dark .badge-success,
+html.dark .text-green-800,
+body.dark-mode .badge-success,
+body.dark-mode .text-green-800 {
+    color: var(--success-text-dark) !important;
+}
+
+/* Danger */
+.dark .badge-danger,
+.dark .bg-red-100,
+html.dark .badge-danger,
+html.dark .bg-red-100,
+body.dark-mode .badge-danger,
+body.dark-mode .bg-red-100 {
+    background-color: var(--danger-bg-dark) !important;
+    border: 1px solid var(--danger-border-dark) !important;
+}
+
+.dark .badge-danger,
+.dark .text-red-800,
+html.dark .badge-danger,
+html.dark .text-red-800,
+body.dark-mode .badge-danger,
+body.dark-mode .text-red-800 {
+    color: var(--danger-text-dark) !important;
+}
+
+/* Warning */
+.dark .badge-warning,
+.dark .bg-yellow-100,
+html.dark .badge-warning,
+html.dark .bg-yellow-100,
+body.dark-mode .badge-warning,
+body.dark-mode .bg-yellow-100 {
+    background-color: var(--warning-bg-dark) !important;
+    border: 1px solid var(--warning-border-dark) !important;
+}
+
+.dark .badge-warning,
+.dark .text-yellow-800,
+html.dark .badge-warning,
+html.dark .text-yellow-800,
+body.dark-mode .badge-warning,
+body.dark-mode .text-yellow-800 {
+    color: var(--warning-text-dark) !important;
+}
+
+/* Info */
+.dark .badge-info,
+.dark .bg-blue-100,
+html.dark .badge-info,
+html.dark .bg-blue-100,
+body.dark-mode .badge-info,
+body.dark-mode .bg-blue-100 {
+    background-color: var(--info-bg-dark) !important;
+    border: 1px solid var(--info-border-dark) !important;
+}
+
+.dark .badge-info,
+.dark .text-blue-800,
+html.dark .badge-info,
+html.dark .text-blue-800,
+body.dark-mode .badge-info,
+body.dark-mode .text-blue-800 {
+    color: var(--info-text-dark) !important;
+}
+
+/* Purple */
+.dark .bg-purple-100,
+html.dark .bg-purple-100,
+body.dark-mode .bg-purple-100 {
+    background-color: var(--purple-bg-dark) !important;
+    border: 1px solid var(--purple-border-dark) !important;
+}
+
+.dark .text-purple-800,
+html.dark .text-purple-800,
+body.dark-mode .text-purple-800 {
+    color: var(--purple-text-dark) !important;
+}
+
+/* Secondary */
+.dark .badge-secondary,
+.dark .bg-gray-100,
+html.dark .badge-secondary,
+html.dark .bg-gray-100,
+body.dark-mode .badge-secondary,
+body.dark-mode .bg-gray-100 {
+    background-color: var(--secondary-bg-dark) !important;
+    border: 1px solid var(--secondary-border-dark) !important;
+}
+
+.dark .badge-secondary,
+.dark .text-gray-800,
+html.dark .badge-secondary,
+html.dark .text-gray-800,
+body.dark-mode .badge-secondary,
+body.dark-mode .text-gray-800 {
+    color: var(--secondary-text-dark) !important;
+}
+
+/* ============================================ */
+/* BOTONES DE ACCIÓN EN MODO OSCURO */
+/* ============================================ */
+
+.dark .action-btn,
+.dark a[title],
+.dark button[title],
+html.dark .action-btn,
+html.dark a[title],
+html.dark button[title],
+body.dark-mode .action-btn,
+body.dark-mode a[title],
+body.dark-mode button[title] {
+    background: rgba(255, 255, 255, 0.08) !important;
+    backdrop-filter: blur(15px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+}
+
+.dark .action-btn:hover,
+.dark a[title]:hover,
+.dark button[title]:hover,
+html.dark .action-btn:hover,
+html.dark a[title]:hover,
+html.dark button[title]:hover,
+body.dark-mode .action-btn:hover,
+body.dark-mode a[title]:hover,
+body.dark-mode button[title]:hover {
+    background: rgba(255, 255, 255, 0.15) !important;
+    border-color: rgba(255, 255, 255, 0.25) !important;
+    box-shadow: 0 8px 25px var(--shadow-dark-lg) !important;
+}
+
+/* Colores específicos de botones de acción */
+.dark .action-btn-view,
+.dark .text-indigo-600,
+html.dark .action-btn-view,
+html.dark .text-indigo-600,
+body.dark-mode .action-btn-view,
+body.dark-mode .text-indigo-600 {
+    color: #a5b4fc !important;
+}
+
+.dark .action-btn-edit,
+.dark .text-yellow-600,
+html.dark .action-btn-edit,
+html.dark .text-yellow-600,
+body.dark-mode .action-btn-edit,
+body.dark-mode .text-yellow-600 {
+    color: #fcd34d !important;
+}
+
+.dark .action-btn-delete,
+.dark .text-red-600,
+html.dark .action-btn-delete,
+html.dark .text-red-600,
+body.dark-mode .action-btn-delete,
+body.dark-mode .text-red-600 {
+    color: #fca5a5 !important;
+}
+
+/* ============================================ */
+/* FORMULARIOS CON EFECTO CRISTAL EN MODO OSCURO */
+/* ============================================ */
+
+.dark .form-section,
+.dark .filter-section,
+html.dark .form-section,
+html.dark .filter-section,
+body.dark-mode .form-section,
+body.dark-mode .filter-section {
+    background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.08) 0%,
+        rgba(255, 255, 255, 0.04) 100%
+    ) !important;
+    backdrop-filter: blur(20px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    box-shadow: 
+        0 8px 32px var(--shadow-dark),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+}
+
+.dark .form-section:hover,
+html.dark .form-section:hover,
+body.dark-mode .form-section:hover {
+    background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.12) 0%,
+        rgba(255, 255, 255, 0.06) 100%
+    ) !important;
+    border-color: rgba(255, 255, 255, 0.18) !important;
+}
+
+/* Labels en modo oscuro */
+.dark label,
+html.dark label,
+body.dark-mode label {
+    color: var(--text-primary-dark) !important;
+    text-shadow: 0 1px 2px var(--shadow-dark) !important;
+}
+
+/* Placeholders en modo oscuro */
+.dark input::placeholder,
+.dark select::placeholder,
+.dark textarea::placeholder,
+html.dark input::placeholder,
+html.dark select::placeholder,
+html.dark textarea::placeholder,
+body.dark-mode input::placeholder,
+body.dark-mode select::placeholder,
+body.dark-mode textarea::placeholder {
+    color: rgba(240, 240, 240, 0.5) !important;
+    opacity: 1 !important;
+}
+
+/* ============================================ */
+/* BOTONES EN MODO OSCURO */
+/* ============================================ */
+
+.dark .btn-primary,
+html.dark .btn-primary,
+body.dark-mode .btn-primary {
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%) !important;
+    border-color: #6366f1 !important;
+    box-shadow: 0 4px 14px rgba(99, 102, 241, 0.4) !important;
+}
+
+.dark .btn-primary:hover,
+html.dark .btn-primary:hover,
+body.dark-mode .btn-primary:hover {
+    background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%) !important;
+    border-color: #4f46e5 !important;
+    box-shadow: 0 6px 20px rgba(99, 102, 241, 0.6) !important;
+}
+
+/* ============================================ */
+/* SCROLLBARS EN MODO OSCURO */
+/* ============================================ */
+
+.dark ::-webkit-scrollbar-track,
+html.dark ::-webkit-scrollbar-track,
+body.dark-mode ::-webkit-scrollbar-track {
+    background: var(--bg-tertiary-dark);
+}
+
+.dark ::-webkit-scrollbar-thumb,
+html.dark ::-webkit-scrollbar-thumb,
+body.dark-mode ::-webkit-scrollbar-thumb {
+    background: var(--border-light-dark);
+}
+
+.dark ::-webkit-scrollbar-thumb:hover,
+html.dark ::-webkit-scrollbar-thumb:hover,
+body.dark-mode ::-webkit-scrollbar-thumb:hover {
+    background: var(--text-tertiary-dark);
+}
+
+/* ============================================ */
+/* ENLACES EN MODO OSCURO */
+/* ============================================ */
+
+.dark a,
+html.dark a,
+body.dark-mode a {
+    color: #a5b4fc !important;
+}
+
+.dark a:hover,
+html.dark a:hover,
+body.dark-mode a:hover {
+    color: #c7d2fe !important;
+}
+
+/* ============================================ */
+/* ADMIN ESPECÍFICOS EN MODO OSCURO */
+/* ============================================ */
+
+.dark .admin-card,
+html.dark .admin-card,
+body.dark-mode .admin-card {
+    background-color: var(--bg-secondary-dark) !important;
+    border-color: var(--border-dark) !important;
+}
+
+.dark .admin-card-header,
+html.dark .admin-card-header,
+body.dark-mode .admin-card-header {
+    border-color: var(--border-dark) !important;
+}
+
+.dark .admin-card-title,
+html.dark .admin-card-title,
+body.dark-mode .admin-card-title {
+    color: var(--text-primary-dark) !important;
+}
+
+.dark .stat-card,
+html.dark .stat-card,
+body.dark-mode .stat-card {
+    background-color: var(--bg-secondary-dark) !important;
+    border-color: var(--border-dark) !important;
+}
+
+.dark .stat-card h3,
+html.dark .stat-card h3,
+body.dark-mode .stat-card h3 {
+    color: var(--text-primary-dark) !important;
+}
+
+.dark .stat-card p,
+html.dark .stat-card p,
+body.dark-mode .stat-card p {
+    color: var(--text-secondary-dark) !important;
+}
