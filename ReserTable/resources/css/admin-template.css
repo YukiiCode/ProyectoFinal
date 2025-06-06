@@ -1,6 +1,8 @@
-/* ReserTable Admin Template - Custom Styles */
+/* ============================================ */
+/* ADMIN TEMPLATE - ESTILOS ESPECÍFICOS */
+/* ============================================ */
 
-/* Additional custom styles to complement Tailwind CSS */
+/* Transiciones específicas del admin */
 .admin-sidebar-transition {
     transition: transform 0.3s ease-in-out;
 }
@@ -13,15 +15,7 @@
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 
-/* Sidebar animation for mobile */
-@media (max-width: 1024px) {
-    .mobile-sidebar-overlay {
-        background-color: rgba(0, 0, 0, 0.5);
-        transition: opacity 0.3s ease-in-out;
-    }
-}
-
-/* Custom scrollbar for sidebar */
+/* Sidebar específico - scrollbar personalizado */
 .sidebar-scroll::-webkit-scrollbar {
     width: 4px;
 }
@@ -39,18 +33,9 @@
     background: #94a3b8;
 }
 
-/* Focus styles for accessibility */
-.focus-ring:focus {
-    outline: 2px solid #3b82f6;
-    outline-offset: 2px;
-}
-
-/* Smooth transitions for interactive elements */
-.transition-all {
-    transition: all 0.2s ease-in-out;
-}
-
-/* Layout Components */
+/* ============================================ */
+/* LAYOUT ESPECÍFICO DEL ADMIN */
+/* ============================================ */
 .layout-wrapper {
     min-height: 100vh;
     position: relative;
@@ -134,7 +119,9 @@
     }
 }
 
-/* Topbar Styles */
+/* ============================================ */
+/* TOPBAR ESPECÍFICO */
+/* ============================================ */
 .topbar-brand {
     font-size: 1.5rem;
     font-weight: 700;
@@ -160,7 +147,9 @@
     background-color: var(--surface-hover);
 }
 
-/* Sidebar Styles */
+/* ============================================ */
+/* SIDEBAR ESPECÍFICO */
+/* ============================================ */
 .sidebar-menu {
     list-style: none;
     padding: 0;
@@ -222,19 +211,11 @@
     padding: 0.75rem;
 }
 
-/* Card Styles */
-.admin-card {
-    background: var(--surface-0);
-    border: 1px solid var(--surface-border);
-    border-radius: 0.75rem;
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
-    transition: all 0.2s ease;
-}
+/* ============================================ */
+/* CARDS ESPECÍFICAS DEL ADMIN */
+/* ============================================ */
 
-.admin-card:hover {
-    box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.15);
-}
-
+/* Mantener solo estilos específicos del admin que no están en app.css */
 .admin-card-header {
     padding: 1.5rem 1.5rem 0;
     border-bottom: 1px solid var(--surface-border);
@@ -251,91 +232,51 @@
     margin-bottom: 0.5rem;
 }
 
-/* Button Styles */
-.btn-admin-primary {
-    background-color: var(--bs-primary);
-    border-color: var(--bs-primary);
-    color: white;
-    font-weight: 500;
-    padding: 0.625rem 1.25rem;
-    border-radius: 0.5rem;
-    transition: all 0.2s ease;
-}
+/* ============================================ */
+/* CUSTOMIZACIONES PRIMEVUE ESPECÍFICAS DEL ADMIN */
+/* ============================================ */
 
-.btn-admin-primary:hover {
-    background-color: var(--bs-primary);
-    border-color: var(--bs-primary);
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
-}
-
-/* Status Badges */
-.status-badge {
-    padding: 0.375rem 0.75rem;
-    border-radius: 0.5rem;
-    font-size: 0.875rem;
-    font-weight: 500;
-}
-
-.status-badge-success {
-    background-color: rgba(16, 185, 129, 0.1);
-    color: var(--bs-success);
-}
-
-.status-badge-warning {
-    background-color: rgba(245, 158, 11, 0.1);
-    color: var(--bs-warning);
-}
-
-.status-badge-danger {
-    background-color: rgba(239, 68, 68, 0.1);
-    color: var(--bs-danger);
-}
-
-/* PrimeVue Component Overrides */
-.p-datatable {
+/* PrimeVue customizations específicas para el panel de administración */
+.p-datatable.admin-table {
     background: var(--surface-0);
     border: 1px solid var(--surface-border);
     border-radius: 0.75rem;
     overflow: hidden;
 }
 
-.p-datatable .p-datatable-header {
+.p-datatable.admin-table .p-datatable-header {
     background: var(--surface-50);
     border-bottom: 1px solid var(--surface-border);
-    padding: 1rem 1.5rem;
+    padding: 1.25rem 1.5rem;
+    font-weight: 600;
 }
 
-.p-datatable .p-datatable-tbody > tr {
-    border-bottom: 1px solid var(--surface-border);
-}
-
-.p-datatable .p-datatable-tbody > tr:hover {
+.p-datatable.admin-table .p-datatable-tbody > tr:hover {
     background: var(--surface-hover);
 }
 
-.p-button {
+.p-button.admin-btn {
     border-radius: 0.5rem;
     font-weight: 500;
     transition: all 0.2s ease;
 }
 
-.p-button:hover {
+.p-button.admin-btn:hover {
     transform: translateY(-1px);
 }
 
-.p-dialog {
+.p-dialog.admin-dialog {
     border-radius: 0.75rem;
     overflow: hidden;
 }
 
-.p-dialog .p-dialog-header {
+.p-dialog.admin-dialog .p-dialog-header {
     background: var(--surface-0);
     border-bottom: 1px solid var(--surface-border);
     padding: 1.5rem;
 }
 
-.p-dialog .p-dialog-content {
+.p-dialog.admin-dialog .p-dialog-content {
     padding: 1.5rem;
 }
 
@@ -542,25 +483,48 @@
     transition: width 0.3s ease;
 }
 
-/* Utility Classes */
-.text-muted {
-    color: var(--bs-secondary) !important;
+/* ============================================ */
+/* UTILIDADES ESPECÍFICAS DEL ADMIN */
+/* ============================================ */
+
+/* Utility classes específicas para el panel de administración */
+.admin-text-muted {
+    color: var(--text-color-secondary) !important;
 }
 
-.bg-light-subtle {
+.admin-bg-light-subtle {
     background-color: var(--surface-50) !important;
 }
 
-.border-light {
+.admin-border-light {
     border-color: var(--surface-border) !important;
 }
 
-/* Animation Classes */
-.fade-in {
-    animation: fadeIn 0.3s ease-in-out;
+/* ============================================ */
+/* ANIMACIONES ESPECÍFICAS DEL ADMIN */
+/* ============================================ */
+
+/* Animaciones específicas para el panel de administración */
+.admin-slide-in-left {
+    animation: adminSlideInLeft 0.3s ease-out;
 }
 
-@keyframes fadeIn {
+@keyframes adminSlideInLeft {
+    from {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.admin-fade-in {
+    animation: adminFadeIn 0.4s ease-out;
+}
+
+@keyframes adminFadeIn {
     from {
         opacity: 0;
         transform: translateY(10px);
@@ -571,77 +535,9 @@
     }
 }
 
-.slide-in-left {
-    animation: slideInLeft 0.3s ease-out;
-}
-
-@keyframes slideInLeft {
-    from {
-        transform: translateX(-100%);
-    }
-    to {
-        transform: translateX(0);
-    }
-}
-
-/* Dark Mode Support */
-@media (prefers-color-scheme: dark) {
-    :root {
-        --surface-0: #1e293b;
-        --surface-50: #334155;
-        --surface-100: #475569;
-        --surface-200: #64748b;
-        --surface-border: #475569;
-        --surface-hover: #334155;
-        --bs-dark: #f1f5f9;
-        --bs-light: #1e293b;
-    }
-    
-    body {
-        background-color: var(--surface-0);
-        color: var(--bs-dark);
-    }
-}
-[data-theme="dark"] {
-    --surface-0: #0f172a;
-    --surface-50: #1e293b;
-    --surface-100: #334155;
-    --surface-200: #475569;
-    --surface-300: #64748b;
-    --surface-400: #94a3b8;
-    --surface-500: #cbd5e1;
-    --surface-600: #e2e8f0;
-    --surface-700: #f1f5f9;
-    --surface-800: #f8fafc;
-    --surface-900: #ffffff;
-    --surface-card: var(--surface-50);
-    --surface-overlay: var(--surface-50);
-    --surface-border: var(--surface-200);
-    --surface-hover: var(--surface-100);
-    --text-color: var(--surface-800);
-    --text-color-secondary: var(--surface-600);
-}
-
-/* Global Styles */
-* {
-    box-sizing: border-box;
-}
-
-html {
-    font-size: 14px;
-}
-
-body {
-    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
-    font-weight: normal;
-    background: var(--surface-50);
-    color: var(--text-color);
-    padding: 0;
-    margin: 0;
-    min-height: 100vh;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
+/* ============================================ */
+/* ESTILOS ESPECÍFICOS DE LAYOUT DEL ADMIN */
+/* ============================================ */
 
 /* Layout adjustments when sidebar is visible */
 .layout-static .layout-main-container {
@@ -653,171 +549,11 @@ body {
     margin-left: 0;
 }
 
-/* Topbar height compensation */
-.layout-topbar {
-    height: 5rem;
-}
+/* ============================================ */
+/* COMPONENTES ESPECÍFICOS DEL ADMIN */
+/* ============================================ */
 
-.layout-main-container {
-    padding-top: 5rem;
-}
-
-/* Utility Classes */
-.text-primary {
-    color: var(--primary-color) !important;
-}
-
-.text-secondary {
-    color: var(--text-color-secondary) !important;
-}
-
-.bg-primary {
-    background-color: var(--primary-color) !important;
-}
-
-.card {
-    background: var(--surface-card);
-    border: 1px solid var(--surface-border);
-    border-radius: 6px;
-    box-shadow: var(--box-shadow);
-    padding: 1.5rem;
-    margin-bottom: 1rem;
-}
-
-.card-header {
-    padding-bottom: 1rem;
-    margin-bottom: 1rem;
-    border-bottom: 1px solid var(--surface-border);
-}
-
-.card-title {
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: var(--text-color);
-    margin: 0;
-}
-
-.btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0.75rem 1rem;
-    font-size: 1rem;
-    border-radius: 6px;
-    border: 1px solid transparent;
-    cursor: pointer;
-    transition: all 0.15s;
-    text-decoration: none;
-    font-weight: 500;
-}
-
-.btn-primary {
-    background-color: var(--primary-color);
-    color: var(--primary-color-text);
-    border-color: var(--primary-color);
-}
-
-.btn-primary:hover {
-    background-color: var(--primary-600);
-    border-color: var(--primary-600);
-}
-
-.btn-secondary {
-    background-color: var(--surface-100);
-    color: var(--text-color);
-    border-color: var(--surface-200);
-}
-
-.btn-secondary:hover {
-    background-color: var(--surface-200);
-    border-color: var(--surface-300);
-}
-
-.btn-success {
-    background-color: var(--green-500);
-    color: white;
-    border-color: var(--green-500);
-}
-
-.btn-danger {
-    background-color: var(--red-500);
-    color: white;
-    border-color: var(--red-500);
-}
-
-.btn-warning {
-    background-color: var(--yellow-500);
-    color: white;
-    border-color: var(--yellow-500);
-}
-
-.btn-sm {
-    padding: 0.5rem 0.75rem;
-    font-size: 0.875rem;
-}
-
-.btn-lg {
-    padding: 1rem 1.5rem;
-    font-size: 1.125rem;
-}
-
-/* Grid System - Using Bootstrap classes */
-/* Remove custom grid system since we're using Bootstrap */
-
-/* Bootstrap Override Utilities */
-.text-primary {
-    color: var(--primary-color) !important;
-}
-
-.text-secondary {
-    color: var(--text-color-secondary) !important;
-}
-
-.bg-primary {
-    background-color: var(--primary-color) !important;
-}
-
-/* Custom Card Styles that work with Bootstrap */
-.admin-card {
-    background: var(--surface-card);
-    border: 1px solid var(--surface-border);
-    border-radius: 6px;
-    box-shadow: var(--box-shadow);
-    margin-bottom: 1rem;
-}
-
-.admin-card .card-header {
-    background: var(--surface-50);
-    border-bottom: 1px solid var(--surface-border);
-    font-weight: 600;
-}
-
-/* Custom Button Styles that extend Bootstrap */
-.btn-admin-primary {
-    background-color: var(--primary-color);
-    color: var(--primary-color-text);
-    border-color: var(--primary-color);
-}
-
-.btn-admin-primary:hover {
-    background-color: var(--primary-600);
-    border-color: var(--primary-600);
-    color: var(--primary-color-text);
-}
-
-.btn-admin-secondary {
-    background-color: var(--surface-100);
-    color: var(--text-color);
-    border-color: var(--surface-200);
-}
-
-.btn-admin-secondary:hover {
-    background-color: var(--surface-200);
-    border-color: var(--surface-300);
-    color: var(--text-color);
-}
-
-/* Page Layout */
+/* Page Layout específico del admin */
 .page-header {
     margin-bottom: 2rem;
 }
@@ -834,187 +570,178 @@ body {
     margin: 0;
 }
 
-/* Form Elements */
-.form-group {
-    margin-bottom: 1rem;
+/* ============================================ */
+/* FORMULARIOS ESPECÍFICOS DEL ADMIN */
+/* ============================================ */
+
+/* Form Elements - solo estilos específicos del admin */
+.admin-form-group {
+    margin-bottom: 1.5rem;
 }
 
-.form-label {
-    display: block;
-    margin-bottom: 0.5rem;
-    font-weight: 500;
-    color: var(--text-color);
-}
-
-.form-control {
-    width: 100%;
-    padding: 0.75rem;
-    font-size: 1rem;
+.admin-form-section {
+    background: var(--surface-card);
     border: 1px solid var(--surface-border);
-    border-radius: 6px;
-    background-color: var(--surface-card);
-    color: var(--text-color);
-    transition: border-color 0.15s;
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
 }
 
-.form-control:focus {
-    outline: none;
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
-}
+/* ============================================ */
+/* INDICADORES DE ESTADO ESPECÍFICOS DEL ADMIN */
+/* ============================================ */
 
-/* Status Indicators */
-.status-indicator {
+/* Status indicators específicos para dashboard */
+.admin-status-indicator {
     display: inline-flex;
     align-items: center;
-    padding: 0.25rem 0.75rem;
-    border-radius: 9999px;
-    font-size: 0.75rem;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+    padding: 0.375rem 0.875rem;
+    border-radius: 0.5rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    text-transform: capitalize;
 }
 
-.status-success {
-    background-color: rgba(16, 185, 129, 0.1);
-    color: var(--green-500);
+.admin-status-indicator.confirmed {
+    background-color: rgba(16, 185, 129, 0.15);
+    color: var(--success-color);
 }
 
-.status-danger {
-    background-color: rgba(239, 68, 68, 0.1);
-    color: var(--red-500);
+.admin-status-indicator.pending {
+    background-color: rgba(245, 158, 11, 0.15);
+    color: var(--warning-color);
 }
 
-.status-warning {
-    background-color: rgba(245, 158, 11, 0.1);
-    color: var(--yellow-500);
+.admin-status-indicator.cancelled {
+    background-color: rgba(239, 68, 68, 0.15);
+    color: var(--danger-color);
 }
 
-.status-info {
-    background-color: rgba(59, 130, 246, 0.1);
-    color: var(--blue-500);
-}
+/* ============================================ */
+/* RESPONSIVE ESPECÍFICO DEL ADMIN */
+/* ============================================ */
 
-/* Responsive adjustments */
+/* Responsive adjustments específicos del admin */
 @media (max-width: 991px) {
-    html {
-        font-size: 13px;
-    }
-    
-    .layout-main {
+    .dashboard-container {
         padding: 1rem;
     }
     
-    .page-title {
-        font-size: 1.75rem;
+    .dashboard-header {
+        padding: 1rem;
+        margin-bottom: 1rem;
+    }
+    
+    .stats-card {
+        margin-bottom: 1rem;
     }
 }
 
-/* Animation Classes */
-.fade-enter-active,
-.fade-leave-active {
-    transition: opacity 0.15s;
+/* ============================================ */
+/* TRANSICIONES VUE ESPECÍFICAS DEL ADMIN */
+/* ============================================ */
+
+/* Transiciones Vue específicas para componentes del admin */
+.admin-fade-enter-active,
+.admin-fade-leave-active {
+    transition: opacity 0.2s ease;
 }
 
-.fade-enter-from,
-.fade-leave-to {
+.admin-fade-enter-from,
+.admin-fade-leave-to {
     opacity: 0;
 }
 
-.slide-fade-enter-active {
-    transition: all 0.15s ease-out;
+.admin-slide-fade-enter-active {
+    transition: all 0.2s ease-out;
 }
 
-.slide-fade-leave-active {
-    transition: all 0.15s cubic-bezier(1, 0.5, 0.8, 1);
+.admin-slide-fade-leave-active {
+    transition: all 0.2s cubic-bezier(1, 0.5, 0.8, 1);
 }
 
-.slide-fade-enter-from,
-.slide-fade-leave-to {
-    transform: translateX(20px);
+.admin-slide-fade-enter-from,
+.admin-slide-fade-leave-to {
+    transform: translateX(15px);
     opacity: 0;
 }
 
-/* PrimeVue Customizations */
-.p-button {
-    font-weight: 500;
-}
-
-/* Mejor tamaño para botones de acción en datatables */
-.p-button.p-button-sm.p-button-rounded {
-    min-width: 36px;
-    min-height: 36px;
-    width: 36px;
-    height: 36px;
+/* Botones de acción optimizados para datatables del admin */
+.p-button.admin-action-btn {
+    min-width: 2.25rem;
+    min-height: 2.25rem;
+    width: 2.25rem;
+    height: 2.25rem;
     display: flex;
     align-items: center;
     justify-content: center;
+    border-radius: var(--radius-md);
 }
 
-.p-button.p-button-sm.p-button-rounded .p-button-icon {
-    font-size: 0.9rem;
+.p-button.admin-action-btn .p-button-icon {
+    font-size: 0.875rem;
 }
 
-.p-datatable {
+/* DataTable específico del admin */
+.p-datatable.admin-datatable {
     border: 1px solid var(--surface-border);
-    border-radius: 6px;
+    border-radius: 0.75rem;
     overflow: hidden;
 }
 
-.p-datatable .p-datatable-header {
-    background: var(--surface-50);
-    border-bottom: 1px solid var(--surface-border);
-    padding: 1rem;
-}
-
-.p-datatable .p-datatable-thead > tr > th {
+.p-datatable.admin-datatable .p-datatable-thead > tr > th {
     background: var(--surface-100);
     color: var(--text-color);
     border-color: var(--surface-border);
     font-weight: 600;
-    padding: 1rem;
+    padding: 1rem 1.25rem;
 }
 
-.p-datatable .p-datatable-tbody > tr > td {
+.p-datatable.admin-datatable .p-datatable-tbody > tr > td {
     border-color: var(--surface-border);
-    padding: 1rem;
+    padding: 1rem 1.25rem;
 }
 
-.p-datatable .p-datatable-tbody > tr:nth-child(even) {
+.p-datatable.admin-datatable .p-datatable-tbody > tr:nth-child(even) {
     background: var(--surface-50);
 }
 
-/* Dialog customizations */
-.p-dialog {
-    border-radius: 12px;
-    box-shadow: var(--box-shadow-lg);
+/* Dialog específico del admin */
+.p-dialog.admin-modal {
+    border-radius: 0.75rem;
+    box-shadow: var(--shadow-xl);
 }
 
-.p-dialog .p-dialog-header {
+.p-dialog.admin-modal .p-dialog-header {
     background: var(--surface-card);
     border-bottom: 1px solid var(--surface-border);
-    border-radius: 12px 12px 0 0;
+    border-radius: 0.75rem 0.75rem 0 0;
 }
 
-.p-dialog .p-dialog-content {
+.p-dialog.admin-modal .p-dialog-content {
     background: var(--surface-card);
     color: var(--text-color);
 }
 
-.p-dialog .p-dialog-footer {
+.p-dialog.admin-modal .p-dialog-footer {
     background: var(--surface-card);
     border-top: 1px solid var(--surface-border);
-    border-radius: 0 0 12px 12px;
+    border-radius: 0 0 0.75rem 0.75rem;
 }
 
-/* Loading States */
-.loading-skeleton {
+/* ============================================ */
+/* ESTADOS DE CARGA ESPECÍFICOS DEL ADMIN */
+/* ============================================ */
+
+/* Loading states específicos para el dashboard */
+.admin-loading-skeleton {
     background: linear-gradient(90deg, var(--surface-200) 25%, var(--surface-100) 50%, var(--surface-200) 75%);
     background-size: 200% 100%;
-    animation: loading 1.5s infinite;
+    animation: adminLoading 1.5s infinite;
+    border-radius: 0.5rem;
 }
 
-@keyframes loading {
+@keyframes adminLoading {
     0% {
         background-position: 200% 0;
     }
@@ -1023,23 +750,57 @@ body {
     }
 }
 
-/* Focus states for accessibility */
-.sidebar-menu-link:focus,
-.topbar-menu-button:focus,
-.btn:focus {
-    outline: 2px solid var(--bs-primary);
+.admin-spinner {
+    display: inline-block;
+    width: 1.5rem;
+    height: 1.5rem;
+    border: 2px solid var(--surface-200);
+    border-radius: 50%;
+    border-top-color: var(--primary-color);
+    animation: adminSpin 1s ease-in-out infinite;
+}
+
+@keyframes adminSpin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ============================================ */
+/* ACCESIBILIDAD ESPECÍFICA DEL ADMIN */
+/* ============================================ */
+
+/* Focus states específicos para el panel de administración */
+.admin-focus-ring:focus {
+    outline: 2px solid var(--primary-color);
     outline-offset: 2px;
 }
 
-/* Print styles */
+.sidebar-menu-link:focus,
+.topbar-menu-button:focus {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+/* ============================================ */
+/* PRINT STYLES ESPECÍFICOS DEL ADMIN */
+/* ============================================ */
+
 @media print {
     .layout-sidebar,
-    .layout-topbar {
+    .layout-topbar,
+    .admin-action-btn {
         display: none !important;
     }
     
     .layout-main-container {
         margin-left: 0 !important;
         margin-top: 0 !important;
+    }
+    
+    .stats-card,
+    .admin-card {
+        box-shadow: none !important;
+        border: 1px solid #000 !important;
     }
 }
