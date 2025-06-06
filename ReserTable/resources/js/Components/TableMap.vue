@@ -4,12 +4,14 @@ import axios from 'axios';
 import { usePage } from '@inertiajs/vue3';
 import interact from 'interact.js';
 import { Modal } from 'bootstrap';
+import DiscountCouponValidator from '@/Components/DiscountCouponValidator.vue';
 
 const tables = ref([]);
 const selectedTable = ref(null);
 const reservationDateTime = ref(null);
 const reservationSuccess = ref(false);
 const reservationError = ref('');
+const appliedCoupon = ref(null);
 const isEmployee = computed(() => usePage().props.auth?.user?.role === 'employee');
 
 const mapWidth = 800;
@@ -77,10 +79,19 @@ const selectTable = (table) => {
         reservationDateTime.value = null;
         reservationSuccess.value = false;
         reservationError.value = '';
+        appliedCoupon.value = null;
         
         const modal = new Modal(document.getElementById('reservationModal'));
         modal.show();
     }
+};
+
+const onCouponValidated = (coupon) => {
+    appliedCoupon.value = coupon;
+};
+
+const removeCoupon = () => {
+    appliedCoupon.value = null;
 };
 
 // Confirmar reserva
@@ -94,11 +105,14 @@ const confirmReservation = async () => {
     }
     
     try {
-        await axios.post('/api/reservations', {
+        const reservationData = {
             table_id: selectedTable.value.id,
             reservation_date: reservationDateTime.value,
             party_size: selectedTable.value.capacity,
-        });
+            discount_coupon_id: appliedCoupon.value?.id || null
+        };
+        
+        await axios.post('/api/reservations', reservationData);
         
         reservationSuccess.value = true;
         await fetchTables();
@@ -223,6 +237,46 @@ const tableLegs = [
                                     class="form-control bg-gray-50 dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 focus:border-blue-500 dark:focus:border-blue-400"
                                     required
                                 />
+                            </div>
+                            
+                            <!-- Validador de Cupones de Descuento -->
+                            <div class="mb-4">
+                                <h6 class="text-gray-700 dark:text-gray-300 mb-3">
+                                    <i class="pi pi-tag mr-2"></i>
+                                    Código de Descuento (Opcional)
+                                </h6>
+                                <DiscountCouponValidator 
+                                    @coupon-validated="onCouponValidated"
+                                    :show-header="false"
+                                    class="mb-3"
+                                />
+                                
+                                <!-- Cupón aplicado -->
+                                <div v-if="appliedCoupon" class="alert alert-info">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <i class="pi pi-check-circle mr-2"></i>
+                                            <strong>{{ appliedCoupon.code }}</strong> aplicado
+                                            <br>
+                                            <small>
+                                                Descuento: 
+                                                <span v-if="appliedCoupon.discount_type === 'percentage'">
+                                                    {{ appliedCoupon.value }}%
+                                                </span>
+                                                <span v-else>
+                                                    €{{ appliedCoupon.value }}
+                                                </span>
+                                            </small>
+                                        </div>
+                                        <button 
+                                            type="button" 
+                                            class="btn btn-sm btn-outline-secondary"
+                                            @click="removeCoupon"
+                                        >
+                                            <i class="pi pi-times"></i>
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                             
                             <div v-if="reservationError" class="alert alert-danger bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 text-red-800 dark:text-red-200 rounded-lg p-3 mb-4">

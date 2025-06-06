@@ -66,8 +66,7 @@
                         </div>
                     </div>
                 </div>
-                
-                <div class="col-xl-3 col-md-6">
+                  <div class="col-xl-3 col-md-6">
                     <div class="admin-card h-100">
                         <div class="admin-card-body d-flex align-items-center">
                             <div class="flex-shrink-0">
@@ -78,6 +77,73 @@
                             <div class="flex-grow-1 ms-3">
                                 <div class="text-muted small">Total Usuarios</div>
                                 <div class="h4 mb-0 text-dark">{{ stats.total_users }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Second Row Stats Cards - Cupones -->
+            <div class="row g-4 mb-4">
+                <div class="col-xl-3 col-md-6">
+                    <div class="admin-card h-100">
+                        <div class="admin-card-body d-flex align-items-center">
+                            <div class="flex-shrink-0">
+                                <div class="bg-danger bg-opacity-10 rounded-3 p-3">
+                                    <i class="fas fa-ticket-alt text-danger fa-2x"></i>
+                                </div>
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                                <div class="text-muted small">Cupones Activos</div>
+                                <div class="h4 mb-0 text-dark">{{ stats.active_coupons || 0 }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-xl-3 col-md-6">
+                    <div class="admin-card h-100">
+                        <div class="admin-card-body d-flex align-items-center">
+                            <div class="flex-shrink-0">
+                                <div class="bg-secondary bg-opacity-10 rounded-3 p-3">
+                                    <i class="fas fa-tags text-secondary fa-2x"></i>
+                                </div>
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                                <div class="text-muted small">Total Cupones</div>
+                                <div class="h4 mb-0 text-dark">{{ stats.total_coupons || 0 }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-xl-3 col-md-6">
+                    <div class="admin-card h-100">
+                        <div class="admin-card-body d-flex align-items-center">
+                            <div class="flex-shrink-0">
+                                <div class="bg-success bg-opacity-10 rounded-3 p-3">
+                                    <i class="fas fa-chart-line text-success fa-2x"></i>
+                                </div>
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                                <div class="text-muted small">Cupones Usados</div>
+                                <div class="h4 mb-0 text-dark">{{ stats.used_coupons || 0 }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-xl-3 col-md-6">
+                    <div class="admin-card h-100">
+                        <div class="admin-card-body d-flex align-items-center">
+                            <div class="flex-shrink-0">
+                                <div class="bg-info bg-opacity-10 rounded-3 p-3">
+                                    <i class="fas fa-percentage text-info fa-2x"></i>
+                                </div>
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                                <div class="text-muted small">Ahorro Total</div>
+                                <div class="h4 mb-0 text-dark">€{{ stats.total_savings || '0.00' }}</div>
                             </div>
                         </div>
                     </div>
@@ -171,31 +237,36 @@
                     <div class="admin-card">
                         <div class="admin-card-header">
                             <h5 class="admin-card-title">Accesos Rápidos</h5>
-                        </div>
-                        <div class="admin-card-body">
+                        </div>                        <div class="admin-card-body">
                             <div class="row g-3">
-                                <div class="col-md-3">
+                                <div class="col-md-3 col-lg-2">
                                     <Link :href="route('admin.reservations')" class="btn btn-outline-primary w-100 py-3">
                                         <i class="fas fa-calendar-plus fa-2x mb-2 d-block"></i>
                                         Gestionar Reservas
                                     </Link>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-3 col-lg-2">
                                     <Link :href="route('admin.tables')" class="btn btn-outline-success w-100 py-3">
                                         <i class="fas fa-chair fa-2x mb-2 d-block"></i>
                                         Gestionar Mesas
                                     </Link>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-3 col-lg-2">
                                     <Link :href="route('admin.menu')" class="btn btn-outline-warning w-100 py-3">
                                         <i class="fas fa-utensils fa-2x mb-2 d-block"></i>
                                         Gestionar Menú
                                     </Link>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-3 col-lg-2">
                                     <Link :href="route('admin.users')" class="btn btn-outline-info w-100 py-3">
                                         <i class="fas fa-users fa-2x mb-2 d-block"></i>
                                         Gestionar Usuarios
+                                    </Link>
+                                </div>
+                                <div class="col-md-3 col-lg-2">
+                                    <Link href="/admin/discount-coupons" class="btn btn-outline-danger w-100 py-3">
+                                        <i class="fas fa-ticket-alt fa-2x mb-2 d-block"></i>
+                                        Cupones
                                     </Link>
                                 </div>
                             </div>

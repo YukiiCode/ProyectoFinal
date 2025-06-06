@@ -940,6 +940,21 @@ body {
     font-weight: 500;
 }
 
+/* Mejor tamaño para botones de acción en datatables */
+.p-button.p-button-sm.p-button-rounded {
+    min-width: 36px;
+    min-height: 36px;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.p-button.p-button-sm.p-button-rounded .p-button-icon {
+    font-size: 0.9rem;
+}
+
 .p-datatable {
     border: 1px solid var(--surface-border);
     border-radius: 6px;

@@ -1,6 +1,7 @@
 <script setup>
 import { ref, computed } from 'vue';
 import { Modal } from 'bootstrap';
+import DiscountCouponValidator from '@/Components/DiscountCouponValidator.vue';
 
 const props = defineProps({
     items: {
@@ -12,6 +13,8 @@ const props = defineProps({
 const cart = ref([]);
 const orderSuccess = ref(false);
 const orderError = ref('');
+const appliedCoupon = ref(null);
+const discount = ref(0);
 
 function addToCart(item) {
     const idx = cart.value.findIndex(i => i.name === item.name);
@@ -33,13 +36,48 @@ function removeFromCart(idx) {
 const totalPrice = computed(() => {
     return cart.value.reduce((sum, item) => sum + (parseFloat((item.price+'').replace('€','')) * item.qty), 0).toLocaleString('es-ES', { style: 'currency', currency: 'EUR' });
 });
+
+const totalWithDiscount = computed(() => {
+    const subtotal = cart.value.reduce((sum, item) => sum + (parseFloat((item.price+'').replace('€','')) * item.qty), 0);
+    const finalTotal = subtotal - discount.value;
+    return Math.max(0, finalTotal).toLocaleString('es-ES', { style: 'currency', currency: 'EUR' });
+});
+
+const onCouponValidated = (coupon) => {
+    if (coupon) {
+        appliedCoupon.value = coupon;
+        
+        // Calcular descuento basado en el total actual
+        const subtotal = cart.value.reduce((sum, item) => sum + (parseFloat((item.price+'').replace('€','')) * item.qty), 0);
+        
+        if (coupon.discount_type === 'percentage') {
+            discount.value = subtotal * (coupon.value / 100);
+        } else {
+            discount.value = coupon.value;
+        }
+    } else {
+        appliedCoupon.value = null;
+        discount.value = 0;
+    }
+};
+
+const removeCoupon = () => {
+    appliedCoupon.value = null;
+    discount.value = 0;
+};
 async function confirmOrder() {
     orderSuccess.value = false;
     orderError.value = '';
     try {
-        await axios.post('/api/orders', { items: cart.value });
+        const orderData = { 
+            items: cart.value,
+            discount_coupon_id: appliedCoupon.value?.id || null
+        };
+        await axios.post('/api/orders', orderData);
         orderSuccess.value = true;
         cart.value = [];
+        appliedCoupon.value = null;
+        discount.value = 0;
     } catch (e) {
         orderError.value = e.response?.data?.message || 'Error al realizar el pedido.';
     }
@@ -164,14 +202,62 @@ async function confirmOrder() {
                                         </div>
                                     </div>
                                 </div>
+                            </div>                        </div>
+                        
+                        <!-- Validador de Cupones de Descuento -->
+                        <div v-if="cart.length > 0" class="border-top dark:border-gray-600 pt-3 mt-3">
+                            <h6 class="text-primary dark:text-blue-400 mb-3">
+                                <i class="pi pi-tag me-2"></i>
+                                Código de Descuento
+                            </h6>
+                            <DiscountCouponValidator 
+                                @coupon-validated="onCouponValidated"
+                                :show-header="false"
+                                class="mb-3"
+                            />
+                            
+                            <!-- Cupón aplicado -->
+                            <div v-if="appliedCoupon" class="alert alert-info">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <i class="pi pi-check-circle me-2"></i>
+                                        <strong>{{ appliedCoupon.code }}</strong> aplicado
+                                        <br>
+                                        <small>
+                                            Descuento: 
+                                            <span v-if="appliedCoupon.discount_type === 'percentage'">
+                                                {{ appliedCoupon.value }}%
+                                            </span>
+                                            <span v-else>
+                                                €{{ appliedCoupon.value }}
+                                            </span>
+                                        </small>
+                                    </div>
+                                    <button 
+                                        type="button" 
+                                        class="btn btn-sm btn-outline-secondary"
+                                        @click="removeCoupon"
+                                    >
+                                        <i class="pi pi-times"></i>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                         
                         <div v-if="cart.length > 0" class="border-top dark:border-gray-600 pt-3 mt-3">
                             <div class="row">
                                 <div class="col text-end">
+                                    <!-- Subtotal -->
+                                    <div v-if="appliedCoupon" class="mb-2">
+                                        <span class="text-muted">Subtotal: {{ totalPrice }}</span>
+                                    </div>
+                                    <!-- Descuento -->
+                                    <div v-if="appliedCoupon && discount > 0" class="mb-2 text-success">
+                                        <span>Descuento: -€{{ discount.toFixed(2) }}</span>
+                                    </div>
+                                    <!-- Total final -->
                                     <h5 class="mb-0">
-                                        <strong>Total: <span class="text-success">{{ totalPrice }}</span></strong>
+                                        <strong>Total: <span class="text-success">{{ appliedCoupon ? totalWithDiscount : totalPrice }}</span></strong>
                                     </h5>
                                 </div>
                             </div>

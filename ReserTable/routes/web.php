@@ -56,6 +56,21 @@ Route::middleware([
         Route::patch('/reservations/{reservation}/status', [\App\Http\Controllers\ReservationController::class, 'updateStatus'])->name('reservations.status');
         Route::get('/reservations/available-tables', [\App\Http\Controllers\ReservationController::class, 'getAvailableTables'])->name('reservations.available-tables');
         
+        // Rutas para Códigos de Descuento
+        Route::get('/discount-coupons/generate-code', [\App\Http\Controllers\DiscountCouponController::class, 'generateCode'])->name('discount-coupons.generate-code');
+        Route::post('/discount-coupons/validate', [\App\Http\Controllers\DiscountCouponController::class, 'validateCoupon'])->name('discount-coupons.validate');
+        Route::post('/discount-coupons/apply', [\App\Http\Controllers\DiscountCouponController::class, 'applyCoupon'])->name('discount-coupons.apply');
+        Route::get('/discount-coupons/statistics', [\App\Http\Controllers\DiscountCouponController::class, 'getStatistics'])->name('discount-coupons.statistics');
+        Route::get('/discount-coupons/client-coupons', [\App\Http\Controllers\DiscountCouponController::class, 'getClientCoupons'])->name('discount-coupons.client-coupons');
+        Route::post('/discount-coupons/reward', [\App\Http\Controllers\DiscountCouponController::class, 'createRewardCoupon'])->name('discount-coupons.reward');
+        Route::post('/discount-coupons/bulk-generate', [\App\Http\Controllers\DiscountCouponController::class, 'generateBulkCoupons'])->name('discount-coupons.bulk-generate');
+        Route::get('/discount-coupons/stats', [\App\Http\Controllers\DiscountCouponController::class, 'getStats'])->name('discount-coupons.stats');
+        Route::get('/discount-coupons/export', [\App\Http\Controllers\DiscountCouponController::class, 'export'])->name('discount-coupons.export');
+        Route::get('/discount-coupons/report', [\App\Http\Controllers\DiscountCouponController::class, 'generateReport'])->name('discount-coupons.report');
+        Route::post('/discount-coupons/cleanup', [\App\Http\Controllers\DiscountCouponController::class, 'cleanupExpired'])->name('discount-coupons.cleanup');
+        Route::patch('/discount-coupons/{discountCoupon}/mark-used', [\App\Http\Controllers\DiscountCouponController::class, 'markAsUsed'])->name('discount-coupons.mark-used');
+        Route::resource('discount-coupons', \App\Http\Controllers\DiscountCouponController::class);
+        
         // Rutas CRUD para Products (Menu)
         Route::post('/menu/products', [\App\Http\Controllers\ProductController::class, 'store'])->name('products.store');
         Route::put('/menu/products/{product}', [\App\Http\Controllers\ProductController::class, 'update'])->name('products.update');

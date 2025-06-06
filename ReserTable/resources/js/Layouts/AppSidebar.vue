@@ -60,9 +60,17 @@
         <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
                 d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+        </svg>        Menu
+      </Link>      <!-- Discount Coupons -->
+      <Link href="/admin/discount-coupons" 
+            :class="routeClasses('admin.discount-coupons')"
+            class="group flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors duration-200">
+        <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z" />
         </svg>
-        Menu
-      </Link>      <!-- Divider -->
+        Cupones de Descuento
+      </Link><!-- Divider -->
       <div class="border-t border-gray-200 dark:border-gray-600 my-4"></div><!-- Users -->
       <Link :href="route('admin.users')" 
             :class="routeClasses('admin.users')"

@@ -7,6 +7,7 @@ use App\Models\Client;
 use App\Models\Table;
 use App\Models\Reservation;
 use App\Models\Product;
+use App\Models\DiscountCoupon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -20,8 +21,7 @@ class AdminController extends Controller
         // Obtener configuraciones del usuario autenticado
         $user = Auth::user();
         $settings = optional($user)->settings;
-        
-        // Estadísticas para el dashboard
+          // Estadísticas para el dashboard
         $stats = [
             'total_reservations' => Reservation::count(),
             'today_reservations' => Reservation::whereDate('reservation_date', Carbon::today())->count(),
@@ -29,6 +29,15 @@ class AdminController extends Controller
             'available_tables' => Table::where('status', 'available')->count(),
             'total_users' => User::count(),
             'total_products' => Product::count(),
+            // Estadísticas de cupones de descuento
+            'total_coupons' => DiscountCoupon::count(),
+            'active_coupons' => DiscountCoupon::active()->count(),
+            'used_coupons' => DiscountCoupon::used()->count(),            'total_savings' => DiscountCoupon::whereNotNull('used_count')
+                ->where('used_count', '>', 0)
+                ->get()
+                ->sum(function ($coupon) {
+                    return $coupon->value * $coupon->used_count;
+                }),
         ];
         
         // Reservas recientes

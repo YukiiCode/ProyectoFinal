@@ -8,14 +8,14 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Http\JsonResponse;
 
 class OrderController extends Controller
-{
-    public function store(Request $request): JsonResponse
+{    public function store(Request $request): JsonResponse
     {
         $data = $request->validate([
             'items' => 'required|array|min:1',
             'items.*.name' => 'required|string',
             'items.*.price' => 'required|string',
             'items.*.qty' => 'required|integer|min:1',
+            'discount_coupon_id' => 'nullable|exists:discount_coupons,id',
         ]);
 
         // Aquí deberías guardar el pedido en la base de datos.

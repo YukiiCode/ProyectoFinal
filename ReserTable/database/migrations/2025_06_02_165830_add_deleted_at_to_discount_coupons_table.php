@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            if (!Schema::hasColumn('users', 'role')) {
-                $table->string('role')->default('employee')->after('email');
+        Schema::table('discount_coupons', function (Blueprint $table) {
+            if (!Schema::hasColumn('discount_coupons', 'deleted_at')) {
+                $table->softDeletes();
             }
         });
     }
@@ -23,8 +23,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('role');
+        Schema::table('discount_coupons', function (Blueprint $table) {
+            $table->dropSoftDeletes();
         });
     }
 };

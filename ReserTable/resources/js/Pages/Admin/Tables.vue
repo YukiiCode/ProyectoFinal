@@ -90,17 +90,20 @@
                                 </Column>
                                 <Column header="Acciones">
                                     <template #body="{ data }">
-                                        <div class="d-flex gap-2">                                            <Button 
+                                        <div class="d-flex gap-1">
+                                            <Button 
                                                 icon="pi pi-pencil" 
                                                 class="p-button-rounded p-button-info p-button-sm" 
                                                 @click="editTable(data)"
-                                                title="Editar" 
+                                                title="Editar"
+                                                style="width: 36px; height: 36px;"
                                             />
                                             <Button 
                                                 icon="pi pi-trash" 
                                                 class="p-button-rounded p-button-danger p-button-sm" 
                                                 @click="deleteTable(data)"
-                                                title="Eliminar" 
+                                                title="Eliminar"
+                                                style="width: 36px; height: 36px;"
                                             />
                                         </div>
                                     </template>

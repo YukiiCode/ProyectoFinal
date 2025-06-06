@@ -1,98 +1,119 @@
-/* Estilos para el modo oscuro */
+/* ============================================ */
+/* MODO OSCURO OPTIMIZADO - RESER TABLE */
+/* ============================================ */
+
 :root {
-    /* Colores en modo claro */
-    --primary-bg-light: #ffffff;
-    --secondary-bg-light: #f3f4f6;
-    --tertiary-bg-light: #f9fafb;
-    --border-light: #e5e7eb;
-    --border-strong-light: #d1d5db;
-    --text-primary-light: #111827;
-    --text-secondary-light: #4b5563;
-    --text-tertiary-light: #6b7280;
-    --shadow-light: rgba(0, 0, 0, 0.1);
+    /* Variables de modo oscuro */
+    --bg-primary-dark: #0f172a;      /* slate-900 */
+    --bg-secondary-dark: #1e293b;    /* slate-800 */
+    --bg-tertiary-dark: #334155;     /* slate-700 */
+    --bg-quaternary-dark: #475569;   /* slate-600 */
     
-    /* Colores en modo oscuro - Mejor paleta con tonos azules profundos */
-    --primary-bg-dark: #121212;       /* Fondo principal oscuro */
-    --secondary-bg-dark: #1e1e1e;     /* Fondo secundario oscuro */
-    --tertiary-bg-dark: #2a2a2a;      /* Fondo terciario oscuro */
-    --border-dark: #383838;           /* Bordes normales */
-    --border-strong-dark: #505050;    /* Bordes más prominentes */
-    --text-primary-dark: #f0f0f0;     /* Texto principal */
-    --text-secondary-dark: #c7c7c7;   /* Texto secundario */
-    --text-tertiary-dark: #9e9e9e;    /* Texto terciario */
-    --shadow-dark: rgba(0, 0, 0, 0.3);
-
-    /* Colores de acento - Versión light y dark */
-    --blue-500: #3b82f6;
-    --blue-600: #2563eb;
-    --blue-dark: #4d7cfe; /* Azul más brillante para modo oscuro */
+    --text-primary-dark: #f8fafc;    /* slate-50 */
+    --text-secondary-dark: #e2e8f0;  /* slate-200 */
+    --text-tertiary-dark: #cbd5e1;   /* slate-300 */
     
-    --green-500: #10b981;
-    --green-600: #059669;
-    --green-dark: #2ecc71;
+    --border-dark: #475569;          /* slate-600 */
+    --border-light-dark: #64748b;    /* slate-500 */
     
-    --purple-500: #8b5cf6;
-    --purple-600: #7c3aed;
-    --purple-dark: #a78bfa;
+    --shadow-dark: rgba(0, 0, 0, 0.5);
+    --shadow-dark-lg: rgba(0, 0, 0, 0.7);
     
-    --orange-500: #f97316;
-    --orange-600: #ea580c;
-    --orange-dark: #ff9f43;
+    /* Estados en modo oscuro */
+    --success-bg-dark: rgba(34, 197, 94, 0.15);
+    --success-text-dark: #4ade80;
+    --success-border-dark: rgba(34, 197, 94, 0.3);
     
-    --red-500: #ef4444;
-    --red-600: #dc2626;
-    --red-dark: #ff6b6b;
+    --danger-bg-dark: rgba(239, 68, 68, 0.15);
+    --danger-text-dark: #f87171;
+    --danger-border-dark: rgba(239, 68, 68, 0.3);
     
-    --gray-500: #6b7280;
-    --gray-600: #4b5563;
-    --gray-dark: #9ca3af;
+    --warning-bg-dark: rgba(245, 158, 11, 0.15);
+    --warning-text-dark: #fbbf24;
+    --warning-border-dark: rgba(245, 158, 11, 0.3);
+    
+    --info-bg-dark: rgba(59, 130, 246, 0.15);
+    --info-text-dark: #60a5fa;
+    --info-border-dark: rgba(59, 130, 246, 0.3);
+    
+    --secondary-bg-dark: rgba(148, 163, 184, 0.15);
+    --secondary-text-dark: #e2e8f0;
+    --secondary-border-dark: rgba(148, 163, 184, 0.3);
+    
+    --purple-bg-dark: rgba(168, 85, 247, 0.15);
+    --purple-text-dark: #c084fc;
+    --purple-border-dark: rgba(168, 85, 247, 0.3);
 }
 
-/* Estilos generales para modo oscuro con transiciones suaves */
+/* ============================================ */
+/* APLICACIÓN DE MODO OSCURO */
+/* ============================================ */
+
+.dark,
+html.dark,
 body.dark-mode {
-    background-color: var(--primary-bg-dark);
-    color: var(--text-primary-dark);
-    transition: background-color 0.3s ease, color 0.3s ease;
+    color-scheme: dark;
 }
 
-/* Fondos */
-.dark .bg-white, 
-body.dark-mode .bg-white {
-    background-color: var(--secondary-bg-dark) !important;
-}
-
-.dark .bg-gray-50,
-.dark .bg-gray-100, 
-body.dark-mode .bg-gray-50,
-body.dark-mode .bg-gray-100 {
-    background-color: var(--primary-bg-dark) !important;
-}
-
-.dark .bg-gray-800,
-body.dark-mode .bg-gray-800 {
-    background-color: var(--tertiary-bg-dark) !important;
-}
-
-.dark .bg-gray-900, 
-body.dark-mode .bg-gray-900 {
-    background-color: var(--primary-bg-dark) !important;
-}
-
-/* Textos */
-.dark .text-gray-900,
-body.dark-mode .text-gray-900,
-body.dark-mode .text-dark {
+.dark body,
+html.dark body,
+body.dark-mode {
+    background-color: var(--bg-primary-dark) !important;
     color: var(--text-primary-dark) !important;
 }
 
+/* ============================================ */
+/* FONDOS EN MODO OSCURO */
+/* ============================================ */
+
+.dark .bg-white,
+html.dark .bg-white,
+body.dark-mode .bg-white {
+    background-color: var(--bg-secondary-dark) !important;
+}
+
+.dark .bg-gray-50,
+.dark .bg-gray-100,
+html.dark .bg-gray-50,
+html.dark .bg-gray-100,
+body.dark-mode .bg-gray-50,
+body.dark-mode .bg-gray-100 {
+    background-color: var(--bg-tertiary-dark) !important;
+}
+
+.dark .bg-gray-800,
+.dark .bg-gray-900,
+html.dark .bg-gray-800,
+html.dark .bg-gray-900,
+body.dark-mode .bg-gray-800,
+body.dark-mode .bg-gray-900 {
+    background-color: var(--bg-primary-dark) !important;
+}
+
+/* ============================================ */
+/* TEXTO EN MODO OSCURO */
+/* ============================================ */
+
+.dark .text-gray-900,
 .dark .text-gray-800,
-body.dark-mode .text-gray-800 {
+.dark .text-dark,
+html.dark .text-gray-900,
+html.dark .text-gray-800,
+html.dark .text-dark,
+body.dark-mode .text-gray-900,
+body.dark-mode .text-gray-800,
+body.dark-mode .text-dark {
     color: var(--text-primary-dark) !important;
 }
 
 .dark .text-gray-600,
 .dark .text-gray-700,
 .dark .text-gray-500,
+.dark .text-muted,
+html.dark .text-gray-600,
+html.dark .text-gray-700,
+html.dark .text-gray-500,
+html.dark .text-muted,
 body.dark-mode .text-gray-600,
 body.dark-mode .text-gray-700,
 body.dark-mode .text-gray-500,
@@ -101,371 +122,485 @@ body.dark-mode .text-muted {
 }
 
 .dark .text-gray-400,
+html.dark .text-gray-400,
 body.dark-mode .text-gray-400 {
     color: var(--text-tertiary-dark) !important;
 }
 
-/* Bordes */
+/* ============================================ */
+/* BORDES EN MODO OSCURO */
+/* ============================================ */
+
 .dark .border-gray-200,
 .dark .border-gray-300,
+html.dark .border-gray-200,
+html.dark .border-gray-300,
 body.dark-mode .border-gray-200,
 body.dark-mode .border-gray-300 {
     border-color: var(--border-dark) !important;
 }
 
 .dark .border-gray-700,
+html.dark .border-gray-700,
 body.dark-mode .border-gray-700 {
-    border-color: var(--border-strong-dark) !important;
+    border-color: var(--border-light-dark) !important;
 }
 
-/* Inputs y botones */
-.dark .form-input,
-.dark .form-select,
-.dark .form-textarea,
-body.dark-mode .form-control,
-body.dark-mode .form-select,
-body.dark-mode textarea {
-    background-color: var(--tertiary-bg-dark) !important;
-    border-color: var(--border-dark) !important;
-    color: var(--text-primary-dark) !important;
-}
+/* ============================================ */
+/* COMPONENTES BASE EN MODO OSCURO */
+/* ============================================ */
 
-/* Checkbox y radio */
-.dark input[type="checkbox"],
-.dark input[type="radio"],
-body.dark-mode .form-check-input {
-    background-color: var(--tertiary-bg-dark) !important;
-    border-color: var(--border-dark) !important;
-}
-
-.dark input[type="checkbox"]:checked,
-.dark input[type="radio"]:checked,
-body.dark-mode .form-check-input:checked {
-    background-color: var(--blue-dark) !important;
-    border-color: var(--blue-dark) !important;
-}
-
-/* Botones */
-.dark .btn-primary,
-body.dark-mode .btn-primary {
-    background-color: var(--blue-dark) !important;
-    border-color: var(--blue-dark) !important;
-    color: white !important;
-}
-
-.dark .btn-outline-primary,
-body.dark-mode .btn-outline-primary {
-    color: var(--blue-dark) !important;
-    border-color: var(--blue-dark) !important;
-}
-
-.dark .btn-outline-primary:hover,
-body.dark-mode .btn-outline-primary:hover {
-    background-color: var(--blue-dark) !important;
-    color: white !important;
-}
-
-.dark .btn-secondary,
-body.dark-mode .btn-secondary {
-    background-color: var(--tertiary-bg-dark) !important;
-    border-color: var(--border-strong-dark) !important;
-}
-
-/* Tarjetas */
+/* Cards */
+.dark .card-base,
+html.dark .card-base,
+body.dark-mode .card-base,
 .dark .card,
 .dark .shadow-sm,
+html.dark .card,
+html.dark .shadow-sm,
 body.dark-mode .card,
-body.dark-mode .shadow-sm,
-body.dark-mode .admin-card {
-    background-color: var(--secondary-bg-dark) !important;
-    border-color: var(--border-dark) !important;
-    box-shadow: 0 4px 12px var(--shadow-dark) !important;
+body.dark-mode .shadow-sm {
+    background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.08) 0%,
+        rgba(255, 255, 255, 0.04) 100%
+    ) !important;
+    backdrop-filter: blur(20px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    box-shadow: 
+        0 8px 32px var(--shadow-dark),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
 }
 
-body.dark-mode .admin-card-header {
-    background-color: var(--tertiary-bg-dark) !important;
-    border-color: var(--border-dark) !important;
-}
-
-/* Efectos hover bonitos para elementos interactivos */
+.dark .card-base:hover,
+html.dark .card-base:hover,
+body.dark-mode .card-base:hover,
 .dark .card:hover,
-.dark .btn:hover,
-body.dark-mode .card:hover,
-body.dark-mode .admin-card:hover {
-    box-shadow: 0 6px 16px var(--shadow-dark) !important;
+html.dark .card:hover,
+body.dark-mode .card:hover {
+    background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.12) 0%,
+        rgba(255, 255, 255, 0.06) 100%
+    ) !important;
+    border-color: rgba(255, 255, 255, 0.18) !important;
+    transform: translateY(-2px);
+    box-shadow: 
+        0 12px 40px var(--shadow-dark-lg),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15) !important;
 }
 
-/* PrimeVue componentes */
-.dark .p-component,
-body.dark-mode .p-component {
-    background-color: var(--tertiary-bg-dark);
-    color: var(--text-primary-dark);
-    border-color: var(--border-dark);
+/* Form controls */
+.dark .form-control-base,
+.dark input[type="text"],
+.dark input[type="number"],
+.dark input[type="email"],
+.dark input[type="password"],
+.dark select,
+.dark textarea,
+html.dark .form-control-base,
+html.dark input,
+html.dark select,
+html.dark textarea,
+body.dark-mode .form-control-base,
+body.dark-mode input,
+body.dark-mode select,
+body.dark-mode textarea,
+body.dark-mode .form-control,
+body.dark-mode .form-select {
+    background: rgba(255, 255, 255, 0.05) !important;
+    backdrop-filter: blur(10px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    color: var(--text-primary-dark) !important;
 }
 
-.dark .p-button,
-body.dark-mode .p-button {
-    background-color: var(--blue-dark);
-    border-color: var(--blue-dark);
+.dark .form-control-base:focus,
+.dark input:focus,
+.dark select:focus,
+.dark textarea:focus,
+html.dark input:focus,
+html.dark select:focus,
+html.dark textarea:focus,
+body.dark-mode input:focus,
+body.dark-mode select:focus,
+body.dark-mode textarea:focus {
+    background: rgba(255, 255, 255, 0.1) !important;
+    border: 2px solid rgba(99, 102, 241, 0.6) !important;
+    box-shadow: 
+        0 0 0 4px rgba(99, 102, 241, 0.1),
+        0 4px 16px var(--shadow-dark),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
 }
 
-.dark .p-button.p-button-secondary,
-body.dark-mode .p-button.p-button-secondary {
-    background-color: var(--gray-600);
-    border-color: var(--gray-600);
-}
-
-.dark .p-inputtext,
-body.dark-mode .p-inputtext {
-    background-color: var(--tertiary-bg-dark);
-    border-color: var(--border-dark);
-    color: var(--text-primary-dark);
-}
-
-.dark .p-dropdown,
-body.dark-mode .p-dropdown {
-    background-color: var(--tertiary-bg-dark);
-    border-color: var(--border-dark);
-}
-
-.dark .p-dropdown-panel,
-body.dark-mode .p-dropdown-panel {
-    background-color: var(--tertiary-bg-dark);
-    border-color: var(--border-dark);
-    box-shadow: 0 4px 12px var(--shadow-dark) !important;
-}
-
-.dark .p-dropdown-item,
-body.dark-mode .p-dropdown-item {
-    color: var(--text-primary-dark);
-}
-
-.dark .p-dropdown-item:hover,
-body.dark-mode .p-dropdown-item:hover,
-body.dark-mode .p-dropdown-item.p-highlight {
-    background-color: rgba(77, 124, 254, 0.2) !important;
-    color: var(--blue-dark) !important;
-}
-
-/* Crea un efecto de brillo sutil al pasar el cursor */
-.dark .p-button:hover,
-body.dark-mode .p-button:hover,
-body.dark-mode .btn-primary:hover {
-    filter: brightness(1.1);
-}
-
-/* Tablas */
+/* Tables */
+.dark .table-base,
 .dark table,
+html.dark .table-base,
+html.dark table,
+body.dark-mode .table-base,
 body.dark-mode table {
+    background-color: transparent !important;
     color: var(--text-primary-dark) !important;
-    border-color: var(--border-dark) !important;
 }
 
+.dark .table-base th,
 .dark table th,
-body.dark-mode table th,
-body.dark-mode .table-header {
-    background-color: var(--tertiary-bg-dark) !important;
+html.dark .table-base th,
+html.dark table th,
+body.dark-mode .table-base th,
+body.dark-mode table th {
+    background-color: var(--bg-tertiary-dark) !important;
     color: var(--text-primary-dark) !important;
     border-color: var(--border-dark) !important;
 }
 
+.dark .table-base td,
 .dark table td,
+html.dark .table-base td,
+html.dark table td,
+body.dark-mode .table-base td,
 body.dark-mode table td {
     border-color: var(--border-dark) !important;
 }
 
-.dark table tr:nth-child(even),
-body.dark-mode table tr:nth-child(even),
-body.dark-mode .table-striped tbody tr:nth-of-type(odd) {
-    background-color: rgba(255, 255, 255, 0.02) !important;
-}
-
+.dark .table-base tbody tr:hover,
 .dark table tr:hover,
-body.dark-mode table tr:hover,
-body.dark-mode .table-hover tbody tr:hover {
-    background-color: rgba(77, 124, 254, 0.1) !important;
+html.dark .table-base tbody tr:hover,
+html.dark table tr:hover,
+body.dark-mode .table-base tbody tr:hover,
+body.dark-mode table tr:hover {
+    background-color: rgba(99, 102, 241, 0.1) !important;
 }
 
-/* Estilos forzados adicionales para elementos específicos */
+/* ============================================ */
+/* BADGES EN MODO OSCURO */
+/* ============================================ */
 
-/* Headers y navegación */
-html.dark header,
-html.dark nav,
-body.dark-mode header,
-body.dark-mode nav,
-.dark-element header,
-.dark-element nav {
+/* Success */
+.dark .badge-success,
+.dark .bg-green-100,
+html.dark .badge-success,
+html.dark .bg-green-100,
+body.dark-mode .badge-success,
+body.dark-mode .bg-green-100 {
+    background-color: var(--success-bg-dark) !important;
+    border: 1px solid var(--success-border-dark) !important;
+}
+
+.dark .badge-success,
+.dark .text-green-800,
+html.dark .badge-success,
+html.dark .text-green-800,
+body.dark-mode .badge-success,
+body.dark-mode .text-green-800 {
+    color: var(--success-text-dark) !important;
+}
+
+/* Danger */
+.dark .badge-danger,
+.dark .bg-red-100,
+html.dark .badge-danger,
+html.dark .bg-red-100,
+body.dark-mode .badge-danger,
+body.dark-mode .bg-red-100 {
+    background-color: var(--danger-bg-dark) !important;
+    border: 1px solid var(--danger-border-dark) !important;
+}
+
+.dark .badge-danger,
+.dark .text-red-800,
+html.dark .badge-danger,
+html.dark .text-red-800,
+body.dark-mode .badge-danger,
+body.dark-mode .text-red-800 {
+    color: var(--danger-text-dark) !important;
+}
+
+/* Warning */
+.dark .badge-warning,
+.dark .bg-yellow-100,
+html.dark .badge-warning,
+html.dark .bg-yellow-100,
+body.dark-mode .badge-warning,
+body.dark-mode .bg-yellow-100 {
+    background-color: var(--warning-bg-dark) !important;
+    border: 1px solid var(--warning-border-dark) !important;
+}
+
+.dark .badge-warning,
+.dark .text-yellow-800,
+html.dark .badge-warning,
+html.dark .text-yellow-800,
+body.dark-mode .badge-warning,
+body.dark-mode .text-yellow-800 {
+    color: var(--warning-text-dark) !important;
+}
+
+/* Info */
+.dark .badge-info,
+.dark .bg-blue-100,
+html.dark .badge-info,
+html.dark .bg-blue-100,
+body.dark-mode .badge-info,
+body.dark-mode .bg-blue-100 {
+    background-color: var(--info-bg-dark) !important;
+    border: 1px solid var(--info-border-dark) !important;
+}
+
+.dark .badge-info,
+.dark .text-blue-800,
+html.dark .badge-info,
+html.dark .text-blue-800,
+body.dark-mode .badge-info,
+body.dark-mode .text-blue-800 {
+    color: var(--info-text-dark) !important;
+}
+
+/* Purple */
+.dark .bg-purple-100,
+html.dark .bg-purple-100,
+body.dark-mode .bg-purple-100 {
+    background-color: var(--purple-bg-dark) !important;
+    border: 1px solid var(--purple-border-dark) !important;
+}
+
+.dark .text-purple-800,
+html.dark .text-purple-800,
+body.dark-mode .text-purple-800 {
+    color: var(--purple-text-dark) !important;
+}
+
+/* Secondary */
+.dark .badge-secondary,
+.dark .bg-gray-100,
+html.dark .badge-secondary,
+html.dark .bg-gray-100,
+body.dark-mode .badge-secondary,
+body.dark-mode .bg-gray-100 {
     background-color: var(--secondary-bg-dark) !important;
-    color: var(--text-primary-dark) !important;
+    border: 1px solid var(--secondary-border-dark) !important;
 }
 
-/* Contenedores principales */
-html.dark main,
-html.dark section,
-html.dark article,
-body.dark-mode main,
-body.dark-mode section,
-body.dark-mode article {
-    background-color: transparent !important;
-    color: var(--text-primary-dark) !important;
+.dark .badge-secondary,
+.dark .text-gray-800,
+html.dark .badge-secondary,
+html.dark .text-gray-800,
+body.dark-mode .badge-secondary,
+body.dark-mode .text-gray-800 {
+    color: var(--secondary-text-dark) !important;
 }
 
-/* Divs con fondo blanco específicos */
-html.dark div[class*="bg-white"],
-html.dark div[style*="background-color: white"],
-html.dark div[style*="background-color: #fff"],
-html.dark div[style*="background-color: #ffffff"],
-body.dark-mode div[class*="bg-white"],
-body.dark-mode div[style*="background-color: white"],
-body.dark-mode div[style*="background-color: #fff"],
-body.dark-mode div[style*="background-color: #ffffff"] {
-    background-color: var(--secondary-bg-dark) !important;
-    color: var(--text-primary-dark) !important;
+/* ============================================ */
+/* BOTONES DE ACCIÓN EN MODO OSCURO */
+/* ============================================ */
+
+.dark .action-btn,
+.dark a[title],
+.dark button[title],
+html.dark .action-btn,
+html.dark a[title],
+html.dark button[title],
+body.dark-mode .action-btn,
+body.dark-mode a[title],
+body.dark-mode button[title] {
+    background: rgba(255, 255, 255, 0.08) !important;
+    backdrop-filter: blur(15px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
 }
 
-/* Títulos y texto específicos */
-html.dark h1,
-html.dark h2,
-html.dark h3,
-html.dark h4,
-html.dark h5,
-html.dark h6,
-body.dark-mode h1,
-body.dark-mode h2,
-body.dark-mode h3,
-body.dark-mode h4,
-body.dark-mode h5,
-body.dark-mode h6 {
-    color: var(--text-primary-dark) !important;
+.dark .action-btn:hover,
+.dark a[title]:hover,
+.dark button[title]:hover,
+html.dark .action-btn:hover,
+html.dark a[title]:hover,
+html.dark button[title]:hover,
+body.dark-mode .action-btn:hover,
+body.dark-mode a[title]:hover,
+body.dark-mode button[title]:hover {
+    background: rgba(255, 255, 255, 0.15) !important;
+    border-color: rgba(255, 255, 255, 0.25) !important;
+    box-shadow: 0 8px 25px var(--shadow-dark-lg) !important;
 }
 
-html.dark p,
-html.dark span,
+/* Colores específicos de botones de acción */
+.dark .action-btn-view,
+.dark .text-indigo-600,
+html.dark .action-btn-view,
+html.dark .text-indigo-600,
+body.dark-mode .action-btn-view,
+body.dark-mode .text-indigo-600 {
+    color: #a5b4fc !important;
+}
+
+.dark .action-btn-edit,
+.dark .text-yellow-600,
+html.dark .action-btn-edit,
+html.dark .text-yellow-600,
+body.dark-mode .action-btn-edit,
+body.dark-mode .text-yellow-600 {
+    color: #fcd34d !important;
+}
+
+.dark .action-btn-delete,
+.dark .text-red-600,
+html.dark .action-btn-delete,
+html.dark .text-red-600,
+body.dark-mode .action-btn-delete,
+body.dark-mode .text-red-600 {
+    color: #fca5a5 !important;
+}
+
+/* ============================================ */
+/* FORMULARIOS CON EFECTO CRISTAL EN MODO OSCURO */
+/* ============================================ */
+
+.dark .form-section,
+.dark .filter-section,
+html.dark .form-section,
+html.dark .filter-section,
+body.dark-mode .form-section,
+body.dark-mode .filter-section {
+    background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.08) 0%,
+        rgba(255, 255, 255, 0.04) 100%
+    ) !important;
+    backdrop-filter: blur(20px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    box-shadow: 
+        0 8px 32px var(--shadow-dark),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+}
+
+.dark .form-section:hover,
+html.dark .form-section:hover,
+body.dark-mode .form-section:hover {
+    background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.12) 0%,
+        rgba(255, 255, 255, 0.06) 100%
+    ) !important;
+    border-color: rgba(255, 255, 255, 0.18) !important;
+}
+
+/* Labels en modo oscuro */
+.dark label,
 html.dark label,
-body.dark-mode p,
-body.dark-mode span,
 body.dark-mode label {
-    color: var(--text-secondary-dark) !important;
+    color: var(--text-primary-dark) !important;
+    text-shadow: 0 1px 2px var(--shadow-dark) !important;
 }
 
-/* Enlaces */
+/* Placeholders en modo oscuro */
+.dark input::placeholder,
+.dark select::placeholder,
+.dark textarea::placeholder,
+html.dark input::placeholder,
+html.dark select::placeholder,
+html.dark textarea::placeholder,
+body.dark-mode input::placeholder,
+body.dark-mode select::placeholder,
+body.dark-mode textarea::placeholder {
+    color: rgba(240, 240, 240, 0.5) !important;
+    opacity: 1 !important;
+}
+
+/* ============================================ */
+/* BOTONES EN MODO OSCURO */
+/* ============================================ */
+
+.dark .btn-primary,
+html.dark .btn-primary,
+body.dark-mode .btn-primary {
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%) !important;
+    border-color: #6366f1 !important;
+    box-shadow: 0 4px 14px rgba(99, 102, 241, 0.4) !important;
+}
+
+.dark .btn-primary:hover,
+html.dark .btn-primary:hover,
+body.dark-mode .btn-primary:hover {
+    background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%) !important;
+    border-color: #4f46e5 !important;
+    box-shadow: 0 6px 20px rgba(99, 102, 241, 0.6) !important;
+}
+
+/* ============================================ */
+/* SCROLLBARS EN MODO OSCURO */
+/* ============================================ */
+
+.dark ::-webkit-scrollbar-track,
+html.dark ::-webkit-scrollbar-track,
+body.dark-mode ::-webkit-scrollbar-track {
+    background: var(--bg-tertiary-dark);
+}
+
+.dark ::-webkit-scrollbar-thumb,
+html.dark ::-webkit-scrollbar-thumb,
+body.dark-mode ::-webkit-scrollbar-thumb {
+    background: var(--border-light-dark);
+}
+
+.dark ::-webkit-scrollbar-thumb:hover,
+html.dark ::-webkit-scrollbar-thumb:hover,
+body.dark-mode ::-webkit-scrollbar-thumb:hover {
+    background: var(--text-tertiary-dark);
+}
+
+/* ============================================ */
+/* ENLACES EN MODO OSCURO */
+/* ============================================ */
+
+.dark a,
 html.dark a,
 body.dark-mode a {
-    color: var(--blue-dark) !important;
+    color: #a5b4fc !important;
 }
 
+.dark a:hover,
 html.dark a:hover,
 body.dark-mode a:hover {
-    color: var(--purple-dark) !important;
+    color: #c7d2fe !important;
 }
 
-/* Contenedores flexbox y grid comunes */
-html.dark .container,
-html.dark .container-fluid,
-html.dark .row,
-html.dark .col,
-html.dark [class*="col-"],
-body.dark-mode .container,
-body.dark-mode .container-fluid,
-body.dark-mode .row,
-body.dark-mode .col,
-body.dark-mode [class*="col-"] {
-    background-color: transparent !important;
-}
+/* ============================================ */
+/* ADMIN ESPECÍFICOS EN MODO OSCURO */
+/* ============================================ */
 
-/* Clases utilitarias específicas para forzar modo oscuro */
-.dark-element,
-html.dark .force-dark,
-body.dark-mode .force-dark {
-    background-color: var(--secondary-bg-dark) !important;
-    color: var(--text-primary-dark) !important;
+.dark .admin-card,
+html.dark .admin-card,
+body.dark-mode .admin-card {
+    background-color: var(--bg-secondary-dark) !important;
     border-color: var(--border-dark) !important;
 }
 
-.dark-element *,
-html.dark .force-dark *,
-body.dark-mode .force-dark * {
-    color: inherit !important;
-}
-
-/* Footer específico */
-html.dark footer,
-body.dark-mode footer {
-    background-color: var(--tertiary-bg-dark) !important;
-    color: var(--text-primary-dark) !important;
+.dark .admin-card-header,
+html.dark .admin-card-header,
+body.dark-mode .admin-card-header {
     border-color: var(--border-dark) !important;
 }
 
-/* Elementos de lista */
-html.dark ul,
-html.dark ol,
-html.dark li,
-body.dark-mode ul,
-body.dark-mode ol,
-body.dark-mode li {
+.dark .admin-card-title,
+html.dark .admin-card-title,
+body.dark-mode .admin-card-title {
+    color: var(--text-primary-dark) !important;
+}
+
+.dark .stat-card,
+html.dark .stat-card,
+body.dark-mode .stat-card {
+    background-color: var(--bg-secondary-dark) !important;
+    border-color: var(--border-dark) !important;
+}
+
+.dark .stat-card h3,
+html.dark .stat-card h3,
+body.dark-mode .stat-card h3 {
+    color: var(--text-primary-dark) !important;
+}
+
+.dark .stat-card p,
+html.dark .stat-card p,
+body.dark-mode .stat-card p {
     color: var(--text-secondary-dark) !important;
-}
-
-/* Elementos de tabla específicos */
-html.dark table,
-html.dark thead,
-html.dark tbody,
-html.dark tfoot,
-html.dark th,
-html.dark td,
-body.dark-mode table,
-body.dark-mode thead,
-body.dark-mode tbody,
-body.dark-mode tfoot,
-body.dark-mode th,
-body.dark-mode td {
-    background-color: var(--secondary-bg-dark) !important;
-    color: var(--text-primary-dark) !important;
-    border-color: var(--border-dark) !important;
-}
-
-/* Modales y dropdowns */
-html.dark .modal,
-html.dark .dropdown-menu,
-body.dark-mode .modal,
-body.dark-mode .dropdown-menu {
-    background-color: var(--secondary-bg-dark) !important;
-    color: var(--text-primary-dark) !important;
-    border-color: var(--border-dark) !important;
-}
-
-/* Clases de Tailwind específicas para forzar */
-html.dark .bg-slate-50,
-html.dark .bg-slate-100,
-html.dark .bg-slate-200,
-body.dark-mode .bg-slate-50,
-body.dark-mode .bg-slate-100,
-body.dark-mode .bg-slate-200 {
-    background-color: var(--secondary-bg-dark) !important;
-}
-
-html.dark .text-slate-900,
-html.dark .text-slate-800,
-html.dark .text-slate-700,
-body.dark-mode .text-slate-900,
-body.dark-mode .text-slate-800,
-body.dark-mode .text-slate-700 {
-    color: var(--text-primary-dark) !important;
-}
-
-/* Forzar para elementos sin clases específicas */
-html.dark *:not([class*="text-"]):not([style*="color"]),
-body.dark-mode *:not([class*="text-"]):not([style*="color"]) {
-    color: inherit;
-}
-
-/* Asegurar que elementos con inline styles no sobreescriban */
-html.dark [style*="background-color"],
-body.dark-mode [style*="background-color"] {
-    background-color: var(--secondary-bg-dark) !important;
-}
-
-html.dark [style*="color"],
-body.dark-mode [style*="color"] {
-    color: var(--text-primary-dark) !important;
 }

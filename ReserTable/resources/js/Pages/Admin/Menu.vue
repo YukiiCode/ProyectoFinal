@@ -104,27 +104,30 @@
                                     <template #body="{ data }">
                                         {{ formatDate(data.created_at) }}
                                     </template>
-                                </Column>
-                                <Column header="Acciones">
+                                </Column>                                <Column header="Acciones" style="width: 120px">
                                     <template #body="{ data }">
-                                        <div class="d-flex gap-2">                                            <Button 
+                                        <div class="d-flex gap-1">
+                                            <Button 
                                                 icon="pi pi-pencil" 
                                                 class="p-button-rounded p-button-info p-button-sm" 
                                                 @click="editProduct(data)"
-                                                title="Editar" 
+                                                title="Editar"
+                                                style="width: 36px; height: 36px;"
                                             />
                                             <Button 
                                                 :icon="data.available ? 'pi pi-eye-slash' : 'pi pi-eye'" 
                                                 :class="data.available ? 'p-button-warning' : 'p-button-success'"
                                                 class="p-button-rounded p-button-sm" 
                                                 @click="toggleAvailability(data)"
-                                                :title="data.available ? 'Ocultar' : 'Mostrar'" 
+                                                :title="data.available ? 'Ocultar' : 'Mostrar'"
+                                                style="width: 36px; height: 36px;"
                                             />
                                             <Button 
                                                 icon="pi pi-trash" 
                                                 class="p-button-rounded p-button-danger p-button-sm" 
                                                 @click="deleteProduct(data)"
-                                                title="Eliminar" 
+                                                title="Eliminar"
+                                                style="width: 36px; height: 36px;"
                                             />
                                         </div>
                                     </template>
