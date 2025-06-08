@@ -77,16 +77,36 @@ const statusOptions = [
     { label: 'Ocupada', value: 'occupied' }
 ];
 
+// Función para validar y corregir posiciones
+const validatePosition = (x, y) => {
+    // Verificar que sean números válidos
+    const numX = Number(x);
+    const numY = Number(y);
+    
+    // Si no son números válidos o están fuera del rango permitido (5% - 95%)
+    if (isNaN(numX) || isNaN(numY) || numX < 5 || numX > 95 || numY < 5 || numY > 95) {
+        console.warn(`Posición inválida detectada: x=${x}, y=${y}. Usando posición central.`);
+        return { x: 50, y: 50 }; // Posición central por defecto
+    }
+    
+    return { x: numX, y: numY };
+};
+
 // Inicializar mesas desde props
 const initializeTables = () => {
-    tables.value = props.tables.map(table => ({
-        id: table.id,
-        x: table.position_x,
-        y: table.position_y,
-        status: table.status,
-        capacity: table.capacity,
-        table_number: table.table_number
-    }));
+    tables.value = props.tables.map(table => {
+        // Validar y corregir posiciones si es necesario
+        const validPosition = validatePosition(table.position_x, table.position_y);
+        
+        return {
+            id: table.id,
+            x: validPosition.x,
+            y: validPosition.y,
+            status: table.status,
+            capacity: table.capacity,
+            table_number: table.table_number
+        };
+    });
 };
 
 // Inicializar componente
@@ -200,9 +220,14 @@ const setupDragAndDrop = () => {
                         const finalX = initialX + translateX + 35; // +35 para obtener el centro
                         const finalY = initialY + translateY + 35; // +35 para obtener el centro
                         
-                        // Convertir a porcentajes
-                        const newX = Math.max(5, Math.min(95, Math.round((finalX / containerRect.width) * 100)));
-                        const newY = Math.max(5, Math.min(95, Math.round((finalY / containerRect.height) * 100)));
+                        // Convertir a porcentajes con validación estricta
+                        let newX = Math.round((finalX / containerRect.width) * 100);
+                        let newY = Math.round((finalY / containerRect.height) * 100);
+                        
+                        // Aplicar validación y corrección de posición
+                        const validPosition = validatePosition(newX, newY);
+                        newX = validPosition.x;
+                        newY = validPosition.y;
                         
                         console.log('Position calculation:', {
                             tableId,
@@ -323,8 +348,13 @@ const handleMapClick = (event) => {
     
     const container = event.currentTarget;
     const rect = container.getBoundingClientRect();
-    const x = Math.round(((event.clientX - rect.left) / rect.width) * 100);
-    const y = Math.round(((event.clientY - rect.top) / rect.height) * 100);
+    let x = Math.round(((event.clientX - rect.left) / rect.width) * 100);
+    let y = Math.round(((event.clientY - rect.top) / rect.height) * 100);
+    
+    // Validar y corregir la posición antes de continuar
+    const validPosition = validatePosition(x, y);
+    x = validPosition.x;
+    y = validPosition.y;
     
     // Verificar que no haya conflicto con mesas existentes
     const conflict = tables.value.some(table => {
@@ -363,11 +393,15 @@ const getNextTableNumber = () => {
 // Editar mesa existente
 const editTable = (table) => {
     editingTable.value = table;
+    
+    // Validar posiciones antes de cargar en el formulario
+    const validPosition = validatePosition(table.x, table.y);
+    
     form.table_number = table.table_number || table.id;
     form.capacity = table.capacity;
     form.status = table.status;
-    form.position_x = table.x;
-    form.position_y = table.y;
+    form.position_x = validPosition.x;
+    form.position_y = validPosition.y;
     showModal.value = true;
 };
 
@@ -397,6 +431,11 @@ const closeModal = () => {
 
 // Enviar formulario
 const submitTable = () => {
+    // Validar y corregir posiciones antes de enviar
+    const validPosition = validatePosition(form.position_x, form.position_y);
+    form.position_x = validPosition.x;
+    form.position_y = validPosition.y;
+    
     if (editingTable.value) {
         // Actualizar mesa existente
         form.put(`/admin/tables/${editingTable.value.id}`, {
