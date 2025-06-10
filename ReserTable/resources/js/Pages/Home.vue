@@ -6,7 +6,9 @@ import HomeFeatures from '@/Components/Home/HomeFeatures.vue';
 import { ref, onMounted } from 'vue';
 import TableMap from '@/Components/TableMap.vue';
 import { Link, usePage } from '@inertiajs/vue3';
+import { useI18n } from 'vue-i18n';
 
+const { t } = useI18n();
 const showTableMap = ref(false);
 const products = usePage().props.products || [];
 
@@ -23,7 +25,7 @@ onMounted(() => {
 
             <!-- Resumen del menú en el Home -->
             <section class="my-12" id="menu-resumen">
-                <h2 class="text-3xl font-semibold mb-8 text-center text-red-700 dark:text-red-500">Nuestro Menú Destacado</h2>
+                <h2 class="text-3xl font-semibold mb-8 text-center text-red-700 dark:text-red-500">{{ t('welcome.featured_menu') }}</h2>
                 <div class="row g-4 justify-content-center">
                     <div v-if="products.length === 0" class="text-center text-muted">No hay productos en el menú.</div>
                     <div v-else v-for="item in products.slice(0,3)" :key="item.name" class="col-md-6 col-lg-4">
@@ -38,10 +40,9 @@ onMounted(() => {
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="text-center mt-4">
+                </div>                <div class="text-center mt-4">
                     <Link :href="route('menu')" class="btn btn-outline-primary btn-lg">
-                        Ver Menú Completo
+                        {{ t('welcome.view_complete_menu') }}
                     </Link>
                 </div>
             </section>
@@ -50,7 +51,7 @@ onMounted(() => {
         </main>
         <div class="text-center my-5">
             <button class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#tableMapModal">
-                Reservar Mesa en el Mapa Interactivo
+                {{ t('home.hero.cta_reserve') }}
             </button>
         </div>
         <!-- Modal con el mapa de mesas -->

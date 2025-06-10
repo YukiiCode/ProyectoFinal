@@ -5,28 +5,28 @@
                 <div>
                     <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-1 flex items-center gap-2 transition-colors main-title">
                         <i class="pi pi-calendar-check text-primary text-2xl"></i>
-                        Gestión de Reservas
+                        {{ t('admin.reservations.title') }}
                     </h1>
-                    <p class="text-gray-500 dark:text-gray-400 transition-colors">Administra todas las reservas del restaurante</p>
+                    <p class="text-gray-500 dark:text-gray-400 transition-colors">{{ t('admin.reservations.subtitle') }}</p>
                 </div>
-                <Button icon="pi pi-plus" label="Nueva Reserva" class="p-button-primary p-button-lg shadow interactive-element" @click="openCreateModal" />
+                <Button icon="pi pi-plus" :label="t('admin.reservations.new_reservation')" class="p-button-primary p-button-lg shadow interactive-element" @click="openCreateModal" />
             </div>
 
             <!-- Filtros Mejorados -->
             <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">                <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 flex flex-col gap-2 transition-colors">
-                    <label class="font-semibold text-gray-700 dark:text-gray-300 flex items-center gap-2"><i class="pi pi-filter"></i> Estado</label>
+                    <label class="font-semibold text-gray-700 dark:text-gray-300 flex items-center gap-2"><i class="pi pi-filter"></i> {{ t('common.status') }}</label>
                     <Dropdown 
                         v-model="filters.status" 
                         :options="statusOptions" 
                         optionLabel="label" 
                         optionValue="value" 
                         class="w-full"
-                        placeholder="Todos los estados"
+                        :placeholder="t('admin.reservations.filter_status')"
                         :showClear="true"
                         @change="applyFilters"
                     />
                 </div>                <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 flex flex-col gap-2 transition-colors">
-                    <label class="font-semibold text-gray-700 dark:text-gray-300 flex items-center gap-2"><i class="pi pi-calendar"></i> Fecha</label>
+                    <label class="font-semibold text-gray-700 dark:text-gray-300 flex items-center gap-2"><i class="pi pi-calendar"></i> {{ t('common.date') }}</label>
                     <InputText 
                         type="date" 
                         v-model="filters.date" 
@@ -34,16 +34,16 @@
                         @change="applyFilters"
                     />
                 </div>                <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 flex flex-col gap-2 transition-colors">
-                    <label class="font-semibold text-gray-700 dark:text-gray-300 flex items-center gap-2"><i class="pi pi-table"></i> Mesa</label>
+                    <label class="font-semibold text-gray-700 dark:text-gray-300 flex items-center gap-2"><i class="pi pi-table"></i> {{ t('admin.reservations.table') }}</label>
                     <InputText 
                         v-model="filters.table" 
                         class="w-full"
-                        placeholder="Número de mesa"
+                        :placeholder="t('admin.reservations.filter_table')"
                         @input="applyFilters"
                     />
                 </div>
                 <div class="flex items-end">
-                    <Button icon="pi pi-times" label="Limpiar Filtros" class="p-button-outlined w-full" @click="clearFilters" />
+                    <Button icon="pi pi-times" :label="t('common.filter')" class="p-button-outlined w-full" @click="clearFilters" />
                 </div>
             </div>
 
@@ -59,7 +59,7 @@
                         :rows-per-page-options="[10,15,25]"
                         class="p-datatable-sm"
                     >
-                        <Column field="client_name" header="Cliente" sortable>
+                        <Column field="client_name" :header="t('admin.reservations.client')" sortable>
                             <template #body="{ data }">
                                 <div>
                                     <div class="font-semibold">{{ data.client_name }}</div>
@@ -67,12 +67,12 @@
                                 </div>
                             </template>
                         </Column>
-                        <Column field="table_number" header="Mesa" sortable>
+                        <Column field="table_number" :header="t('admin.reservations.table')" sortable>
                             <template #body="{ data }">
-                                <span class="font-bold text-primary">Mesa {{ data.table_number }}</span>
+                                <span class="font-bold text-primary">{{ t('admin.reservations.table') }} {{ data.table_number }}</span>
                             </template>
                         </Column>
-                        <Column field="reservation_date" header="Fecha y Hora" sortable>
+                        <Column field="reservation_date" :header="t('admin.reservations.date_time')" sortable>
                             <template #body="{ data }">
                                 <div>
                                     <div>{{ formatDate(data.reservation_date) }}</div>
@@ -80,24 +80,24 @@
                                 </div>
                             </template>
                         </Column>
-                        <Column field="party_size" header="Personas" sortable>
+                        <Column field="party_size" :header="t('admin.reservations.party_size')" sortable>
                             <template #body="{ data }">
-                                <span class="badge bg-blue-100 text-blue-800">{{ data.party_size }} personas</span>
+                                <span class="badge bg-blue-100 text-blue-800">{{ data.party_size }} {{ t('reservations.people') }}</span>
                             </template>
                         </Column>
-                        <Column field="status" header="Estado" sortable>
+                        <Column field="status" :header="t('common.status')" sortable>
                             <template #body="{ data }">
                                 <span class="status-badge" :class="getStatusClass(data.status)">
                                     {{ getStatusText(data.status) }}
                                 </span>
                             </template>
                         </Column>
-                        <Column field="created_at" header="Creada" sortable>
+                        <Column field="created_at" :header="t('common.created')" sortable>
                             <template #body="{ data }">
                                 <span class="text-xs text-gray-400">{{ formatDate(data.created_at) }}</span>
                             </template>
                         </Column>
-                        <Column header="Acciones">
+                        <Column :header="t('common.actions')">
                             <template #body="{ data }">
                                 <div class="flex gap-2">                                    <Button 
                                         icon="pi pi-pencil" 
@@ -236,6 +236,7 @@
 import { ref, computed } from 'vue'
 import { useForm, router } from '@inertiajs/vue3'
 import { useNotifications } from '@/composables/useNotifications'
+import { useI18n } from 'vue-i18n'
 import AdminLayout from '@/Layouts/AdminLayout.vue'
 import DataTable from 'primevue/datatable'
 import Column from 'primevue/column'
@@ -243,6 +244,8 @@ import Dialog from 'primevue/dialog'
 import Button from 'primevue/button'
 import InputText from 'primevue/inputtext'
 import Dropdown from 'primevue/dropdown'
+
+const { t } = useI18n()
 
 const props = defineProps({
     reservations: Array

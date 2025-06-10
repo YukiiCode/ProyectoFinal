@@ -1,5 +1,8 @@
 <script setup>
 import { usePage } from '@inertiajs/vue3';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 const laravelVersion = usePage().props.laravelVersion ?? '';
 const phpVersion = usePage().props.phpVersion ?? '';
 </script>
@@ -11,15 +14,15 @@ const phpVersion = usePage().props.phpVersion ?? '';
                 <div class="col-md-4 mb-3 mb-md-0">
                     <h5 class="text-white dark:text-gray-100 mb-2">
                         <i class="pi pi-utensils me-2"></i>
-                        El Sabor Auténtico
+                        {{ t('footer.company_name') }}
                     </h5>
                     <p class="small text-white-50 dark:text-gray-400 mb-0">
-                        Experiencias culinarias únicas desde 1995
+                        {{ t('footer.description') }}
                     </p>
                 </div>
                 
                 <div class="col-md-4 mb-3 mb-md-0">
-                    <h6 class="text-white dark:text-gray-100 mb-2">Contacto</h6>
+                    <h6 class="text-white dark:text-gray-100 mb-2">{{ t('footer.contact_info') }}</h6>
                     <p class="small text-white-50 dark:text-gray-400 mb-1">
                         <i class="pi pi-phone me-1"></i>
                         +34 912 345 678
@@ -35,7 +38,7 @@ const phpVersion = usePage().props.phpVersion ?? '';
                 </div>
                 
                 <div class="col-md-4">
-                    <h6 class="text-white dark:text-gray-100 mb-2">Síguenos</h6>
+                    <h6 class="text-white dark:text-gray-100 mb-2">{{ t('footer.follow_us') }}</h6>
                     <div class="d-flex justify-content-center gap-3">
                         <a href="#" class="text-white-50 dark:text-gray-400 hover:text-white dark:hover:text-gray-200 transition-colors" aria-label="Facebook">
                             <i class="pi pi-facebook fs-5"></i>
@@ -55,7 +58,7 @@ const phpVersion = usePage().props.phpVersion ?? '';
             <div class="row">
                 <div class="col-md-6 text-start">
                     <p class="mb-1 text-white-50 dark:text-gray-400">
-                        &copy; {{ new Date().getFullYear() }} El Sabor Auténtico. Todos los derechos reservados.
+                        &copy; {{ new Date().getFullYear() }} {{ t('footer.company_name') }}. {{ t('footer.all_rights_reserved') }}.
                     </p>
                     <p class="small mb-0 text-white-50 dark:text-gray-400">
                         Plataforma de reservas por ReserTable

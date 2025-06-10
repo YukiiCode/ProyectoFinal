@@ -1,7 +1,10 @@
 <script setup>
 import { ref, computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { Modal } from 'bootstrap';
 import DiscountCouponValidator from '@/Components/DiscountCouponValidator.vue';
+
+const { t } = useI18n();
 
 const props = defineProps({
     items: {
@@ -89,17 +92,17 @@ async function confirmOrder() {
         <div class="text-center mb-5">
             <h2 class="display-5 fw-bold text-primary dark:text-blue-400 mb-3 transition-colors">
                 <i class="pi pi-utensils me-2"></i>
-                Nuestro Menú
+                {{ t('menu.title') }}
             </h2>
             <p class="lead text-gray-600 dark:text-gray-300">
-                Cada plato es una experiencia única preparada con amor y dedicación
+                {{ t('menu.experience_description') }}
             </p>
         </div>
         
         <div v-if="!items.length" class="text-center my-5">
             <div class="d-flex justify-content-center align-items-center">
                 <span class="spinner-border text-primary me-3" role="status" aria-hidden="true"></span>
-                <span class="text-gray-600 dark:text-gray-300">Cargando menú...</span>
+                <span class="text-gray-600 dark:text-gray-300">{{ t('common.loading') }}</span>
             </div>
         </div>
         <div v-else class="row g-4">
@@ -111,7 +114,7 @@ async function confirmOrder() {
                              :alt="item.name" 
                              style="object-fit:cover; height:200px;">
                         <div class="card-img-overlay d-flex align-items-end justify-content-end p-2">
-                            <span class="badge bg-success fs-6 shadow">Disponible</span>
+                            <span class="badge bg-success fs-6 shadow">{{ t('menu.available') }}</span>
                         </div>
                     </div>
                     <div class="card-body d-flex flex-column dark:text-gray-100">
@@ -124,7 +127,7 @@ async function confirmOrder() {
                             </span>
                             <button class="btn btn-primary btn-sm hover:bg-primary-dark transition-all px-3" @click="addToCart(item)">
                                 <i class="pi pi-plus me-1"></i>
-                                Añadir
+                                {{ t('menu.add_to_cart') }}
                             </button>
                         </div>
                     </div>
@@ -136,7 +139,7 @@ async function confirmOrder() {
         <div class="fixed-bottom d-flex justify-content-end p-4" v-if="cart.length > 0">
             <button class="btn btn-primary btn-lg shadow-lg cart-floating-btn" data-bs-toggle="modal" data-bs-target="#cartModal">
                 <i class="pi pi-shopping-cart me-2"></i>
-                Ver Pedido ({{ cart.length }})
+                {{ t('menu.view_order') }} ({{ cart.length }})
                 <span class="badge bg-light text-primary ms-2">{{ totalPrice }}</span>
             </button>
         </div>

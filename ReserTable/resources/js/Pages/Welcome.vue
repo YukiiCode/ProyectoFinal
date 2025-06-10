@@ -5,6 +5,9 @@ import HomeAbout from '@/Components/Home/HomeAbout.vue';
 import HomeFeatures from '@/Components/Home/HomeFeatures.vue';
 import ThemeManager from '@/Components/ThemeManager.vue';
 import { Head, Link } from '@inertiajs/vue3';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 
 defineProps({
     canLogin: Boolean,
@@ -21,7 +24,7 @@ const menuItems = [
 </script>
 
 <template>
-    <Head title="Bienvenido a El Sabor Auténtico" />
+    <Head :title="t('welcome.title')" />
     <ThemeManager />
     <div class="d-flex flex-column min-vh-100 bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 transition-colors duration-300">
         <Header />
@@ -30,20 +33,19 @@ const menuItems = [
             <section class="text-center mb-12 py-5">
                 <div class="hero-content">
                     <h1 class="display-4 fw-bold mb-4 text-primary dark:text-blue-400 transition-colors">
-                        Bienvenido a El Sabor Auténtico
+                        {{ t('welcome.title') }}
                     </h1>
                     <p class="lead mb-5 text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-                        Descubre una experiencia culinaria inolvidable donde cada bocado cuenta una historia. 
-                        Tradición, calidad y sabores únicos que han cautivado paladares durante más de 25 años.
+                        {{ t('welcome.subtitle') }}
                     </p>
                     <div class="d-flex flex-column flex-sm-row gap-3 justify-content-center">
                         <Link :href="route('reserva')" class="btn btn-primary btn-lg px-5 py-3 shadow-lg hover:shadow-xl transition-all">
                             <i class="pi pi-calendar-plus me-2"></i>
-                            ¡Reserva tu Mesa Ahora!
+                            {{ t('welcome.reserve_now') }}
                         </Link>
                         <Link :href="route('menu')" class="btn btn-outline-primary btn-lg px-5 py-3 hover:shadow-lg transition-all">
                             <i class="pi pi-book me-2"></i>
-                            Ver Nuestro Menú
+                            {{ t('welcome.view_menu') }}
                         </Link>
                     </div>
                 </div>
@@ -56,10 +58,10 @@ const menuItems = [
                 <div class="text-center mb-8">
                     <h2 class="text-3xl fw-bold mb-3 text-red-700 dark:text-red-400 transition-colors">
                         <i class="pi pi-star me-2"></i>
-                        Nuestro Menú Destacado
+                        {{ t('welcome.featured_menu') }}
                     </h2>
                     <p class="lead text-gray-600 dark:text-gray-300">
-                        Descubre algunos de nuestros platos más populares, preparados con ingredientes frescos y técnicas tradicionales
+                        {{ t('welcome.featured_menu_description') }}
                     </p>
                 </div>
                 
@@ -70,7 +72,7 @@ const menuItems = [
                                 <img :src="item.image" class="card-img-top" :alt="item.name" style="object-fit:cover; height:200px; transition: transform 0.3s ease;">
                                 <div class="card-img-overlay d-flex align-items-end p-0">
                                     <div class="w-100 bg-gradient-to-t from-black/70 to-transparent p-3">
-                                        <span class="badge bg-primary text-white">Destacado</span>
+                                        <span class="badge bg-primary text-white">{{ t('welcome.featured') }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -81,7 +83,7 @@ const menuItems = [
                                     <span class="fw-bold text-success fs-5">{{ item.price }}</span>
                                     <Link :href="route('menu')" class="btn btn-outline-primary btn-sm hover:bg-primary hover:text-white transition-all">
                                         <i class="pi pi-eye me-1"></i>
-                                        Ver más
+                                        {{ t('welcome.view_more') }}
                                     </Link>
                                 </div>
                             </div>
@@ -92,7 +94,7 @@ const menuItems = [
                 <div class="text-center mt-5">
                     <Link :href="route('menu')" class="btn btn-outline-primary btn-lg px-5 py-3 hover:bg-primary hover:text-white transition-all">
                         <i class="pi pi-book me-2"></i>
-                        Ver Menú Completo
+                        {{ t('welcome.view_complete_menu') }}
                         <i class="pi pi-arrow-right ms-2"></i>
                     </Link>
                 </div>

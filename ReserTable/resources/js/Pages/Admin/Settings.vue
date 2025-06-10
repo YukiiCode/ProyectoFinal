@@ -4,8 +4,8 @@
             <!-- Header -->
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <div>
-                    <h1 class="h3 mb-0 text-dark">Configuración del Sistema</h1>
-                    <p class="text-muted mb-0">Personaliza tu experiencia en ReserTable</p>
+                    <h1 class="h3 mb-0 text-dark">{{ t('admin.settings.title') }}</h1>
+                    <p class="text-muted mb-0">{{ t('admin.settings.subtitle') }}</p>
                 </div>
             </div>
 
@@ -17,7 +17,7 @@
                         <div class="admin-card-header">
                             <h5 class="admin-card-title mb-0">
                                 <i class="pi pi-palette me-2"></i>
-                                Apariencia
+                                {{ t('admin.settings.appearance') }}
                             </h5>
                         </div>
                         <div class="admin-card-body">
@@ -245,9 +245,12 @@
 <script setup>
 import { ref, reactive, computed, watch } from 'vue'
 import { useForm, router } from '@inertiajs/vue3'
+import { useI18n } from 'vue-i18n'
 import AdminLayout from '@/Layouts/AdminLayout.vue'
 import Button from 'primevue/button'
 import Select from 'primevue/select'
+
+const { t } = useI18n()
 
 const props = defineProps({
     settings: Object,

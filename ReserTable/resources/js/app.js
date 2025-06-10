@@ -27,6 +27,7 @@ import Message from 'primevue/message';
 import FloatLabel from 'primevue/floatlabel';
 import ToastService from 'primevue/toastservice';
 import Toast from 'primevue/toast';
+import i18n from './i18n/index.js';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
@@ -59,6 +60,7 @@ createInertiaApp({
         vueApp.component('Toast', Toast);
         vueApp.use(ZiggyVue, Ziggy);
         vueApp.use(VueKonva);
+        vueApp.use(i18n);
         vueApp.mount(el);
     },
     progress: {

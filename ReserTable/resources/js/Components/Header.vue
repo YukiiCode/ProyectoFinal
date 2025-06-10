@@ -1,7 +1,9 @@
 <script setup>
 import { Link, usePage } from '@inertiajs/vue3';
-import DarkModeToggle from '@/Components/DarkModeToggle.vue';
+import SettingsDropdown from '@/Components/SettingsDropdown.vue';
+import { useI18n } from 'vue-i18n';
 
+const { t } = useI18n();
 const user = usePage().props.auth?.user;
 </script>
 
@@ -10,32 +12,32 @@ const user = usePage().props.auth?.user;
         <div class="container d-flex justify-content-between align-items-center">
             <Link :href="route('home')" class="fw-bold fs-4 text-white dark:text-gray-100 text-decoration-none hover:text-gray-200 dark:hover:text-white transition-colors">
                 <i class="pi pi-utensils me-2"></i>
-                El Sabor Auténtico
+                {{ t('footer.company_name') }}
             </Link>
             
             <div class="d-flex align-items-center gap-3">
-                <!-- Toggle de modo oscuro -->
-                <DarkModeToggle variant="minimal" size="sm" />
+                <!-- Dropdown de configuraciones -->
+                <SettingsDropdown />
                 
                 <nav class="d-flex align-items-center gap-2">
                     <slot>
                         <template v-if="user">                            <Link :href="route('admin.dashboard')" class="btn btn-outline-light btn-sm hover:bg-white hover:text-primary dark:hover:bg-gray-700 dark:hover:text-white transition-all">
                                 <i class="pi pi-user me-1"></i>
-                                Mi Cuenta
+                                {{ t('common.profile') }}
                             </Link>
                             <Link :href="route('logout')" method="post" as="button" class="btn btn-light btn-sm hover:bg-gray-100 transition-all">
                                 <i class="pi pi-sign-out me-1"></i>
-                                Cerrar Sesión
+                                {{ t('common.logout') }}
                             </Link>
                         </template>
                         <template v-else>
                             <Link :href="route('login')" class="btn btn-outline-light btn-sm hover:bg-white hover:text-primary dark:hover:bg-gray-700 dark:hover:text-white transition-all">
                                 <i class="pi pi-sign-in me-1"></i>
-                                Iniciar Sesión
+                                {{ t('common.login') }}
                             </Link>
                             <Link v-if="$page.props.canRegister" :href="route('register')" class="btn btn-light btn-sm hover:bg-gray-100 transition-all">
                                 <i class="pi pi-user-plus me-1"></i>
-                                Registrarse
+                                {{ t('common.register') }}
                             </Link>
                         </template>
                     </slot>

@@ -84,7 +84,9 @@ Route::middleware([
         Route::get('/settings', [\App\Http\Controllers\SettingsController::class, 'index'])->name('settings');
         Route::patch('/settings', [\App\Http\Controllers\SettingsController::class, 'update'])->name('settings.update');
         Route::patch('/settings/dark-mode', [\App\Http\Controllers\SettingsController::class, 'toggleDarkMode'])->name('settings.dark-mode');
+        Route::patch('/settings/language', [\App\Http\Controllers\SettingsController::class, 'updateLanguage'])->name('settings.language');
         // Alias para acceder como admin.settings.dark-mode (solución a la inconsistencia de rutas)
         Route::patch('/settings/dark-mode-alias', [\App\Http\Controllers\SettingsController::class, 'toggleDarkMode'])->name('admin.settings.dark-mode');
+        Route::patch('/settings/language-alias', [\App\Http\Controllers\SettingsController::class, 'updateLanguage'])->name('admin.settings.language');
     });
 });

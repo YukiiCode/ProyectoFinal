@@ -78,4 +78,24 @@ class SettingsController extends Controller
 
         return back()->with('success', 'Modo oscuro ' . ($darkMode ? 'activado' : 'desactivado'));
     }
+
+    public function updateLanguage(Request $request)
+    {
+        $validated = $request->validate([
+            'language' => 'required|string|in:es,en'
+        ]);
+
+        $user = Auth::user();
+        $user->load('settings');
+        
+        if ($user->settings) {
+            $user->settings->update(['language' => $validated['language']]);
+        } else {
+            $settings = UserSettings::getDefaultSettings();
+            $settings['language'] = $validated['language'];
+            $user->settings()->create(array_merge($settings, ['user_id' => $user->id]));
+        }
+
+        return back()->with('success', 'Idioma actualizado exitosamente');
+    }
 }
