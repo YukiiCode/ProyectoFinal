@@ -19,8 +19,7 @@ const user = usePage().props.auth?.user;
                 
                 <nav class="d-flex align-items-center gap-2">
                     <slot>
-                        <template v-if="user">
-                            <Link :href="route('dashboard')" class="btn btn-outline-light btn-sm hover:bg-white hover:text-primary dark:hover:bg-gray-700 dark:hover:text-white transition-all">
+                        <template v-if="user">                            <Link :href="route('admin.dashboard')" class="btn btn-outline-light btn-sm hover:bg-white hover:text-primary dark:hover:bg-gray-700 dark:hover:text-white transition-all">
                                 <i class="pi pi-user me-1"></i>
                                 Mi Cuenta
                             </Link>

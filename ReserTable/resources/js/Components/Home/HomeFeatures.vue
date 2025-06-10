@@ -36,8 +36,7 @@ const page = usePage();
                     <i class="pi pi-user text-3xl text-gray-600 dark:text-gray-400"></i>
                 </div>
                 <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">Tu Perfil de Cliente</h3>
-                <p class="text-gray-600 dark:text-gray-300 mb-4">Gestiona tus reservas, preferencias y accede a tu historial.</p>
-                <Link v-if="page.props.auth.user" :href="route('dashboard')" class="inline-block bg-gray-700 text-white px-6 py-2 rounded-md hover:bg-gray-800 transition-colors duration-200 font-medium">
+                <p class="text-gray-600 dark:text-gray-300 mb-4">Gestiona tus reservas, preferencias y accede a tu historial.</p>                <Link v-if="page.props.auth.user" :href="route('admin.dashboard')" class="inline-block bg-gray-700 text-white px-6 py-2 rounded-md hover:bg-gray-800 transition-colors duration-200 font-medium">
                     <i class="pi pi-user-edit mr-2"></i>
                     Ir a Mi Perfil
                 </Link>
