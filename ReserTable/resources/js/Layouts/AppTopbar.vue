@@ -12,8 +12,8 @@
                     type="button"
                 >
                     <i class="pi pi-bars text-lg"></i>
-                </button>                <!-- Dark mode toggle -->
-                <DarkModeToggle />
+                </button>                <!-- Settings dropdown (Language + Dark mode) -->
+                <SettingsDropdown variant="admin" />
 
                 <!-- User menu dropdown -->
                 <div class="relative">
@@ -30,23 +30,23 @@
                         <button @click="onTopBarMenuButton" 
                                 class="flex items-center w-full px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
                             <i class="pi pi-calendar mr-3 text-gray-400 dark:text-gray-500"></i>
-                            <span>Calendario</span>
+                            <span>{{ t('admin.user_menu.calendar') }}</span>
                         </button>
                         <button @click="onTopBarMenuButton" 
                                 class="flex items-center w-full px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
                             <i class="pi pi-inbox mr-3 text-gray-400 dark:text-gray-500"></i>
-                            <span>Mensajes</span>
+                            <span>{{ t('admin.user_menu.messages') }}</span>
                         </button>
                         <button @click="onTopBarMenuButton" 
                                 class="flex items-center w-full px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
                             <i class="pi pi-user mr-3 text-gray-400 dark:text-gray-500"></i>
-                            <span>Perfil</span>
+                            <span>{{ t('admin.user_menu.profile') }}</span>
                         </button>
                         <hr class="my-1 border-gray-200 dark:border-gray-700">
                         <button @click="logout" 
                                 class="flex items-center w-full px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors">
                             <i class="pi pi-sign-out mr-3 text-red-400 dark:text-red-500"></i>
-                            <span>Salir</span>
+                            <span>{{ t('admin.user_menu.logout') }}</span>
                         </button>
                     </div>
                 </div>
@@ -58,8 +58,10 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { router, Link, usePage } from '@inertiajs/vue3'
-import DarkModeToggle from '@/Components/DarkModeToggle.vue'
+import { useI18n } from 'vue-i18n'
+import SettingsDropdown from '@/Components/SettingsDropdown.vue'
 
+const { t } = useI18n()
 const emit = defineEmits(['menu-toggle'])
 const page = usePage()
 

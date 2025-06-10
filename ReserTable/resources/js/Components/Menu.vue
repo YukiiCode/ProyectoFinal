@@ -82,7 +82,7 @@ async function confirmOrder() {
         appliedCoupon.value = null;
         discount.value = 0;
     } catch (e) {
-        orderError.value = e.response?.data?.message || 'Error al realizar el pedido.';
+        orderError.value = e.response?.data?.message || t('menu.order_error');
     }
 }
 </script>
@@ -151,23 +151,23 @@ async function confirmOrder() {
                     <div class="modal-header bg-primary text-white">
                         <h5 class="modal-title">
                             <i class="pi pi-shopping-cart me-2"></i>
-                            Tu Pedido
+                            {{ t('menu.your_order') }}
                         </h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" :aria-label="t('menu.close')"></button>
                     </div>
                     <div class="modal-body dark:text-gray-100">
                         <div v-if="cart.length === 0" class="text-center text-muted dark:text-gray-400 py-5">
                             <i class="pi pi-shopping-cart fs-1 mb-3 d-block text-gray-400"></i>
-                            <p class="mb-0">El carrito está vacío.</p>
-                            <small>Añade algunos platos de nuestro menú</small>
+                            <p class="mb-0">{{ t('menu.cart_empty') }}</p>
+                            <small>{{ t('menu.add_dishes') }}</small>
                         </div>
                         <div v-else>
                             <div class="row mb-4">
                                 <div class="col-md-8">
-                                    <h6 class="text-primary dark:text-blue-400">Productos seleccionados</h6>
+                                    <h6 class="text-primary dark:text-blue-400">{{ t('menu.selected_products') }}</h6>
                                 </div>
                                 <div class="col-md-4 text-end">
-                                    <h6 class="text-primary dark:text-blue-400">Cantidad y precio</h6>
+                                    <h6 class="text-primary dark:text-blue-400">{{ t('menu.quantity_price') }}</h6>
                                 </div>
                             </div>
                             <div class="cart-items" style="max-height: 400px; overflow-y: auto;">
@@ -180,7 +180,7 @@ async function confirmOrder() {
                                                      style="width: 60px; height: 60px; object-fit: cover;">
                                                 <div>
                                                     <h6 class="mb-1 text-dark dark:text-gray-100">{{ item.name }}</h6>
-                                                    <small class="text-muted dark:text-gray-400">€{{ parseFloat(item.price).toFixed(2) }} por unidad</small>
+                                                    <small class="text-muted dark:text-gray-400">€{{ parseFloat(item.price).toFixed(2) }} {{ t('menu.per_unit') }}</small>
                                                 </div>
                                             </div>
                                         </div>
@@ -211,7 +211,7 @@ async function confirmOrder() {
                         <div v-if="cart.length > 0" class="border-top dark:border-gray-600 pt-3 mt-3">
                             <h6 class="text-primary dark:text-blue-400 mb-3">
                                 <i class="pi pi-tag me-2"></i>
-                                Código de Descuento
+                                {{ t('menu.discount_code') }}
                             </h6>
                             <DiscountCouponValidator 
                                 @coupon-validated="onCouponValidated"
@@ -224,10 +224,10 @@ async function confirmOrder() {
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div>
                                         <i class="pi pi-check-circle me-2"></i>
-                                        <strong>{{ appliedCoupon.code }}</strong> aplicado
+                                        <strong>{{ appliedCoupon.code }}</strong> {{ t('reservations.applied') }}
                                         <br>
                                         <small>
-                                            Descuento: 
+                                            {{ t('menu.discount') }}: 
                                             <span v-if="appliedCoupon.discount_type === 'percentage'">
                                                 {{ appliedCoupon.value }}%
                                             </span>
@@ -252,15 +252,15 @@ async function confirmOrder() {
                                 <div class="col text-end">
                                     <!-- Subtotal -->
                                     <div v-if="appliedCoupon" class="mb-2">
-                                        <span class="text-muted">Subtotal: {{ totalPrice }}</span>
+                                        <span class="text-muted">{{ t('menu.subtotal') }}: {{ totalPrice }}</span>
                                     </div>
                                     <!-- Descuento -->
                                     <div v-if="appliedCoupon && discount > 0" class="mb-2 text-success">
-                                        <span>Descuento: -€{{ discount.toFixed(2) }}</span>
+                                        <span>{{ t('menu.discount') }}: -€{{ discount.toFixed(2) }}</span>
                                     </div>
                                     <!-- Total final -->
                                     <h5 class="mb-0">
-                                        <strong>Total: <span class="text-success">{{ appliedCoupon ? totalWithDiscount : totalPrice }}</span></strong>
+                                        <strong>{{ t('menu.total') }}: <span class="text-success">{{ appliedCoupon ? totalWithDiscount : totalPrice }}</span></strong>
                                     </h5>
                                 </div>
                             </div>
@@ -268,7 +268,7 @@ async function confirmOrder() {
                         
                         <div v-if="orderSuccess" class="alert alert-success mt-3">
                             <i class="pi pi-check-circle me-2"></i>
-                            ¡Pedido realizado con éxito!
+                            {{ t('menu.order_success') }}
                         </div>
                         <div v-if="orderError" class="alert alert-danger mt-3">
                             <i class="pi pi-exclamation-triangle me-2"></i>
@@ -278,11 +278,11 @@ async function confirmOrder() {
                     <div class="modal-footer dark:border-gray-600">
                         <button type="button" class="btn btn-secondary dark:bg-gray-600 dark:border-gray-600" data-bs-dismiss="modal">
                             <i class="pi pi-times me-1"></i>
-                            Cerrar
+                            {{ t('menu.close') }}
                         </button>
                         <button v-if="cart.length > 0" type="button" class="btn btn-success" @click="confirmOrder">
                             <i class="pi pi-check me-1"></i>
-                            Confirmar Pedido
+                            {{ t('menu.checkout') }}
                         </button>
                     </div>
                 </div>

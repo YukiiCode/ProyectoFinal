@@ -9,6 +9,15 @@ import {
   SUPPORTED_LANGUAGES 
 } from '@/utils/i18nUtils';
 
+// Props para personalizar el estilo según el contexto
+const props = defineProps({
+  variant: {
+    type: String,
+    default: 'public', // 'public' or 'admin'
+    validator: (value) => ['public', 'admin'].includes(value)
+  }
+});
+
 const { locale, t } = useI18n();
 const isOpen = ref(false);
 const page = usePage();
@@ -115,12 +124,16 @@ watch(() => page.props.auth?.user?.settings, (newSettings) => {
 </script>
 
 <template>
-  <div class="relative">
-    <!-- Botón principal del dropdown -->
+  <div class="relative">    <!-- Botón principal del dropdown -->
     <button 
       @click="toggleDropdown"
-      class="flex items-center gap-2 px-3 py-2 text-sm bg-white/10 hover:bg-white/20 border border-white/20 rounded-md transition-colors text-white"
-      :class="{ 'ring-2 ring-white/50': isOpen }"
+      :class="[
+        'flex items-center gap-2 px-3 py-2 text-sm rounded-md transition-colors',
+        variant === 'admin' 
+          ? 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-600'
+          : 'bg-white/10 hover:bg-white/20 border border-white/20 text-white',
+        { 'ring-2': isOpen, 'ring-white/50': isOpen && variant === 'public', 'ring-blue-500': isOpen && variant === 'admin' }
+      ]"
     >
       <i class="pi pi-cog"></i>
       <span class="hidden sm:inline">{{ t('common.settings') }}</span>

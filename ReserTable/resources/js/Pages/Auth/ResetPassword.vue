@@ -3,12 +3,14 @@ import { Head, Link, useForm } from '@inertiajs/vue3';
 import AuthenticationCard from '@/Components/AuthenticationCard.vue';
 import AuthenticationCardLogo from '@/Components/AuthenticationCardLogo.vue';
 import { useNotifications } from '@/composables/useNotifications';
+import { useI18n } from 'vue-i18n';
 
 const props = defineProps({
     email: String,
     token: String,
 });
 
+const { t } = useI18n();
 const { showSuccess, showError } = useNotifications();
 
 const form = useForm({
@@ -22,17 +24,17 @@ const submit = () => {
     form.post(route('password.update'), {
         onFinish: () => form.reset('password', 'password_confirmation'),
         onSuccess: () => {
-            showSuccess('Contraseña actualizada', 'Tu contraseña ha sido restablecida exitosamente');
+            showSuccess(t('auth.password_updated'), t('auth.password_reset_success'));
         },
         onError: () => {
-            showError('Error al restablecer contraseña', 'Verifica que los datos sean correctos');
+            showError(t('auth.reset_password_error'), t('auth.verify_data_correct'));
         }
     });
 };
 </script>
 
 <template>
-    <Head title="Restablecer Contraseña - ReserTable" />
+    <Head :title="t('auth.reset_password_title')" />
 
     <AuthenticationCard>
         <template #logo>
@@ -41,8 +43,8 @@ const submit = () => {
 
         <!-- Título del formulario -->
         <div class="form-header">
-            <h2 class="form-title">Restablecer contraseña</h2>
-            <p class="form-subtitle">Ingresa tu nueva contraseña para acceder a tu cuenta</p>
+            <h2 class="form-title">{{ t('auth.reset_password') }}</h2>
+            <p class="form-subtitle">{{ t('auth.reset_password_subtitle') }}</p>
         </div>
 
         <form @submit.prevent="submit" class="reset-form">
@@ -50,7 +52,7 @@ const submit = () => {
             <div class="input-group">
                 <label for="email" class="input-label">
                     <i class="fas fa-envelope"></i>
-                    Correo Electrónico
+                    {{ t('auth.email') }}
                 </label>
                 <div class="input-wrapper">
                     <input
@@ -59,7 +61,7 @@ const submit = () => {
                         type="email"
                         class="form-input"
                         :class="{ 'error': form.errors.email }"
-                        placeholder="tu@email.com"
+                        :placeholder="t('auth.email_placeholder')"
                         required
                         autofocus
                         autocomplete="username"
@@ -76,7 +78,7 @@ const submit = () => {
             <div class="input-group">
                 <label for="password" class="input-label">
                     <i class="fas fa-lock"></i>
-                    Nueva Contraseña
+                    {{ t('auth.new_password') }}
                 </label>
                 <div class="input-wrapper">
                     <input
@@ -85,7 +87,7 @@ const submit = () => {
                         type="password"
                         class="form-input"
                         :class="{ 'error': form.errors.password }"
-                        placeholder="Tu nueva contraseña"
+                        :placeholder="t('auth.new_password_placeholder')"
                         required
                         autocomplete="new-password"
                     />
@@ -100,7 +102,7 @@ const submit = () => {
             <div class="input-group">
                 <label for="password_confirmation" class="input-label">
                     <i class="fas fa-lock"></i>
-                    Confirmar Nueva Contraseña
+                    {{ t('auth.confirm_new_password') }}
                 </label>
                 <div class="input-wrapper">
                     <input
@@ -109,7 +111,7 @@ const submit = () => {
                         type="password"
                         class="form-input"
                         :class="{ 'error': form.errors.password_confirmation }"
-                        placeholder="Confirma tu nueva contraseña"
+                        :placeholder="t('auth.confirm_new_password_placeholder')"
                         required
                         autocomplete="new-password"
                     />
@@ -130,11 +132,11 @@ const submit = () => {
                 >
                     <span v-if="!form.processing" class="btn-content">
                         <i class="fas fa-key"></i>
-                        Restablecer Contraseña
+                        {{ t('auth.reset_password') }}
                     </span>
                     <span v-else class="btn-loading">
                         <i class="fas fa-spinner fa-spin"></i>
-                        Restableciendo...
+                        {{ t('auth.resetting') }}
                     </span>
                 </button>
             </div>
@@ -143,9 +145,9 @@ const submit = () => {
         <!-- Enlaces adicionales -->
         <div class="auth-footer">
             <p class="auth-footer-text">
-                ¿Recordaste tu contraseña? 
+                {{ t('auth.remembered_password') }} 
                 <Link :href="route('login')" class="auth-link">
-                    Volver al inicio de sesión
+                    {{ t('auth.back_to_login') }}
                 </Link>
             </p>
         </div>

@@ -3,6 +3,7 @@ import { Head, Link, useForm } from '@inertiajs/vue3';
 import AuthenticationCard from '@/Components/AuthenticationCard.vue';
 import AuthenticationCardLogo from '@/Components/AuthenticationCardLogo.vue';
 import { useNotifications } from '@/composables/useNotifications';
+import { useI18n } from 'vue-i18n';
 import { ref } from 'vue';
 
 // PrimeVue components
@@ -19,6 +20,7 @@ defineProps({
     status: String,
 });
 
+const { t } = useI18n();
 const { showSuccess, showError } = useNotifications();
 
 const form = useForm({
@@ -36,17 +38,17 @@ const submit = () => {
     })).post(route('login'), {
         onFinish: () => form.reset('password'),
         onSuccess: () => {
-            showSuccess('Bienvenido a ReserTable', 'Inicio de sesión exitoso');
+            showSuccess(t('auth.welcome_back'), t('auth.login_successful'));
         },
         onError: () => {
-            showError('Credenciales incorrectas. Por favor, inténtalo de nuevo.', 'Error de autenticación');
+            showError(t('auth.login_error'), t('auth.authentication_error'));
         }
     });
 };
 </script>
 
 <template>
-    <Head title="Iniciar Sesión - ReserTable" />
+    <Head :title="t('auth.login_title')" />
 
     <AuthenticationCard>
         <template #logo>
@@ -67,10 +69,10 @@ const submit = () => {
         <!-- Título del formulario -->
         <div class="text-center mb-6">
             <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-                Bienvenido de nuevo
+                {{ t('auth.welcome_back') }}
             </h2>
             <p class="text-gray-600 dark:text-gray-400">
-                Inicia sesión en tu cuenta para continuar
+                {{ t('auth.login_subtitle') }}
             </p>
         </div>
 
@@ -79,7 +81,7 @@ const submit = () => {
             <div class="field">
                 <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     <i class="pi pi-envelope mr-2"></i>
-                    Correo Electrónico
+                    {{ t('auth.email') }}
                 </label>
                 <InputText
                     id="email"
@@ -87,7 +89,7 @@ const submit = () => {
                     type="email"
                     class="w-full"
                     :class="{ 'p-invalid': form.errors.email }"
-                    placeholder="tu@email.com"
+                    :placeholder="t('auth.email_placeholder')"
                     autocomplete="username"
                     autofocus
                 />
@@ -101,7 +103,7 @@ const submit = () => {
             <div class="field">
                 <label for="password" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     <i class="pi pi-lock mr-2"></i>
-                    Contraseña
+                    {{ t('auth.password') }}
                 </label>
                 <Password
                     id="password"
@@ -110,7 +112,7 @@ const submit = () => {
                     :toggle-mask="true"
                     class="w-full"
                     :class="{ 'p-invalid': form.errors.password }"
-                    placeholder="Tu contraseña"
+                    :placeholder="t('auth.password_placeholder')"
                     autocomplete="current-password"
                     input-class="w-full"
                 />
@@ -129,14 +131,14 @@ const submit = () => {
                     class="mr-2"
                 />
                 <label for="remember" class="text-sm text-gray-700 dark:text-gray-300 cursor-pointer">
-                    Recordar mi sesión
+                    {{ t('auth.remember_me') }}
                 </label>
             </div>
 
             <!-- Botón de envío con PrimeVue -->
             <Button
                 type="submit"
-                label="Iniciar Sesión"
+                :label="t('auth.login')"
                 icon="pi pi-sign-in"
                 class="w-full p-3 text-lg"
                 :loading="form.processing"
@@ -151,7 +153,7 @@ const submit = () => {
                     class="text-sm text-primary-600 hover:text-primary-800 dark:text-primary-400 dark:hover:text-primary-200 transition-colors duration-200"
                 >
                     <i class="pi pi-key mr-1"></i>
-                    ¿Olvidaste tu contraseña?
+                    {{ t('auth.forgot_password') }}
                 </Link>
             </div>
         </form>
@@ -159,12 +161,12 @@ const submit = () => {
         <!-- Enlaces adicionales -->
         <div class="text-center mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
             <p class="text-sm text-gray-600 dark:text-gray-400">
-                ¿No tienes cuenta? 
+                {{ t('auth.no_account') }} 
                 <Link 
                     :href="route('register')" 
                     class="font-medium text-primary-600 hover:text-primary-800 dark:text-primary-400 dark:hover:text-primary-200 transition-colors duration-200 ml-1"
                 >
-                    Regístrate aquí
+                    {{ t('auth.register_here') }}
                 </Link>
             </p>
         </div>

@@ -3,7 +3,9 @@ import { Head, Link, useForm } from '@inertiajs/vue3';
 import AuthenticationCard from '@/Components/AuthenticationCard.vue';
 import AuthenticationCardLogo from '@/Components/AuthenticationCardLogo.vue';
 import { useNotifications } from '@/composables/useNotifications';
+import { useI18n } from 'vue-i18n';
 
+const { t } = useI18n();
 const { showSuccess, showError } = useNotifications();
 
 const form = useForm({
@@ -18,13 +20,13 @@ const submit = () => {
     form.post(route('register'), {
         onFinish: () => form.reset('password', 'password_confirmation'),
         onSuccess: () => {
-            showSuccess('¡Bienvenido a ReserTable!', 'Tu cuenta ha sido creada exitosamente');
+            showSuccess(t('auth.registration_success'), t('auth.account_created'));
         },
         onError: (errors) => {
             if (errors.email) {
-                showError('El email ya está registrado', 'Error de registro');
+                showError(t('auth.email_already_registered'), t('auth.registration_error'));
             } else {
-                showError('Por favor, verifica los datos ingresados', 'Error de registro');
+                showError(t('auth.verify_data'), t('auth.registration_error'));
             }
         }
     });
@@ -32,7 +34,7 @@ const submit = () => {
 </script>
 
 <template>
-    <Head title="Registro - ReserTable" />
+    <Head :title="t('auth.register_title')" />
 
     <AuthenticationCard>
         <template #logo>
@@ -41,8 +43,8 @@ const submit = () => {
 
         <!-- Título del formulario -->
         <div class="form-header">
-            <h2 class="form-title">Crear cuenta</h2>
-            <p class="form-subtitle">Únete a ReserTable y comienza a gestionar tu restaurante</p>
+            <h2 class="form-title">{{ t('auth.create_account') }}</h2>
+            <p class="form-subtitle">{{ t('auth.register_subtitle') }}</p>
         </div>
 
         <form @submit.prevent="submit" class="register-form">
@@ -50,7 +52,7 @@ const submit = () => {
             <div class="input-group">
                 <label for="name" class="input-label">
                     <i class="fas fa-user"></i>
-                    Nombre completo
+                    {{ t('auth.full_name') }}
                 </label>
                 <div class="input-wrapper">
                     <input
@@ -59,7 +61,7 @@ const submit = () => {
                         type="text"
                         class="form-input"
                         :class="{ 'error': form.errors.name }"
-                        placeholder="Tu nombre completo"
+                        :placeholder="t('auth.full_name_placeholder')"
                         required
                         autofocus
                         autocomplete="name"
@@ -75,7 +77,7 @@ const submit = () => {
             <div class="input-group">
                 <label for="email" class="input-label">
                     <i class="fas fa-envelope"></i>
-                    Correo Electrónico
+                    {{ t('auth.email') }}
                 </label>
                 <div class="input-wrapper">
                     <input
@@ -84,7 +86,7 @@ const submit = () => {
                         type="email"
                         class="form-input"
                         :class="{ 'error': form.errors.email }"
-                        placeholder="tu@email.com"
+                        :placeholder="t('auth.email_placeholder')"
                         required
                         autocomplete="username"
                     />
@@ -99,7 +101,7 @@ const submit = () => {
             <div class="input-group">
                 <label for="password" class="input-label">
                     <i class="fas fa-lock"></i>
-                    Contraseña
+                    {{ t('auth.password') }}
                 </label>
                 <div class="input-wrapper">
                     <input
@@ -108,7 +110,7 @@ const submit = () => {
                         type="password"
                         class="form-input"
                         :class="{ 'error': form.errors.password }"
-                        placeholder="Tu contraseña"
+                        :placeholder="t('auth.password_placeholder')"
                         required
                         autocomplete="new-password"
                     />
@@ -123,7 +125,7 @@ const submit = () => {
             <div class="input-group">
                 <label for="password_confirmation" class="input-label">
                     <i class="fas fa-lock"></i>
-                    Confirmar contraseña
+                    {{ t('auth.confirm_password') }}
                 </label>
                 <div class="input-wrapper">
                     <input
@@ -132,7 +134,7 @@ const submit = () => {
                         type="password"
                         class="form-input"
                         :class="{ 'error': form.errors.password_confirmation }"
-                        placeholder="Confirma tu contraseña"
+                        :placeholder="t('auth.confirm_password_placeholder')"
                         required
                         autocomplete="new-password"
                     />
@@ -155,10 +157,10 @@ const submit = () => {
                     />
                     <span class="checkbox-custom"></span>
                     <span class="checkbox-text">
-                        Acepto los 
-                        <a target="_blank" :href="route('terms.show')" class="auth-link">Términos de Servicio</a> 
-                        y la 
-                        <a target="_blank" :href="route('policy.show')" class="auth-link">Política de Privacidad</a>
+                        {{ t('auth.accept_terms_start') }} 
+                        <a target="_blank" :href="route('terms.show')" class="auth-link">{{ t('auth.terms_of_service') }}</a> 
+                        {{ t('auth.and') }} 
+                        <a target="_blank" :href="route('policy.show')" class="auth-link">{{ t('auth.privacy_policy') }}</a>
                     </span>
                 </label>
                 <div v-if="form.errors.terms" class="input-error">
@@ -177,11 +179,11 @@ const submit = () => {
                 >
                     <span v-if="!form.processing" class="btn-content">
                         <i class="fas fa-user-plus"></i>
-                        Crear cuenta
+                        {{ t('auth.create_account') }}
                     </span>
                     <span v-else class="btn-loading">
                         <i class="fas fa-spinner fa-spin"></i>
-                        Creando cuenta...
+                        {{ t('auth.creating_account') }}
                     </span>
                 </button>
             </div>
@@ -190,9 +192,9 @@ const submit = () => {
         <!-- Enlaces adicionales -->
         <div class="auth-footer">
             <p class="auth-footer-text">
-                ¿Ya tienes cuenta? 
+                {{ t('auth.already_have_account') }} 
                 <Link :href="route('login')" class="auth-link">
-                    Inicia sesión aquí
+                    {{ t('auth.login_here') }}
                 </Link>
             </p>
         </div>

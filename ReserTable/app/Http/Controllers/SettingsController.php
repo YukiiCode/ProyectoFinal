@@ -59,7 +59,7 @@ class SettingsController extends Controller
             ));
         }
 
-        return back()->with('success', 'Configuración actualizada exitosamente');
+        return back()->with('success', __('settings.configuration_updated_successfully'));
     }
 
     public function toggleDarkMode(Request $request)
@@ -76,7 +76,7 @@ class SettingsController extends Controller
             $user->settings()->create(array_merge($settings, ['user_id' => $user->id]));
         }
 
-        return back()->with('success', 'Modo oscuro ' . ($darkMode ? 'activado' : 'desactivado'));
+        return back()->with('success', __('settings.dark_mode_' . ($darkMode ? 'enabled' : 'disabled')));
     }
 
     public function updateLanguage(Request $request)
@@ -96,6 +96,6 @@ class SettingsController extends Controller
             $user->settings()->create(array_merge($settings, ['user_id' => $user->id]));
         }
 
-        return back()->with('success', 'Idioma actualizado exitosamente');
+        return back()->with('success', __('settings.language_updated_successfully'));
     }
 }

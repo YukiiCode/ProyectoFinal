@@ -1,150 +1,155 @@
 import { useToast } from 'primevue/usetoast';
+import { useI18n } from 'vue-i18n';
 
 // Composable para notificaciones globales
 export const useNotifications = () => {
     const toast = useToast();
+    const { t } = useI18n();
 
-    const showSuccess = (message, title = 'Éxito', life = 3000) => {
+    const showSuccess = (message, title = null, life = 3000) => {
         toast.add({
             severity: 'success',
-            summary: title,
+            summary: title || t('notifications.success'),
             detail: message,
             life: life
         });
     };
 
-    const showError = (message, title = 'Error', life = 5000) => {
+    const showError = (message, title = null, life = 5000) => {
         toast.add({
             severity: 'error',
-            summary: title,
+            summary: title || t('notifications.error'),
             detail: message,
             life: life
         });
     };
 
-    const showWarning = (message, title = 'Advertencia', life = 4000) => {
+    const showWarning = (message, title = null, life = 4000) => {
         toast.add({
             severity: 'warn',
-            summary: title,
+            summary: title || t('notifications.warning'),
             detail: message,
             life: life
         });
     };
 
-    const showInfo = (message, title = 'Información', life = 3000) => {
+    const showInfo = (message, title = null, life = 3000) => {
         toast.add({
             severity: 'info',
-            summary: title,
+            summary: title || t('notifications.info'),
             detail: message,
             life: life
         });
-    };
-
-    // Funciones específicas para el contexto de mesas
+    };    // Funciones específicas para el contexto de mesas
     const tableUpdated = (tableNumber) => {
         showSuccess(
-            `Mesa ${tableNumber} reposicionada correctamente`,
-            'Posición actualizada'
+            t('notifications.tables.table_repositioned', { tableNumber }),
+            t('notifications.tables.position_updated')
         );
     };
 
     const tableUpdateError = () => {
         showError(
-            'No se pudo actualizar la posición de la mesa',
-            'Error al actualizar'
+            t('notifications.tables.position_update_failed'),
+            t('notifications.tables.update_error')
         );
     };
 
     const tableCreated = (tableNumber) => {
         showSuccess(
-            `Mesa ${tableNumber} creada exitosamente`,
-            'Mesa creada'
+            t('notifications.tables.table_created_success', { tableNumber }),
+            t('notifications.tables.table_created')
         );
     };
 
     const tableDeleted = (tableNumber) => {
         showSuccess(
-            `Mesa ${tableNumber} eliminada correctamente`,
-            'Mesa eliminada'
+            t('notifications.tables.table_deleted_success', { tableNumber }),
+            t('notifications.tables.table_deleted')
         );
     };
 
     const tableDeleteError = () => {
         showError(
-            'No se pudo eliminar la mesa',
-            'Error al eliminar'
+            t('notifications.tables.delete_failed'),
+            t('notifications.tables.delete_error')
         );
-    };
-
-    // Funciones específicas para reservas
+    };    // Funciones específicas para reservas
     const reservationCreated = () => {
         showSuccess(
-            'La reserva ha sido creada exitosamente',
-            'Reserva confirmada'
+            t('notifications.reservations.created_success'),
+            t('notifications.reservations.confirmed')
         );
     };
 
     const reservationUpdated = () => {
         showSuccess(
-            'La reserva ha sido actualizada correctamente',
-            'Reserva actualizada'
+            t('notifications.reservations.updated_success'),
+            t('notifications.reservations.updated')
         );
     };
 
     const reservationCancelled = () => {
         showInfo(
-            'La reserva ha sido cancelada',
-            'Reserva cancelada'
+            t('notifications.reservations.cancelled_info'),
+            t('notifications.reservations.cancelled')
         );
     };
 
-    const reservationError = (message = 'Error al procesar la reserva') => {
-        showError(message, 'Error en reserva');
-    };
-
-    // Funciones específicas para el menú
+    const reservationError = (message = null) => {
+        showError(
+            message || t('notifications.reservations.processing_error'), 
+            t('notifications.reservations.error')
+        );
+    };    // Funciones específicas para el menú
     const menuItemSaved = (itemName) => {
         showSuccess(
-            `${itemName} guardado correctamente`,
-            'Elemento del menú guardado'
+            t('notifications.menu.item_saved_success', { itemName }),
+            t('notifications.menu.item_saved')
         );
     };
 
     const menuItemDeleted = (itemName) => {
         showSuccess(
-            `${itemName} eliminado del menú`,
-            'Elemento eliminado'
+            t('notifications.menu.item_deleted_success', { itemName }),
+            t('notifications.menu.item_deleted')
         );
     };
 
     // Funciones para formularios generales
     const formSaved = (itemType = 'elemento') => {
         showSuccess(
-            `El ${itemType} ha sido guardado correctamente`,
-            'Guardado exitoso'
+            t('notifications.forms.item_saved', { itemType }),
+            t('notifications.forms.saved_success')
         );
     };
 
-    const formError = (message = 'Por favor, revisa los datos ingresados') => {
-        showError(message, 'Error en formulario');
+    const formError = (message = null) => {
+        showError(
+            message || t('notifications.forms.check_data'), 
+            t('notifications.forms.form_error')
+        );
     };
 
-    const validationError = (message = 'Hay errores en el formulario') => {
-        showWarning(message, 'Datos incompletos');
+    const validationError = (message = null) => {
+        showWarning(
+            message || t('notifications.forms.validation_errors'), 
+            t('notifications.forms.incomplete_data')
+        );
     };
 
     // Funciones para operaciones de red
     const networkError = () => {
         showError(
-            'No se pudo conectar con el servidor. Revisa tu conexión.',
-            'Error de conexión'
+            t('notifications.network.connection_failed'),
+            t('notifications.network.connection_error')
         );
     };
 
     const unauthorized = () => {
         showWarning(
-            'Tu sesión ha expirado. Por favor, inicia sesión nuevamente.',
-            'Sesión expirada'
+            t('notifications.network.unauthorized'),
+            t('notifications.network.session_expired')
         );
     };
 

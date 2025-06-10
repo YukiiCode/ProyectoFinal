@@ -1,42 +1,39 @@
 <template>
     <AdminLayout>
-        <div class="container-fluid">
-            <!-- Header -->
+        <div class="container-fluid">            <!-- Header -->
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <div>
-                    <h1 class="h3 mb-0 text-dark">Gestión del Menú</h1>
-                    <p class="text-muted mb-0">Administra los productos del menú</p>
+                    <h1 class="h3 mb-0 text-dark">{{ t('admin.menu.title') }}</h1>
+                    <p class="text-muted mb-0">{{ t('admin.menu.subtitle') }}</p>
                 </div>
                 <button class="btn btn-primary" @click="openCreateModal">
                     <i class="fas fa-plus me-2"></i>
-                    Nuevo Producto
+                    {{ t('admin.menu.new_product') }}
                 </button>
-            </div>
-
-            <!-- Filters -->
+            </div>            <!-- Filters -->
             <div class="row mb-4">
                 <div class="col-md-4">
-                    <label class="form-label">Categoría</label>
+                    <label class="form-label">{{ t('admin.menu.category') }}</label>
                     <Dropdown 
                         v-model="filters.category" 
                         :options="categoryOptions" 
                         optionLabel="label" 
                         optionValue="value" 
                         class="w-100"
-                        placeholder="Todas las categorías"
+                        :placeholder="t('admin.menu.all_categories')"
                         :showClear="true"
                         @change="applyFilters"
                     />
                 </div>
                 <div class="col-md-4">
-                    <label class="form-label">Disponibilidad</label>
+                    <label class="form-label">{{ t('admin.menu.availability') }}</label>
                     <Dropdown 
                         v-model="filters.available" 
                         :options="availabilityOptions" 
                         optionLabel="label" 
                         optionValue="value" 
                         class="w-100"
-                        placeholder="Todos"
+                        :placeholder="t('admin.menu.all_statuses')"
                         :showClear="true"
                         @change="applyFilters"
                     />
@@ -44,7 +41,7 @@
                 <div class="col-md-4 d-flex align-items-end">
                     <button class="btn btn-outline-secondary w-100" @click="clearFilters">
                         <i class="fas fa-times me-2"></i>
-                        Limpiar Filtros
+                        {{ t('admin.menu.clear_filters') }}
                     </button>
                 </div>
             </div>
@@ -62,8 +59,7 @@
                                 :rows="12" 
                                 :rows-per-page-options="[8,12,20]"
                                 class="p-datatable-sm"
-                            >
-                                <Column field="image" header="Imagen" style="width: 80px">
+                            >                                <Column field="image" :header="t('admin.menu.image')" style="width: 80px">
                                     <template #body="{ data }">
                                         <div class="product-image-container">
                                             <img 
@@ -75,43 +71,43 @@
                                         </div>
                                     </template>
                                 </Column>
-                                <Column field="name" header="Nombre" sortable>
+                                <Column field="name" :header="t('common.name')" sortable>
                                     <template #body="{ data }">
                                         <div>
                                             <div class="fw-medium">{{ data.name }}</div>
-                                            <small class="text-muted">{{ data.description ? data.description.substring(0, 60) + '...' : 'Sin descripción' }}</small>
+                                            <small class="text-muted">{{ data.description ? data.description.substring(0, 60) + '...' : t('admin.menu.no_description') }}</small>
                                         </div>
                                     </template>
                                 </Column>
-                                <Column field="category" header="Categoría" sortable>
+                                <Column field="category" :header="t('admin.menu.category')" sortable>
                                     <template #body="{ data }">
                                         <span class="category-badge">{{ data.category }}</span>
                                     </template>
                                 </Column>
-                                <Column field="price" header="Precio" sortable>
+                                <Column field="price" :header="t('admin.menu.price')" sortable>
                                     <template #body="{ data }">
                                         <span class="fw-bold text-success">€{{ parseFloat(data.price).toFixed(2) }}</span>
                                     </template>
                                 </Column>
-                                <Column field="available" header="Disponible" sortable>
+                                <Column field="available" :header="t('admin.menu.available')" sortable>
                                     <template #body="{ data }">
                                         <span class="status-badge" :class="data.available ? 'status-badge-success' : 'status-badge-danger'">
-                                            {{ data.available ? 'Disponible' : 'No disponible' }}
+                                            {{ data.available ? t('admin.menu.available') : t('admin.menu.not_available') }}
                                         </span>
                                     </template>
                                 </Column>
-                                <Column field="created_at" header="Creado" sortable>
+                                <Column field="created_at" :header="t('common.created')" sortable>
                                     <template #body="{ data }">
                                         {{ formatDate(data.created_at) }}
                                     </template>
-                                </Column>                                <Column header="Acciones" style="width: 120px">
+                                </Column>
+                                <Column :header="t('common.actions')" style="width: 120px">
                                     <template #body="{ data }">
-                                        <div class="d-flex gap-1">
-                                            <Button 
+                                        <div class="d-flex gap-1">                                            <Button 
                                                 icon="pi pi-pencil" 
                                                 class="p-button-rounded p-button-info p-button-sm" 
                                                 @click="editProduct(data)"
-                                                title="Editar"
+                                                :title="t('common.edit')"
                                                 style="width: 36px; height: 36px;"
                                             />
                                             <Button 
@@ -119,14 +115,14 @@
                                                 :class="data.available ? 'p-button-warning' : 'p-button-success'"
                                                 class="p-button-rounded p-button-sm" 
                                                 @click="toggleAvailability(data)"
-                                                :title="data.available ? 'Ocultar' : 'Mostrar'"
+                                                :title="data.available ? t('admin.menu.hide') : t('admin.menu.show')"
                                                 style="width: 36px; height: 36px;"
                                             />
                                             <Button 
                                                 icon="pi pi-trash" 
                                                 class="p-button-rounded p-button-danger p-button-sm" 
                                                 @click="deleteProduct(data)"
-                                                title="Eliminar"
+                                                :title="t('common.delete')"
                                                 style="width: 36px; height: 36px;"
                                             />
                                         </div>
@@ -136,48 +132,46 @@
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <!-- Create/Edit Modal -->
+            </div>            <!-- Create/Edit Modal -->
             <Dialog 
                 v-model:visible="showModal" 
-                :header="editingProduct ? 'Editar Producto' : 'Nuevo Producto'" 
+                :header="editingProduct ? t('admin.menu.edit_product') : t('admin.menu.new_product')" 
                 :modal="true" 
                 :closable="true" 
                 :style="{ width: '700px' }"
             >
                 <form @submit.prevent="submitProduct" class="row g-3">
                     <div class="col-12">
-                        <label class="form-label">Nombre del Producto</label>
+                        <label class="form-label">{{ t('admin.menu.product_name') }}</label>
                         <InputText 
                             v-model="form.name" 
                             class="w-100" 
                             required 
-                            placeholder="Nombre del plato o bebida"
+                            :placeholder="t('admin.menu.product_name_placeholder')"
                         />
                     </div>
                     <div class="col-12">
-                        <label class="form-label">Descripción</label>
+                        <label class="form-label">{{ t('admin.menu.description') }}</label>
                         <Textarea 
                             v-model="form.description" 
                             class="w-100" 
                             rows="3"
-                            placeholder="Descripción detallada del producto"
+                            :placeholder="t('admin.menu.description_placeholder')"
                         />
                     </div>
                     <div class="col-6">
-                        <label class="form-label">Categoría</label>
+                        <label class="form-label">{{ t('admin.menu.category') }}</label>
                         <Dropdown 
                             v-model="form.category" 
                             :options="categoryOptions" 
                             optionLabel="label" 
                             optionValue="value" 
                             class="w-100" 
-                            placeholder="Seleccionar categoría"
+                            :placeholder="t('admin.menu.select_category')"
                         />
                     </div>
                     <div class="col-6">
-                        <label class="form-label">Precio (€)</label>
+                        <label class="form-label">{{ t('admin.menu.price_euro') }}</label>
                         <InputText 
                             v-model="form.price" 
                             class="w-100" 
@@ -189,11 +183,11 @@
                         />
                     </div>
                     <div class="col-12">
-                        <label class="form-label">URL de Imagen</label>
+                        <label class="form-label">{{ t('admin.menu.image_url') }}</label>
                         <InputText 
                             v-model="form.image_path" 
                             class="w-100" 
-                            placeholder="https://ejemplo.com/imagen.jpg"
+                            :placeholder="t('admin.menu.image_url_placeholder')"
                         />
                     </div>
                     <div class="col-12">
@@ -205,20 +199,20 @@
                                 id="available"
                             >
                             <label class="form-check-label" for="available">
-                                Producto disponible
+                                {{ t('admin.menu.product_available') }}
                             </label>
                         </div>
                     </div>
                     <div class="col-12 d-flex justify-content-end gap-2 mt-4">
                         <Button 
-                            label="Cancelar" 
+                            :label="t('common.cancel')" 
                             icon="pi pi-times" 
                             class="p-button-text" 
                             @click="closeModal" 
                             type="button" 
                         />
                         <Button 
-                            :label="editingProduct ? 'Actualizar' : 'Crear'" 
+                            :label="editingProduct ? t('common.update') : t('common.create')" 
                             icon="pi pi-check" 
                             type="submit" 
                             :loading="form.processing"
@@ -233,6 +227,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { useForm, router } from '@inertiajs/vue3'
+import { useI18n } from 'vue-i18n'
 import AdminLayout from '@/Layouts/AdminLayout.vue'
 import DataTable from 'primevue/datatable'
 import Column from 'primevue/column'
@@ -241,6 +236,8 @@ import Button from 'primevue/button'
 import InputText from 'primevue/inputtext'
 import Dropdown from 'primevue/dropdown'
 import Textarea from 'primevue/textarea'
+
+const { t } = useI18n()
 
 const props = defineProps({
     products: Array
@@ -264,19 +261,19 @@ const form = useForm({
     available: true,
 })
 
-const categoryOptions = [
-    { label: 'Entrantes', value: 'entrantes' },
-    { label: 'Principales', value: 'principales' },
-    { label: 'Postres', value: 'postres' },
-    { label: 'Bebidas', value: 'bebidas' },
-    { label: 'Vinos', value: 'vinos' },
-    { label: 'Cafés', value: 'cafes' }
-]
+const categoryOptions = computed(() => [
+    { label: t('admin.menu.categories.appetizers'), value: 'entrantes' },
+    { label: t('admin.menu.categories.main_courses'), value: 'principales' },
+    { label: t('admin.menu.categories.desserts'), value: 'postres' },
+    { label: t('admin.menu.categories.beverages'), value: 'bebidas' },
+    { label: t('admin.menu.categories.wines'), value: 'vinos' },
+    { label: t('admin.menu.categories.coffees'), value: 'cafes' }
+])
 
-const availabilityOptions = [
-    { label: 'Disponible', value: true },
-    { label: 'No disponible', value: false }
-]
+const availabilityOptions = computed(() => [
+    { label: t('admin.menu.available'), value: true },
+    { label: t('admin.menu.not_available'), value: false }
+])
 
 const filteredProducts = computed(() => {
     let filtered = products.value
@@ -346,7 +343,7 @@ const toggleAvailability = (product) => {
 }
 
 const deleteProduct = (product) => {
-    if (confirm('¿Estás seguro de que quieres eliminar este producto?')) {
+    if (confirm(t('admin.menu.confirm_delete_product'))) {
         router.delete(route('admin.menu.destroy', product.id), {
             onSuccess: () => {
                 router.get(route('admin.menu'))

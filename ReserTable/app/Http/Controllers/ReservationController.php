@@ -97,11 +97,9 @@ class ReservationController extends Controller
             'status' => $request->status,
         ]);
 
-        $reservation->load(['client', 'table']);
-
-        return response()->json([
+        $reservation->load(['client', 'table']);        return response()->json([
             'success' => true,
-            'message' => 'Reserva creada exitosamente',
+            'message' => __('reservations.created_successfully'),
             'reservation' => [
                 'id' => $reservation->id,
                 'client_name' => $reservation->client->name,
@@ -160,11 +158,9 @@ class ReservationController extends Controller
             'status' => $request->status,
         ]);
 
-        $reservation->load(['client', 'table']);
-
-        return response()->json([
+        $reservation->load(['client', 'table']);        return response()->json([
             'success' => true,
-            'message' => 'Reserva actualizada exitosamente',
+            'message' => __('reservations.updated_successfully'),
             'reservation' => [
                 'id' => $reservation->id,
                 'client_name' => $reservation->client->name,
@@ -184,11 +180,9 @@ class ReservationController extends Controller
      */
     public function destroy(Reservation $reservation): JsonResponse
     {
-        $reservation->delete();
-
-        return response()->json([
+        $reservation->delete();        return response()->json([
             'success' => true,
-            'message' => 'Reserva eliminada exitosamente'
+            'message' => __('reservations.deleted_successfully')
         ]);
     }
 
@@ -202,11 +196,9 @@ class ReservationController extends Controller
         ]);
 
         $reservation->update(['status' => $request->status]);
-        $reservation->load(['client', 'table']);
-
-        return response()->json([
+        $reservation->load(['client', 'table']);        return response()->json([
             'success' => true,
-            'message' => 'Estado de la reserva actualizado exitosamente',
+            'message' => __('reservations.status_updated_successfully'),
             'reservation' => [
                 'id' => $reservation->id,
                 'client_name' => $reservation->client->name,

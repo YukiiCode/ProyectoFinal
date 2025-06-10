@@ -76,10 +76,8 @@ class DiscountCouponController extends Controller
             'max_uses' => $request->max_uses,
             'used_count' => 0,
             'client_id' => $request->type === 'personalized' ? $request->client_id : null,
-        ]);
-
-        return redirect()->route('admin.discount-coupons.index')
-            ->with('success', 'Cupón de descuento creado exitosamente');
+        ]);        return redirect()->route('admin.discount-coupons.index')
+            ->with('success', __('coupons.created_successfully'));
     }
 
     /**
@@ -149,10 +147,8 @@ class DiscountCouponController extends Controller
             'valid_to' => $request->valid_to,
             'max_uses' => $request->max_uses,
             'client_id' => $request->type === 'personalized' ? $request->client_id : null,
-        ]);
-
-        return redirect()->route('admin.discount-coupons.index')
-            ->with('success', 'Cupón de descuento actualizado exitosamente');
+        ]);        return redirect()->route('admin.discount-coupons.index')
+            ->with('success', __('coupons.updated_successfully'));
     }
 
     /**
@@ -161,9 +157,8 @@ class DiscountCouponController extends Controller
     public function destroy(DiscountCoupon $discountCoupon)
     {
         $discountCoupon->delete();
-        
-        return redirect()->route('admin.discount-coupons.index')
-            ->with('success', 'Cupón de descuento eliminado exitosamente');
+          return redirect()->route('admin.discount-coupons.index')
+            ->with('success', __('coupons.deleted_successfully'));
     }
 
     /**
@@ -330,12 +325,10 @@ class DiscountCouponController extends Controller
             'max_uses' => 1,
             'used_count' => 0,
             'client_id' => $request->client_id,
-        ]);
-
-        return response()->json([
+        ]);        return response()->json([
             'success' => true,
             'coupon' => $coupon,
-            'message' => 'Cupón de recompensa creado exitosamente'
+            'message' => __('coupons.reward_created_successfully')
         ]);
     }
 
@@ -372,12 +365,10 @@ class DiscountCouponController extends Controller
             ]);
 
             $coupons[] = $coupon;
-        }
-
-        return response()->json([
+        }        return response()->json([
             'success' => true,
             'coupons' => $coupons,
-            'message' => "Se generaron {$request->count} cupones exitosamente"
+            'message' => __('coupons.bulk_generated_successfully', ['count' => $request->count])
         ]);
     }
 
@@ -636,11 +627,9 @@ class DiscountCouponController extends Controller
         $deletedCoupons = $expiredCoupons->get(['id', 'code', 'valid_to', 'created_at']);
         
         // Eliminar cupones expirados
-        $expiredCoupons->delete();
-
-        return response()->json([
+        $expiredCoupons->delete();        return response()->json([
             'success' => true,
-            'message' => "Se eliminaron {$count} cupones expirados exitosamente",
+            'message' => __('coupons.expired_deleted_successfully', ['count' => $count]),
             'deleted_count' => $count,
             'deleted_coupons' => $deletedCoupons,
             'cutoff_date' => $cutoffDate->format('Y-m-d')

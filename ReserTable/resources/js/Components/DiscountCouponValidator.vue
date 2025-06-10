@@ -2,14 +2,14 @@
   <div class="discount-coupon-validator">
     <div class="mb-4">
       <label for="coupon-code" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-        Código de Descuento
+        {{ $t('coupons.discountCode') }}
       </label>
       <div class="flex rounded-md shadow-sm">
         <input
           id="coupon-code"
           v-model="couponCode"
           type="text"
-          placeholder="Ingresa tu código de descuento"
+          :placeholder="$t('coupons.enterDiscountCode')"
           class="flex-1 min-w-0 block w-full px-3 py-2 rounded-none rounded-l-md border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white"
           :class="{
             'border-red-300': validationState === 'error',
@@ -29,7 +29,7 @@
             <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
           </svg>
           <i v-else class="pi pi-check"></i>
-          Validar
+          {{ $t('coupons.validate') }}
         </button>
       </div>
     </div>
@@ -56,34 +56,32 @@
           {{ validationMessage }}
         </div>
       </div>
-    </div>
-
-    <!-- Detalles del cupón válido -->
+    </div>    <!-- Detalles del cupón válido -->
     <div v-if="validCoupon && validationState === 'valid'" class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4 mb-4">
-      <h4 class="font-semibold text-gray-900 dark:text-white mb-3">Detalles del Descuento</h4>
+      <h4 class="font-semibold text-gray-900 dark:text-white mb-3">{{ $t('coupons.discountDetails') }}</h4>
       <div class="grid grid-cols-2 gap-4 text-sm">
         <div>
-          <span class="text-gray-500 dark:text-gray-400">Código:</span>
+          <span class="text-gray-500 dark:text-gray-400">{{ $t('coupons.code') }}:</span>
           <span class="font-medium text-gray-900 dark:text-white ml-2">{{ validCoupon.code }}</span>
         </div>
         <div>
-          <span class="text-gray-500 dark:text-gray-400">Tipo:</span>
+          <span class="text-gray-500 dark:text-gray-400">{{ $t('coupons.type') }}:</span>
           <span class="font-medium text-gray-900 dark:text-white ml-2">
-            {{ validCoupon.type === 'global' ? 'Global' : 'Personalizado' }}
+            {{ validCoupon.type === 'global' ? $t('coupons.global') : $t('coupons.personalized') }}
           </span>
         </div>
         <div>
-          <span class="text-gray-500 dark:text-gray-400">Descuento:</span>
+          <span class="text-gray-500 dark:text-gray-400">{{ $t('coupons.discount') }}:</span>
           <span class="font-medium text-green-600 dark:text-green-400 ml-2">
             {{ validCoupon.discount_type === 'percentage' ? validCoupon.value + '%' : '€' + validCoupon.value }}
           </span>
         </div>
         <div>
-          <span class="text-gray-500 dark:text-gray-400">Válido hasta:</span>
+          <span class="text-gray-500 dark:text-gray-400">{{ $t('coupons.validUntil') }}:</span>
           <span class="font-medium text-gray-900 dark:text-white ml-2">{{ formatDate(validCoupon.valid_to) }}</span>
         </div>
         <div v-if="validCoupon.max_uses">
-          <span class="text-gray-500 dark:text-gray-400">Usos restantes:</span>
+          <span class="text-gray-500 dark:text-gray-400">{{ $t('coupons.remainingUses') }}:</span>
           <span class="font-medium text-gray-900 dark:text-white ml-2">
             {{ validCoupon.max_uses - validCoupon.used_count }}
           </span>
@@ -96,7 +94,7 @@
           @click="applyCoupon"
           class="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-md transition-colors duration-200"
         >
-          Aplicar Descuento
+          {{ $t('coupons.applyDiscount') }}
         </button>
       </div>
     </div>
@@ -106,6 +104,9 @@
 <script setup>
 import { ref, defineEmits } from 'vue'
 import { router } from '@inertiajs/vue3'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 const props = defineProps({
   clientId: {
@@ -144,13 +145,13 @@ const handleInput = () => {
 const validateCoupon = async () => {
   if (!couponCode.value.trim()) {
     validationState.value = 'error'
-    validationMessage.value = 'Por favor ingresa un código de descuento'
+    validationMessage.value = t('coupons.validation.enterCode')
     return
   }
 
   isValidating.value = true
   validationState.value = 'info'
-  validationMessage.value = 'Validando cupón...'
+  validationMessage.value = t('coupons.validation.validating')
 
   try {
     const response = await fetch(route('api.discount-coupons.validate'), {
@@ -181,7 +182,7 @@ const validateCoupon = async () => {
   } catch (error) {
     console.error('Error validating coupon:', error)
     validationState.value = 'error'
-    validationMessage.value = 'Error al validar el cupón. Inténtalo de nuevo.'
+    validationMessage.value = t('coupons.validation.error')
     validCoupon.value = null
     emit('couponValidated', null)
   } finally {
@@ -196,7 +197,7 @@ const applyCoupon = () => {
 }
 
 const formatDate = (dateString) => {
-  return new Date(dateString).toLocaleDateString('es-ES', {
+  return new Date(dateString).toLocaleDateString(t('coupons.dateLocale'), {
     year: 'numeric',
     month: 'long',
     day: 'numeric'

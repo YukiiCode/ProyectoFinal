@@ -4,8 +4,8 @@
             <!-- Header -->
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <div>
-                    <h1 class="h3 mb-0 text-dark">Dashboard Administrativo</h1>
-                    <p class="text-muted mb-0">Resumen general del sistema ReserTable</p>
+                    <h1 class="h3 mb-0 text-dark">{{ t('admin.dashboard.title') }}</h1>
+                    <p class="text-muted mb-0">{{ t('admin.dashboard.welcome') }}</p>
                 </div>
                 <div class="text-muted">
                     {{ new Date().toLocaleDateString('es-ES', { 
@@ -28,7 +28,7 @@
                                 </div>
                             </div>
                             <div class="flex-grow-1 ms-3">
-                                <div class="text-muted small">Total Reservas</div>
+                                <div class="text-muted small">{{ t('admin.dashboard.total_reservations') }}</div>
                                 <div class="h4 mb-0 text-dark">{{ stats.total_reservations }}</div>
                             </div>
                         </div>
@@ -44,7 +44,7 @@
                                 </div>
                             </div>
                             <div class="flex-grow-1 ms-3">
-                                <div class="text-muted small">Reservas Hoy</div>
+                                <div class="text-muted small">{{ t('admin.dashboard.today_reservations') }}</div>
                                 <div class="h4 mb-0 text-dark">{{ stats.today_reservations }}</div>
                             </div>
                         </div>
@@ -60,7 +60,7 @@
                                 </div>
                             </div>
                             <div class="flex-grow-1 ms-3">
-                                <div class="text-muted small">Mesas Disponibles</div>
+                                <div class="text-muted small">{{ t('admin.dashboard.available_tables') }}</div>
                                 <div class="h4 mb-0 text-dark">{{ stats.available_tables }}/{{ stats.total_tables }}</div>
                             </div>
                         </div>
@@ -75,7 +75,7 @@
                                 </div>
                             </div>
                             <div class="flex-grow-1 ms-3">
-                                <div class="text-muted small">Total Usuarios</div>
+                                <div class="text-muted small">{{ t('admin.dashboard.total_users') }}</div>
                                 <div class="h4 mb-0 text-dark">{{ stats.total_users }}</div>
                             </div>
                         </div>
@@ -94,7 +94,7 @@
                                 </div>
                             </div>
                             <div class="flex-grow-1 ms-3">
-                                <div class="text-muted small">Cupones Activos</div>
+                                <div class="text-muted small">{{ t('admin.dashboard.active_coupons') }}</div>
                                 <div class="h4 mb-0 text-dark">{{ stats.active_coupons || 0 }}</div>
                             </div>
                         </div>
@@ -110,7 +110,7 @@
                                 </div>
                             </div>
                             <div class="flex-grow-1 ms-3">
-                                <div class="text-muted small">Total Cupones</div>
+                                <div class="text-muted small">{{ t('admin.dashboard.total_coupons') }}</div>
                                 <div class="h4 mb-0 text-dark">{{ stats.total_coupons || 0 }}</div>
                             </div>
                         </div>
@@ -126,7 +126,7 @@
                                 </div>
                             </div>
                             <div class="flex-grow-1 ms-3">
-                                <div class="text-muted small">Cupones Usados</div>
+                                <div class="text-muted small">{{ t('admin.dashboard.used_coupons') }}</div>
                                 <div class="h4 mb-0 text-dark">{{ stats.used_coupons || 0 }}</div>
                             </div>
                         </div>
@@ -142,7 +142,7 @@
                                 </div>
                             </div>
                             <div class="flex-grow-1 ms-3">
-                                <div class="text-muted small">Ahorro Total</div>
+                                <div class="text-muted small">{{ t('admin.dashboard.total_savings') }}</div>
                                 <div class="h4 mb-0 text-dark">€{{ stats.total_savings || '0.00' }}</div>
                             </div>
                         </div>
@@ -156,26 +156,26 @@
                     <div class="admin-card h-100">
                         <div class="admin-card-header">
                             <div class="d-flex justify-content-between align-items-center">
-                                <h5 class="admin-card-title">Reservas Recientes</h5>
+                                <h5 class="admin-card-title">{{ t('admin.dashboard.recent_reservations') }}</h5>
                                 <Link :href="route('admin.reservations')" class="btn btn-sm btn-outline-primary">
-                                    Ver todas
+                                    {{ t('admin.dashboard.view_all') }}
                                 </Link>
                             </div>
                         </div>
                         <div class="admin-card-body p-0">
                             <div v-if="recent_reservations.length === 0" class="text-center py-5 text-muted">
                                 <i class="fas fa-calendar-times fa-3x mb-3 opacity-50"></i>
-                                <p>No hay reservas recientes</p>
+                                <p>{{ t('admin.dashboard.no_reservations') }}</p>
                             </div>
                             <div v-else class="table-responsive">
                                 <table class="table table-hover mb-0">
                                     <thead class="bg-light">
                                         <tr>
-                                            <th class="border-0 py-3">Cliente</th>
-                                            <th class="border-0 py-3">Mesa</th>
-                                            <th class="border-0 py-3">Fecha</th>
-                                            <th class="border-0 py-3">Personas</th>
-                                            <th class="border-0 py-3">Estado</th>
+                                            <th class="border-0 py-3">{{ t('admin.dashboard.client') }}</th>
+                                            <th class="border-0 py-3">{{ t('admin.dashboard.table') }}</th>
+                                            <th class="border-0 py-3">{{ t('admin.dashboard.date') }}</th>
+                                            <th class="border-0 py-3">{{ t('admin.dashboard.people') }}</th>
+                                            <th class="border-0 py-3">{{ t('admin.dashboard.status') }}</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -208,7 +208,7 @@
                 <div class="col-lg-4">
                     <div class="admin-card h-100">
                         <div class="admin-card-header">
-                            <h5 class="admin-card-title">Reservas Esta Semana</h5>
+                            <h5 class="admin-card-title">{{ t('admin.dashboard.weekly_reservations') }}</h5>
                         </div>
                         <div class="admin-card-body">
                             <div v-for="day in weekly_reservations" :key="day.date" class="d-flex justify-content-between align-items-center mb-3">
@@ -236,37 +236,37 @@
                 <div class="col-12">
                     <div class="admin-card">
                         <div class="admin-card-header">
-                            <h5 class="admin-card-title">Accesos Rápidos</h5>
+                            <h5 class="admin-card-title">{{ t('admin.dashboard.quick_actions') }}</h5>
                         </div>                        <div class="admin-card-body">
                             <div class="row g-3">
                                 <div class="col-md-3 col-lg-2">
                                     <Link :href="route('admin.reservations')" class="btn btn-outline-primary w-100 py-3">
                                         <i class="fas fa-calendar-plus fa-2x mb-2 d-block"></i>
-                                        Gestionar Reservas
+                                        {{ t('admin.dashboard.manage_reservations') }}
                                     </Link>
                                 </div>
                                 <div class="col-md-3 col-lg-2">
                                     <Link :href="route('admin.tables')" class="btn btn-outline-success w-100 py-3">
                                         <i class="fas fa-chair fa-2x mb-2 d-block"></i>
-                                        Gestionar Mesas
+                                        {{ t('admin.dashboard.manage_tables') }}
                                     </Link>
                                 </div>
                                 <div class="col-md-3 col-lg-2">
                                     <Link :href="route('admin.menu')" class="btn btn-outline-warning w-100 py-3">
                                         <i class="fas fa-utensils fa-2x mb-2 d-block"></i>
-                                        Gestionar Menú
+                                        {{ t('admin.dashboard.manage_menu') }}
                                     </Link>
                                 </div>
                                 <div class="col-md-3 col-lg-2">
                                     <Link :href="route('admin.users')" class="btn btn-outline-info w-100 py-3">
                                         <i class="fas fa-users fa-2x mb-2 d-block"></i>
-                                        Gestionar Usuarios
+                                        {{ t('admin.dashboard.manage_users') }}
                                     </Link>
                                 </div>
                                 <div class="col-md-3 col-lg-2">
                                     <Link href="/admin/discount-coupons" class="btn btn-outline-danger w-100 py-3">
                                         <i class="fas fa-ticket-alt fa-2x mb-2 d-block"></i>
-                                        Cupones
+                                        {{ t('admin.dashboard.manage_coupons') }}
                                     </Link>
                                 </div>
                             </div>
@@ -281,7 +281,10 @@
 <script setup>
 import { defineProps } from 'vue'
 import { Link } from '@inertiajs/vue3'
+import { useI18n } from 'vue-i18n'
 import AdminLayout from '@/Layouts/AdminLayout.vue'
+
+const { t } = useI18n()
 
 const props = defineProps({
     stats: Object,

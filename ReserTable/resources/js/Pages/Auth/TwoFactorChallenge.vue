@@ -4,7 +4,9 @@ import { Head, useForm } from '@inertiajs/vue3';
 import AuthenticationCard from '@/Components/AuthenticationCard.vue';
 import AuthenticationCardLogo from '@/Components/AuthenticationCardLogo.vue';
 import { useNotifications } from '@/composables/useNotifications';
+import { useI18n } from 'vue-i18n';
 
+const { t } = useI18n();
 const { showError } = useNotifications();
 
 const recovery = ref(false);
@@ -34,14 +36,14 @@ const toggleRecovery = async () => {
 const submit = () => {
     form.post(route('two-factor.login'), {
         onError: () => {
-            showError('Código incorrecto', 'Por favor verifica el código de autenticación');
+            showError(t('auth.password_incorrect'), t('auth.verify_password'));
         }
     });
 };
 </script>
 
 <template>
-    <Head title="Autenticación de Dos Factores - ReserTable" />
+    <Head :title="t('auth.two_factor_title')" />
 
     <AuthenticationCard>
         <template #logo>
@@ -50,17 +52,17 @@ const submit = () => {
 
         <!-- Título del formulario -->
         <div class="form-header">
-            <h2 class="form-title">Autenticación de dos factores</h2>
-            <p class="form-subtitle">Confirma el acceso a tu cuenta para continuar</p>
+            <h2 class="form-title">{{ t('auth.two_factor_title').replace(' - ReserTable', '') }}</h2>
+            <p class="form-subtitle">{{ t('auth.two_factor_subtitle') }}</p>
         </div>
 
         <!-- Descripción -->
         <div class="form-description">
             <template v-if="! recovery">
-                Por favor confirma el acceso a tu cuenta ingresando el código de autenticación proporcionado por tu aplicación de autenticación.
+                {{ t('auth.two_factor_code_description') }}
             </template>
             <template v-else>
-                Por favor confirma el acceso a tu cuenta ingresando uno de tus códigos de recuperación de emergencia.
+                {{ t('auth.two_factor_recovery_description') }}
             </template>
         </div>
 
@@ -69,7 +71,7 @@ const submit = () => {
             <div v-if="! recovery" class="input-group">
                 <label for="code" class="input-label">
                     <i class="fas fa-mobile-alt"></i>
-                    Código de Autenticación
+                    {{ t('auth.authentication_code') }}
                 </label>
                 <div class="input-wrapper">
                     <input
@@ -96,7 +98,7 @@ const submit = () => {
             <div v-else class="input-group">
                 <label for="recovery_code" class="input-label">
                     <i class="fas fa-key"></i>
-                    Código de Recuperación
+                    {{ t('auth.recovery_code') }}
                 </label>
                 <div class="input-wrapper">
                     <input
@@ -127,11 +129,11 @@ const submit = () => {
                 >
                     <span v-if="!form.processing" class="btn-content">
                         <i class="fas fa-sign-in-alt"></i>
-                        Iniciar Sesión
+                        {{ t('auth.login') }}
                     </span>
                     <span v-else class="btn-loading">
                         <i class="fas fa-spinner fa-spin"></i>
-                        Verificando...
+                        {{ t('auth.verifying') }}
                     </span>
                 </button>
             </div>
@@ -141,11 +143,11 @@ const submit = () => {
                 <button type="button" class="recovery-toggle" @click.prevent="toggleRecovery">
                     <template v-if="! recovery">
                         <i class="fas fa-life-ring"></i>
-                        Usar código de recuperación
+                        {{ t('auth.use_recovery_code') }}
                     </template>
                     <template v-else>
                         <i class="fas fa-mobile-alt"></i>
-                        Usar código de autenticación
+                        {{ t('auth.use_authentication_code') }}
                     </template>
                 </button>
             </div>

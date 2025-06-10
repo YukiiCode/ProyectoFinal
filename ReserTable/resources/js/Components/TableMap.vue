@@ -2,9 +2,12 @@
 import { ref, onMounted, computed, nextTick } from 'vue';
 import axios from 'axios';
 import { usePage } from '@inertiajs/vue3';
+import { useI18n } from 'vue-i18n';
 import interact from 'interact.js';
 import { Modal } from 'bootstrap';
 import DiscountCouponValidator from '@/Components/DiscountCouponValidator.vue';
+
+const { t } = useI18n();
 
 const tables = ref([]);
 const selectedTable = ref(null);
@@ -100,7 +103,7 @@ const confirmReservation = async () => {
     reservationSuccess.value = false;
     
     if (!reservationDateTime.value) {
-        reservationError.value = 'Selecciona fecha y hora.';
+        reservationError.value = t('reservations.select_date_time');
         return;
     }
     
@@ -123,7 +126,7 @@ const confirmReservation = async () => {
             modal.hide();
         }, 2000);
     } catch (e) {
-        reservationError.value = e.response?.data?.message || 'Error al reservar la mesa.';
+        reservationError.value = e.response?.data?.message || t('reservations.reservation_error');
     }
 };
 
@@ -209,7 +212,7 @@ const tableLegs = [
                     </svg>                    <!-- Información de la mesa -->
                     <div class="table-info">
                         <div class="table-number text-gray-900 dark:text-gray-100">{{ table.id }}</div>
-                        <div class="table-capacity text-gray-600 dark:text-gray-300">{{ table.capacity }} Pax</div>
+                        <div class="table-capacity text-gray-600 dark:text-gray-300">{{ table.capacity }} {{ t('reservations.people') }}</div>
                     </div>
                 </div>
             </div>
@@ -220,7 +223,7 @@ const tableLegs = [
                     <div class="modal-header bg-blue-600 text-white border-0">
                         <h5 class="modal-title">
                             <i class="pi pi-calendar-plus mr-2"></i>
-                            Reservar Mesa {{ selectedTable?.id }}
+                            {{ t('reservations.reserve_table') }} {{ selectedTable?.id }}
                         </h5>
                         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                     </div>
@@ -229,7 +232,7 @@ const tableLegs = [
                             <div class="mb-4">
                                 <label class="form-label text-gray-700 dark:text-gray-300 font-medium">
                                     <i class="pi pi-calendar mr-2"></i>
-                                    Fecha y Hora
+                                    {{ t('reservations.date_time') }}
                                 </label>
                                 <input
                                     type="datetime-local"
@@ -243,7 +246,7 @@ const tableLegs = [
                             <div class="mb-4">
                                 <h6 class="text-gray-700 dark:text-gray-300 mb-3">
                                     <i class="pi pi-tag mr-2"></i>
-                                    Código de Descuento (Opcional)
+                                    {{ t('reservations.discount_code') }}
                                 </h6>
                                 <DiscountCouponValidator 
                                     @coupon-validated="onCouponValidated"
@@ -256,10 +259,10 @@ const tableLegs = [
                                     <div class="d-flex justify-content-between align-items-center">
                                         <div>
                                             <i class="pi pi-check-circle mr-2"></i>
-                                            <strong>{{ appliedCoupon.code }}</strong> aplicado
+                                            <strong>{{ appliedCoupon.code }}</strong> {{ t('reservations.applied') }}
                                             <br>
                                             <small>
-                                                Descuento: 
+                                                {{ t('reservations.discount') }}: 
                                                 <span v-if="appliedCoupon.discount_type === 'percentage'">
                                                     {{ appliedCoupon.value }}%
                                                 </span>
@@ -285,8 +288,8 @@ const tableLegs = [
                             </div>
                             <div v-if="reservationSuccess" class="alert alert-success bg-green-50 dark:bg-green-900/30 border border-green-200 dark:border-green-800 text-green-800 dark:text-green-200 rounded-lg p-3 mb-4">
                                 <i class="pi pi-check-circle mr-2"></i>
-                                ¡Reserva confirmada! <br>
-                                <small class="text-green-600 dark:text-green-400">Redirigiendo...</small>
+                                {{ t('reservations.reservation_success') }} <br>
+                                <small class="text-green-600 dark:text-green-400">{{ t('reservations.redirecting') }}</small>
                             </div>
                             
                             <button
@@ -295,7 +298,7 @@ const tableLegs = [
                                 class="btn btn-primary w-100 bg-blue-600 hover:bg-blue-700 border-blue-600 hover:border-blue-700 text-white font-medium py-3 rounded-lg transition-all duration-200"
                             >
                                 <i class="pi pi-check mr-2"></i>
-                                Confirmar Reserva
+                                {{ t('reservations.confirm_reservation') }}
                             </button>
                         </form>
                     </div>

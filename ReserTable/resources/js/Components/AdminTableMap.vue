@@ -3,10 +3,13 @@ import { ref, onMounted, computed, nextTick, watch } from 'vue';
 import interact from 'interactjs';
 import { useForm, router } from '@inertiajs/vue3';
 import { useNotifications } from '@/composables/useNotifications';
+import { useI18n } from 'vue-i18n';
 import Button from 'primevue/button';
 import Dialog from 'primevue/dialog';
 import InputText from 'primevue/inputtext';
 import Dropdown from 'primevue/dropdown';
+
+const { t } = useI18n();
 
 const props = defineProps({
     tables: {
@@ -71,11 +74,11 @@ const positionForm = useForm({
     position_y: 0,
 });
 
-const statusOptions = [
-    { label: 'Disponible', value: 'available' },
-    { label: 'Reservada', value: 'reserved' },
-    { label: 'Ocupada', value: 'occupied' }
-];
+const statusOptions = computed(() => [
+    { label: t('admin.tables.status_available'), value: 'available' },
+    { label: t('admin.tables.status_reserved'), value: 'reserved' },
+    { label: t('admin.tables.status_occupied'), value: 'occupied' }
+]);
 
 // Función para validar y corregir posiciones
 const validatePosition = (x, y) => {
@@ -315,7 +318,7 @@ const setupDragAndDrop = () => {
                             setTimeout(() => {
                                 target.style.transition = '';
                             }, 300);
-                            alert('Error al actualizar la posición de la mesa');
+                            alert(t('admin.tables.error_position_update'));
                         }
                         
                         // Pequeño delay antes de permitir clicks nuevamente
@@ -363,7 +366,7 @@ const handleMapClick = (event) => {
     });
     
     if (conflict) {
-        alert('No se puede colocar una mesa tan cerca de otra mesa existente.');
+        alert(t('admin.tables.position_conflict'));
         return;
     }
     
@@ -453,7 +456,7 @@ const submitTable = () => {
             },
             onError: (errors) => {
                 console.error('Error updating table:', errors);
-                formError('Error al actualizar la mesa');
+                formError(t('admin.tables.error_updating_table'));
             }
         });
     } else {
@@ -474,7 +477,7 @@ const submitTable = () => {
             },
             onError: (errors) => {
                 console.error('Error creating table:', errors);
-                formError('Error al crear la mesa');
+                formError(t('admin.tables.error_creating_table'));
             }
         });
     }
@@ -482,7 +485,7 @@ const submitTable = () => {
 
 // Eliminar mesa
 const deleteTable = async (table) => {
-    if (!confirm(`¿Estás seguro de que quieres eliminar la mesa ${table.table_number || table.id}?`)) {
+    if (!confirm(t('admin.tables.confirm_delete_table', { tableNumber: table.table_number || table.id }))) {
         return;
     }
     
@@ -535,23 +538,23 @@ const tableLegs = [
         <div class="map-toolbar mb-3">
             <div class="d-flex justify-content-between align-items-center">
                 <div>
-                    <h5 class="mb-1">Mapa Interactivo de Mesas</h5>
+                    <h5 class="mb-1">{{ t('admin.tables.interactive_table_map') }}</h5>
                     <p class="text-muted mb-0 small">
-                        <span v-if="!addingMode">Arrastra las mesas para reposicionarlas</span>
-                        <span v-else class="text-primary">Haz clic en el mapa para colocar una nueva mesa</span>
+                        <span v-if="!addingMode">{{ t('admin.tables.drag_to_reposition') }}</span>
+                        <span v-else class="text-primary">{{ t('admin.tables.click_to_place') }}</span>
                     </p>
                 </div>
                 <div class="d-flex gap-2">
                     <Button 
                         v-if="!addingMode"
-                        label="Añadir Mesa" 
+                        :label="t('admin.tables.add_table')" 
                         icon="pi pi-plus" 
                         class="p-button-success p-button-sm"
                         @click="enableAddMode"
                     />
                     <Button 
                         v-else
-                        label="Cancelar" 
+                        :label="t('common.cancel')" 
                         icon="pi pi-times" 
                         class="p-button-secondary p-button-sm"
                         @click="disableAddMode"
@@ -563,19 +566,19 @@ const tableLegs = [
             <div class="d-flex gap-4 small">
                 <div class="d-flex align-items-center">
                     <div class="legend-color me-1" style="background-color: #22C55E !important;"></div>
-                    Disponible
+                    {{ t('admin.tables.available') }}
                 </div>
                 <div class="d-flex align-items-center">
                     <div class="legend-color me-1" style="background-color: #F59E0B !important;"></div>
-                    Reservada
+                    {{ t('admin.tables.reserved') }}
                 </div>
                 <div class="d-flex align-items-center">
                     <div class="legend-color me-1" style="background-color: #EF4444 !important;"></div>
-                    Ocupada
+                    {{ t('admin.tables.occupied') }}
                 </div>
                 <div class="d-flex align-items-center">
                     <div class="legend-color me-1" style="background-color: #9CA3AF !important;"></div>
-                    Inactiva
+                    {{ t('admin.tables.inactive') }}
                 </div>
             </div>
         </div><!-- Mapa -->
@@ -667,7 +670,7 @@ const tableLegs = [
                     <!-- Información de la mesa -->
                     <div class="table-info">
                         <div class="table-number">{{ table.table_number || table.id }}</div>
-                        <div class="table-capacity">{{ table.capacity }} Pax</div>
+                        <div class="table-capacity">{{ table.capacity }} {{ t('admin.tables.people') }}</div>
                     </div>
 
                     <!-- Botón de eliminar (visible en hover) -->
@@ -675,7 +678,7 @@ const tableLegs = [
                         <button 
                             class="btn btn-danger btn-sm table-delete-btn"
                             @click.stop="deleteTable(table)"
-                            title="Clic derecho o este botón para eliminar"
+                            :title="t('admin.tables.right_click_or_button')"
                         >
                             <i class="pi pi-trash"></i>
                         </button>
@@ -686,9 +689,9 @@ const tableLegs = [
             <!-- Instrucciones -->
             <div class="map-instructions mt-2">
                 <small class="text-muted">
-                    <strong>Instrucciones:</strong> 
-                    Arrastra para mover • Clic para editar • Clic derecho para eliminar • 
-                    <span v-if="addingMode" class="text-primary">Clic en área vacía para añadir</span>
+                    <strong>{{ t('admin.tables.instructions') }}:</strong> 
+                    {{ t('admin.tables.drag_move') }} • {{ t('admin.tables.click_edit') }} • {{ t('admin.tables.right_click_delete') }} • 
+                    <span v-if="addingMode" class="text-primary">{{ t('admin.tables.click_empty_area') }}</span>
                 </small>
             </div>
         </div>
@@ -696,7 +699,7 @@ const tableLegs = [
         <!-- Modal para crear/editar mesa -->
         <Dialog 
             v-model:visible="showModal" 
-            :header="editingTable ? 'Editar Mesa' : 'Nueva Mesa'" 
+            :header="editingTable ? t('admin.tables.edit_table') : t('admin.tables.new_table')" 
             :modal="true" 
             :closable="true" 
             :style="{ width: '500px' }"
@@ -704,7 +707,7 @@ const tableLegs = [
         >
             <form @submit.prevent="submitTable" class="row g-3">
                 <div class="col-12">
-                    <label class="form-label">Número de Mesa</label>
+                    <label class="form-label">{{ t('admin.tables.table_number') }}</label>
                     <InputText 
                         v-model="form.table_number" 
                         class="w-100" 
@@ -714,7 +717,7 @@ const tableLegs = [
                     />
                 </div>
                 <div class="col-12">
-                    <label class="form-label">Capacidad</label>
+                    <label class="form-label">{{ t('admin.tables.capacity') }}</label>
                     <InputText 
                         v-model="form.capacity" 
                         class="w-100" 
@@ -725,7 +728,7 @@ const tableLegs = [
                     />
                 </div>
                 <div class="col-12">
-                    <label class="form-label">Estado</label>
+                    <label class="form-label">{{ t('common.status') }}</label>
                     <Dropdown 
                         v-model="form.status" 
                         :options="statusOptions" 
@@ -735,7 +738,7 @@ const tableLegs = [
                     />
                 </div>
                 <div class="col-6">
-                    <label class="form-label">Posición X (%)</label>
+                    <label class="form-label">{{ t('admin.tables.position_x') }} (%)</label>
                     <InputText 
                         v-model="form.position_x" 
                         class="w-100" 
@@ -746,7 +749,7 @@ const tableLegs = [
                     />
                 </div>
                 <div class="col-6">
-                    <label class="form-label">Posición Y (%)</label>
+                    <label class="form-label">{{ t('admin.tables.position_y') }} (%)</label>
                     <InputText 
                         v-model="form.position_y" 
                         class="w-100" 
@@ -758,14 +761,14 @@ const tableLegs = [
                 </div>
                 <div class="col-12 d-flex justify-content-end gap-2 mt-4">
                     <Button 
-                        label="Cancelar" 
+                        :label="t('common.cancel')" 
                         icon="pi pi-times" 
                         class="p-button-text" 
                         @click="closeModal" 
                         type="button" 
                     />
                     <Button 
-                        :label="editingTable ? 'Actualizar' : 'Crear'" 
+                        :label="editingTable ? t('common.update') : t('common.create')" 
                         icon="pi pi-check" 
                         type="submit"
                         :loading="form.processing"

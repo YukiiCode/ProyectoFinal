@@ -41,11 +41,9 @@ class ProductController extends Controller
             'category' => $request->category,
             'available' => $request->available ?? true,
             'image_path' => $imagePath,
-        ]);
-
-        return response()->json([
+        ]);        return response()->json([
             'success' => true,
-            'message' => 'Producto creado exitosamente',
+            'message' => __('products.created_successfully'),
             'product' => [
                 'id' => $product->id,
                 'name' => $product->name,
@@ -92,11 +90,9 @@ class ProductController extends Controller
             'category' => $request->category,
             'available' => $request->available ?? true,
             'image_path' => $imagePath,
-        ]);
-
-        return response()->json([
+        ]);        return response()->json([
             'success' => true,
-            'message' => 'Producto actualizado exitosamente',
+            'message' => __('products.updated_successfully'),
             'product' => [
                 'id' => $product->id,
                 'name' => $product->name,
@@ -121,11 +117,9 @@ class ProductController extends Controller
             Storage::disk('public')->delete($product->image_path);
         }
 
-        $product->delete();
-
-        return response()->json([
+        $product->delete();        return response()->json([
             'success' => true,
-            'message' => 'Producto eliminado exitosamente'
+            'message' => __('products.deleted_successfully')
         ]);
     }
 

@@ -31,17 +31,17 @@
                                     @change="toggleDarkMode"
                                 >
                                 <label class="form-check-label" for="darkModeSwitch">
-                                    <strong>Modo Oscuro</strong>
-                                    <small class="d-block text-muted">Activa el tema oscuro para reducir la fatiga visual</small>
+                                    <strong>{{ t('admin.settings.dark_mode') }}</strong>
+                                    <small class="d-block text-muted">{{ t('admin.settings.dark_mode_description') }}</small>
                                 </label>
                             </div>
 
                             <!-- Color del Tema -->
                             <div class="mb-3">
-                                <label class="form-label fw-medium">Color del Tema</label>
+                                <label class="form-label fw-medium">{{ t('admin.settings.theme_color') }}</label>
                                 <div class="row g-2">
                                     <div 
-                                        v-for="(name, color) in availableThemes" 
+                                        v-for="(name, color) in themeOptions" 
                                         :key="color"
                                         class="col-4"
                                     >
@@ -59,7 +59,7 @@
 
                             <!-- Estilo de Sidebar -->
                             <div class="mb-3">
-                                <label class="form-label fw-medium">Sidebar</label>
+                                <label class="form-label fw-medium">{{ t('admin.settings.sidebar') }}</label>
                                 <div class="btn-group w-100" role="group">
                                     <input 
                                         type="radio" 
@@ -70,7 +70,7 @@
                                         v-model="form.sidebar_style"
                                     >
                                     <label class="btn btn-outline-primary" for="sidebarExpanded">
-                                        <i class="pi pi-bars me-1"></i> Expandido
+                                        <i class="pi pi-bars me-1"></i> {{ t('admin.settings.expanded') }}
                                     </label>
 
                                     <input 
@@ -82,7 +82,7 @@
                                         v-model="form.sidebar_style"
                                     >
                                     <label class="btn btn-outline-primary" for="sidebarCollapsed">
-                                        <i class="pi pi-minus me-1"></i> Colapsado
+                                        <i class="pi pi-minus me-1"></i> {{ t('admin.settings.collapsed') }}
                                     </label>
                                 </div>
                             </div>
@@ -96,18 +96,19 @@
                         <div class="admin-card-header">
                             <h5 class="admin-card-title mb-0">
                                 <i class="pi pi-globe me-2"></i>
-                                Idioma y Región
+                                {{ t('admin.settings.language_region') }}
                             </h5>
                         </div>
                         <div class="admin-card-body">
                             <div class="mb-3">
-                                <label class="form-label fw-medium">Idioma</label>                                <Select 
+                                <label class="form-label fw-medium">{{ t('admin.settings.language') }}</label>
+                                <Select 
                                     v-model="form.language" 
                                     :options="languageOptions" 
                                     optionLabel="label" 
                                     optionValue="value" 
                                     class="w-100"
-                                    placeholder="Selecciona un idioma"
+                                    :placeholder="t('admin.settings.select_language')"
                                 />
                             </div>
                         </div>
@@ -120,7 +121,7 @@
                         <div class="admin-card-header">
                             <h5 class="admin-card-title mb-0">
                                 <i class="pi pi-bell me-2"></i>
-                                Notificaciones
+                                {{ t('admin.settings.notifications') }}
                             </h5>
                         </div>
                         <div class="admin-card-body">
@@ -132,8 +133,8 @@
                                     v-model="form.notifications_enabled"
                                 >
                                 <label class="form-check-label" for="notificationsSwitch">
-                                    <strong>Notificaciones Push</strong>
-                                    <small class="d-block text-muted">Recibe notificaciones de nuevas reservas y cambios</small>
+                                    <strong>{{ t('admin.settings.notifications_enabled') }}</strong>
+                                    <small class="d-block text-muted">{{ t('admin.settings.notifications_description') }}</small>
                                 </label>
                             </div>
 
@@ -146,8 +147,8 @@
                                     :disabled="!form.notifications_enabled"
                                 >
                                 <label class="form-check-label" for="soundSwitch">
-                                    <strong>Sonidos</strong>
-                                    <small class="d-block text-muted">Reproducir sonidos con las notificaciones</small>
+                                    <strong>{{ t('admin.settings.sound_enabled') }}</strong>
+                                    <small class="d-block text-muted">{{ t('admin.settings.sounds_description') }}</small>
                                 </label>
                             </div>
                         </div>
@@ -160,11 +161,11 @@
                         <div class="admin-card-header">
                             <h5 class="admin-card-title mb-0">
                                 <i class="pi pi-th-large me-2"></i>
-                                Dashboard
+                                {{ t('admin.settings.dashboard') }}
                             </h5>
                         </div>
                         <div class="admin-card-body">
-                            <p class="text-muted mb-3">Personaliza qué widgets mostrar en tu dashboard</p>
+                            <p class="text-muted mb-3">{{ t('admin.settings.dashboard_description') }}</p>
                             
                             <div class="form-check mb-2">
                                 <input 
@@ -174,7 +175,7 @@
                                     v-model="form.dashboard_widgets.stats"
                                 >
                                 <label class="form-check-label" for="statsWidget">
-                                    Estadísticas principales
+                                    {{ t('admin.settings.stats_widget') }}
                                 </label>
                             </div>
 
@@ -186,7 +187,7 @@
                                     v-model="form.dashboard_widgets.recent_reservations"
                                 >
                                 <label class="form-check-label" for="reservationsWidget">
-                                    Reservas recientes
+                                    {{ t('admin.settings.reservations_widget') }}
                                 </label>
                             </div>
 
@@ -198,7 +199,7 @@
                                     v-model="form.dashboard_widgets.quick_actions"
                                 >
                                 <label class="form-check-label" for="actionsWidget">
-                                    Acciones rápidas
+                                    {{ t('admin.settings.actions_widget') }}
                                 </label>
                             </div>
 
@@ -210,7 +211,7 @@
                                     v-model="form.dashboard_widgets.calendar"
                                 >
                                 <label class="form-check-label" for="calendarWidget">
-                                    Vista de calendario
+                                    {{ t('admin.settings.calendar_widget') }}
                                 </label>
                             </div>
                         </div>
@@ -223,14 +224,14 @@
                 <div class="col-12">
                     <div class="d-flex gap-2">
                         <Button 
-                            label="Guardar Cambios" 
+                            :label="t('admin.settings.save_changes')" 
                             icon="pi pi-check" 
                             class="p-button-primary"
                             @click="saveSettings"
                             :loading="saving"
                         />
                         <Button 
-                            label="Restablecer Defaults" 
+                            :label="t('admin.settings.reset_defaults')" 
                             icon="pi pi-refresh" 
                             class="p-button-secondary"
                             @click="resetToDefaults"
@@ -282,6 +283,14 @@ const languageOptions = computed(() => {
     }))
 })
 
+const themeOptions = computed(() => {
+    const themes = {}
+    Object.keys(props.availableThemes).forEach(color => {
+        themes[color] = t(`admin.settings.themes.${color}`)
+    })
+    return themes
+})
+
 const toggleDarkMode = () => {
     // Aplicar el cambio inmediatamente en el DOM
     applyDarkMode(form.dark_mode)
@@ -331,7 +340,7 @@ const applyThemeColor = (color) => {
 }
 
 const resetToDefaults = () => {
-    if (confirm('¿Estás seguro de que quieres restablecer todas las configuraciones a los valores por defecto?')) {
+    if (confirm(t('admin.settings.confirm_reset'))) {
         form.dark_mode = false
         form.language = 'es'
         form.theme_color = 'blue'

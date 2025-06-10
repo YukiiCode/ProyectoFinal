@@ -42,7 +42,7 @@ class TableController extends Controller
             'position_y' => $request->position_y ?? 0,
         ]);
 
-        return back()->with('success', 'Mesa creada exitosamente');
+        return back()->with('success', __('tables.created_successfully'));
     }// Actualiza la posición de una mesa (solo empleados)
     public function update(Request $request, Table $table)
     {
@@ -58,7 +58,7 @@ class TableController extends Controller
             $table->save();
 
             // Para drag and drop, devolver una respuesta simple que Inertia pueda manejar
-            return back()->with('success', 'Posición de mesa actualizada');
+            return back()->with('success', __('tables.position_updated_successfully'));
         }
 
         // Actualización completa de la mesa
@@ -78,7 +78,7 @@ class TableController extends Controller
             'position_y' => $request->position_y ?? 0,
         ]);
 
-        return back()->with('success', 'Mesa actualizada exitosamente');
+        return back()->with('success', __('tables.updated_successfully'));
     }    /**
      * Remove the specified table
      */
@@ -96,7 +96,7 @@ class TableController extends Controller
 
         $table->delete();
 
-        return back()->with('success', 'Mesa eliminada exitosamente');
+        return back()->with('success', __('tables.deleted_successfully'));
     }
 
     /**
@@ -110,6 +110,6 @@ class TableController extends Controller
 
         $table->update(['status' => $request->status]);
 
-        return back()->with('success', 'Estado de la mesa actualizado exitosamente');
+        return back()->with('success', __('tables.status_updated_successfully'));
     }
 }

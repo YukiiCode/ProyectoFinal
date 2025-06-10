@@ -4,19 +4,19 @@
             <!-- Header -->
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <div>
-                    <h1 class="h3 mb-0 text-dark">Gestión de Mesas</h1>
-                    <p class="text-muted mb-0">Administra las mesas del restaurante</p>
+                    <h1 class="h3 mb-0 text-dark">{{ t('admin.tables.title') }}</h1>
+                    <p class="text-muted mb-0">{{ t('admin.tables.subtitle') }}</p>
                 </div>
                 <div class="d-flex gap-2">
                     <Button 
-                        :label="activeView === 'table' ? 'Ver Mapa' : 'Ver Tabla'"
+                        :label="activeView === 'table' ? t('admin.tables.view_map') : t('admin.tables.view_table')"
                         :icon="activeView === 'table' ? 'pi pi-map' : 'pi pi-table'"
                         class="p-button-outlined"
                         @click="toggleView"
                     />
                     <button class="btn btn-primary" @click="openCreateModal">
                         <i class="fas fa-plus me-2"></i>
-                        Nueva Mesa
+                        {{ t('admin.tables.new_table') }}
                     </button>
                 </div>
             </div>
@@ -31,7 +31,7 @@
                             @click="activeView = 'table'"
                         >
                             <i class="pi pi-table me-2"></i>
-                            Vista de Tabla
+                            {{ t('admin.tables.table_view') }}
                         </button>
                     </li>
                     <li class="nav-item">
@@ -41,7 +41,7 @@
                             @click="activeView = 'map'"
                         >
                             <i class="pi pi-map me-2"></i>
-                            Mapa Interactivo
+                            {{ t('admin.tables.interactive_map') }}
                         </button>
                     </li>
                 </ul>
@@ -61,48 +61,48 @@
                                 :rows-per-page-options="[5,10,20]"
                                 class="p-datatable-sm"
                             >
-                                <Column field="table_number" header="Número de Mesa" sortable>
+                                <Column field="table_number" :header="t('admin.tables.table_number')" sortable>
                                     <template #body="{ data }">
-                                        <span class="fw-bold">Mesa {{ data.table_number }}</span>
+                                        <span class="fw-bold">{{ t('admin.tables.table_number') }} {{ data.table_number }}</span>
                                     </template>
                                 </Column>
-                                <Column field="capacity" header="Capacidad" sortable>
+                                <Column field="capacity" :header="t('admin.tables.capacity')" sortable>
                                     <template #body="{ data }">
-                                        <span>{{ data.capacity }} personas</span>
+                                        <span>{{ data.capacity }} {{ t('admin.tables.people') }}</span>
                                     </template>
                                 </Column>
-                                <Column field="status" header="Estado" sortable>
+                                <Column field="status" :header="t('common.status')" sortable>
                                     <template #body="{ data }">
                                         <span class="status-badge" :class="getStatusClass(data.status)">
                                             {{ getStatusText(data.status) }}
                                         </span>
                                     </template>
                                 </Column>
-                                <Column field="position" header="Posición">
+                                <Column field="position" :header="t('admin.tables.position')">
                                     <template #body="{ data }">
                                         <small class="text-muted">X: {{ data.position_x }}, Y: {{ data.position_y }}</small>
                                     </template>
                                 </Column>
-                                <Column field="created_at" header="Creada" sortable>
+                                <Column field="created_at" :header="t('common.created')" sortable>
                                     <template #body="{ data }">
                                         {{ formatDate(data.created_at) }}
                                     </template>
                                 </Column>
-                                <Column header="Acciones">
+                                <Column :header="t('common.actions')">
                                     <template #body="{ data }">
                                         <div class="d-flex gap-1">
                                             <Button 
                                                 icon="pi pi-pencil" 
                                                 class="p-button-rounded p-button-info p-button-sm" 
                                                 @click="editTable(data)"
-                                                title="Editar"
+                                                :title="t('common.edit')"
                                                 style="width: 36px; height: 36px;"
                                             />
                                             <Button 
                                                 icon="pi pi-trash" 
                                                 class="p-button-rounded p-button-danger p-button-sm" 
                                                 @click="deleteTable(data)"
-                                                title="Eliminar"
+                                                :title="t('common.delete')"
                                                 style="width: 36px; height: 36px;"
                                             />
                                         </div>
@@ -131,14 +131,14 @@
             <!-- Create/Edit Modal -->
             <Dialog 
                 v-model:visible="showModal" 
-                :header="editingTable ? 'Editar Mesa' : 'Nueva Mesa'" 
+                :header="editingTable ? t('admin.tables.edit_table') : t('admin.tables.new_table')" 
                 :modal="true" 
                 :closable="true" 
                 :style="{ width: '500px' }"
             >
                 <form @submit.prevent="submitTable" class="row g-3">
                     <div class="col-12">
-                        <label class="form-label">Número de Mesa</label>
+                        <label class="form-label">{{ t('admin.tables.table_number') }}</label>
                         <InputText 
                             v-model="form.table_number" 
                             class="w-100" 
@@ -148,7 +148,7 @@
                         />
                     </div>
                     <div class="col-12">
-                        <label class="form-label">Capacidad</label>
+                        <label class="form-label">{{ t('admin.tables.capacity') }}</label>
                         <InputText 
                             v-model="form.capacity" 
                             class="w-100" 
@@ -159,7 +159,7 @@
                         />
                     </div>
                     <div class="col-12">
-                        <label class="form-label">Estado</label>
+                        <label class="form-label">{{ t('common.status') }}</label>
                         <Dropdown 
                             v-model="form.status" 
                             :options="statusOptions" 
@@ -169,7 +169,7 @@
                         />
                     </div>
                     <div class="col-6">
-                        <label class="form-label">Posición X</label>
+                        <label class="form-label">{{ t('admin.tables.position_x') }}</label>
                         <InputText 
                             v-model="form.position_x" 
                             class="w-100" 
@@ -178,7 +178,7 @@
                         />
                     </div>
                     <div class="col-6">
-                        <label class="form-label">Posición Y</label>
+                        <label class="form-label">{{ t('admin.tables.position_y') }}</label>
                         <InputText 
                             v-model="form.position_y" 
                             class="w-100" 
@@ -188,14 +188,14 @@
                     </div>
                     <div class="col-12 d-flex justify-content-end gap-2 mt-4">
                         <Button 
-                            label="Cancelar" 
+                            :label="t('common.cancel')" 
                             icon="pi pi-times" 
                             class="p-button-text" 
                             @click="closeModal" 
                             type="button" 
                         />
                         <Button 
-                            :label="editingTable ? 'Actualizar' : 'Crear'" 
+                            :label="editingTable ? t('common.update') : t('common.create')" 
                             icon="pi pi-check" 
                             type="submit" 
                             :loading="form.processing"
@@ -210,6 +210,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useForm, router, usePage } from '@inertiajs/vue3'
+import { useI18n } from 'vue-i18n'
 import { useNotifications } from '@/composables/useNotifications'
 import AdminLayout from '@/Layouts/AdminLayout.vue'
 import AdminTableMap from '@/Components/AdminTableMap.vue'
@@ -219,6 +220,8 @@ import Dialog from 'primevue/dialog'
 import Button from 'primevue/button'
 import InputText from 'primevue/inputtext'
 import Dropdown from 'primevue/dropdown'
+
+const { t } = useI18n()
 
 const props = defineProps({
     tables: Array
@@ -240,11 +243,11 @@ const form = useForm({
     position_y: 0,
 })
 
-const statusOptions = [
-    { label: 'Disponible', value: 'available' },
-    { label: 'Reservada', value: 'reserved' },
-    { label: 'Ocupada', value: 'occupied' }
-]
+const statusOptions = computed(() => [
+    { label: t('admin.tables.status_available'), value: 'available' },
+    { label: t('admin.tables.status_reserved'), value: 'reserved' },
+    { label: t('admin.tables.status_occupied'), value: 'occupied' }
+]);
 
 const openCreateModal = () => {
     editingTable.value = null
@@ -274,14 +277,14 @@ const submitTable = () => {
     if (editingTable.value) {
         form.put(route('admin.tables.update', editingTable.value.id), {
             onSuccess: () => {
-                showSuccess(`Mesa ${form.table_number} actualizada correctamente`, 'Mesa actualizada')
+                showSuccess(t('admin.tables.table_updated'), t('admin.tables.table_updated'))
                 closeModal()
                 // Refresh the page or update tables list
                 router.get(route('admin.tables'))
             },
             onError: (errors) => {
                 console.error('Error updating table:', errors)
-                formError('Error al actualizar la mesa')
+                formError(t('admin.tables.update_error'))
             }
         })
     } else {
@@ -294,14 +297,14 @@ const submitTable = () => {
             },
             onError: (errors) => {
                 console.error('Error creating table:', errors)
-                formError('Error al crear la mesa')
+                formError(t('admin.tables.create_error'))
             }
         })
     }
 }
 
 const deleteTable = (table) => {
-    if (confirm('¿Estás seguro de que quieres eliminar esta mesa?')) {
+    if (confirm(t('admin.tables.confirm_delete'))) {
         router.delete(route('admin.tables.destroy', table.id), {
             onSuccess: () => {
                 // Refresh the page or update tables list
@@ -350,9 +353,9 @@ const getStatusClass = (status) => {
 
 const getStatusText = (status) => {
     const texts = {
-        'available': 'Disponible',
-        'reserved': 'Reservada',
-        'occupied': 'Ocupada'
+        'available': t('admin.tables.available'),
+        'reserved': t('admin.tables.reserved'),
+        'occupied': t('admin.tables.occupied')
     }
     return texts[status] || status
 }

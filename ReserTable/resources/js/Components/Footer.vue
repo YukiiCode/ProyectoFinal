@@ -61,7 +61,7 @@ const phpVersion = usePage().props.phpVersion ?? '';
                         &copy; {{ new Date().getFullYear() }} {{ t('footer.company_name') }}. {{ t('footer.all_rights_reserved') }}.
                     </p>
                     <p class="small mb-0 text-white-50 dark:text-gray-400">
-                        Plataforma de reservas por ReserTable
+                        {{ t('footer.platform_by') }}
                     </p>
                 </div>
                 <div class="col-md-6 text-end">

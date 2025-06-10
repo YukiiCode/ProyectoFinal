@@ -103,27 +103,27 @@
                                         icon="pi pi-pencil" 
                                         class="p-button-rounded p-button-info p-button-sm" 
                                         @click="editReservation(data)"
-                                        title="Editar" 
+                                        :title="t('common.edit')" 
                                     />
                                     <Button 
                                         icon="pi pi-check" 
                                         class="p-button-rounded p-button-success p-button-sm" 
                                         @click="confirmReservation(data)"
-                                        title="Confirmar" 
+                                        :title="t('admin.reservations.confirm_reservation')" 
                                         v-if="data.status === 'pending'"
                                     />
                                     <Button 
                                         icon="pi pi-times" 
                                         class="p-button-rounded p-button-warning p-button-sm" 
                                         @click="cancelReservation(data)"
-                                        title="Cancelar" 
+                                        :title="t('admin.reservations.cancel_reservation')" 
                                         v-if="data.status !== 'cancelled'"
                                     />
                                     <Button 
                                         icon="pi pi-trash" 
                                         class="p-button-rounded p-button-danger p-button-sm" 
                                         @click="deleteReservation(data)"
-                                        title="Eliminar" 
+                                        :title="t('common.delete')" 
                                     />
                                 </div>
                             </template>
@@ -135,7 +135,7 @@
             <!-- Modal Mejorado -->
             <Dialog 
                 v-model:visible="showModal" 
-                :header="editingReservation ? 'Editar Reserva' : 'Nueva Reserva'" 
+                :header="editingReservation ? t('admin.reservations.update_reservation') : t('admin.reservations.new_reservation')" 
                 :modal="true" 
                 :closable="true" 
                 :style="{ width: '600px' }"
@@ -143,16 +143,16 @@
             >
                 <form @submit.prevent="submitReservation" class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div class="col-span-2">
-                        <label class="font-semibold text-gray-700">Cliente</label>
+                        <label class="font-semibold text-gray-700">{{ t('admin.reservations.client') }}</label>
                         <InputText 
                             v-model="form.client_name" 
                             class="w-full" 
                             required 
-                            placeholder="Nombre del cliente"
+                            :placeholder="t('admin.reservations.client_name')"
                         />
                     </div>
                     <div class="col-span-2">
-                        <label class="font-semibold text-gray-700">Email del Cliente</label>
+                        <label class="font-semibold text-gray-700">{{ t('admin.reservations.client_email') }}</label>
                         <InputText 
                             v-model="form.client_email" 
                             class="w-full" 
@@ -162,18 +162,18 @@
                         />
                     </div>
                     <div>
-                        <label class="font-semibold text-gray-700">Mesa</label>
+                        <label class="font-semibold text-gray-700">{{ t('admin.reservations.table') }}</label>
                         <Dropdown 
                             v-model="form.table_id" 
                             :options="availableTables" 
                             optionLabel="label" 
                             optionValue="value" 
                             class="w-full" 
-                            placeholder="Seleccionar mesa"
+                            :placeholder="t('admin.reservations.select_table')"
                         />
                     </div>
                     <div>
-                        <label class="font-semibold text-gray-700">Personas</label>
+                        <label class="font-semibold text-gray-700">{{ t('admin.reservations.party_size') }}</label>
                         <InputText 
                             v-model="form.party_size" 
                             class="w-full" 
@@ -184,7 +184,7 @@
                         />
                     </div>
                     <div>
-                        <label class="font-semibold text-gray-700">Fecha</label>
+                        <label class="font-semibold text-gray-700">{{ t('common.date') }}</label>
                         <InputText 
                             type="date" 
                             v-model="form.reservation_date" 
@@ -193,7 +193,7 @@
                         />
                     </div>
                     <div>
-                        <label class="font-semibold text-gray-700">Hora</label>
+                        <label class="font-semibold text-gray-700">{{ t('common.time') }}</label>
                         <InputText 
                             type="time" 
                             v-model="form.reservation_time" 
@@ -202,7 +202,7 @@
                         />
                     </div>
                     <div class="col-span-2">
-                        <label class="font-semibold text-gray-700">Estado</label>
+                        <label class="font-semibold text-gray-700">{{ t('common.status') }}</label>
                         <Dropdown 
                             v-model="form.status" 
                             :options="statusOptions" 
@@ -213,14 +213,14 @@
                     </div>
                     <div class="col-span-2 flex justify-end gap-2 mt-4">
                         <Button 
-                            label="Cancelar" 
+                            :label="t('common.cancel')" 
                             icon="pi pi-times" 
                             class="p-button-text" 
                             @click="closeModal" 
                             type="button" 
                         />
                         <Button 
-                            :label="editingReservation ? 'Actualizar' : 'Crear'" 
+                            :label="editingReservation ? t('common.update') : t('common.create')" 
                             icon="pi pi-check" 
                             type="submit" 
                             :loading="form.processing"
@@ -280,12 +280,12 @@ const form = useForm({
     status: 'pending',
 })
 
-const statusOptions = [
-    { label: 'Pendiente', value: 'pending' },
-    { label: 'Confirmada', value: 'confirmed' },
-    { label: 'Cancelada', value: 'cancelled' },
-    { label: 'Completada', value: 'completed' }
-]
+const statusOptions = computed(() => [
+    { label: t('admin.reservations.pending'), value: 'pending' },
+    { label: t('admin.reservations.confirmed'), value: 'confirmed' },
+    { label: t('admin.reservations.cancelled'), value: 'cancelled' },
+    { label: t('admin.reservations.completed'), value: 'completed' }
+]);
 
 // Mock data for tables - in real app would come from props or API
 const availableTables = computed(() => {
@@ -361,7 +361,7 @@ const submitReservation = () => {
                 router.get(route('admin.reservations'))
             },
             onError: () => {
-                formError('Error al actualizar la reserva')
+                formError(t('admin.reservations.error_update'))
             }
         })
     } else {
@@ -372,7 +372,7 @@ const submitReservation = () => {
                 router.get(route('admin.reservations'))
             },
             onError: () => {
-                formError('Error al crear la reserva')
+                formError(t('admin.reservations.error_create'))
             }
         })
     }
@@ -387,14 +387,14 @@ const confirmReservation = (reservation) => {
                 router.get(route('admin.reservations'))
             },
             onError: () => {
-                reservationError('Error al confirmar la reserva')
+                reservationError(t('admin.reservations.error_confirm'))
             }
         }
     )
 }
 
 const cancelReservation = (reservation) => {
-    if (confirm('¿Estás seguro de que quieres cancelar esta reserva?')) {
+    if (confirm(t('admin.reservations.confirm_cancel'))) {
         router.patch(route('admin.reservations.status', reservation.id), 
             { status: 'cancelled' }, 
             {
@@ -403,7 +403,7 @@ const cancelReservation = (reservation) => {
                     router.get(route('admin.reservations'))
                 },
                 onError: () => {
-                    reservationError('Error al cancelar la reserva')
+                    reservationError(t('admin.reservations.error_cancel'))
                 }
             }
         )
@@ -411,14 +411,14 @@ const cancelReservation = (reservation) => {
 }
 
 const deleteReservation = (reservation) => {
-    if (confirm('¿Estás seguro de que quieres eliminar esta reserva?')) {
+    if (confirm(t('admin.reservations.confirm_delete'))) {
         router.delete(route('admin.reservations.destroy', reservation.id), {
             onSuccess: () => {
                 reservationCancelled() // Usar la misma notificación que cancelar
                 router.get(route('admin.reservations'))
             },
             onError: () => {
-                reservationError('Error al eliminar la reserva')
+                reservationError(t('admin.reservations.error_delete'))
             }
         })
     }
@@ -447,17 +447,17 @@ const getStatusClass = (status) => {
 }
 
 const getStatusText = (status) => {
-    const texts = {
-        'pending': 'Pendiente',
-        'confirmed': 'Confirmada',
-        'cancelled': 'Cancelada',
-        'completed': 'Completada'
+    const statusKeys = {
+        'pending': 'admin.reservations.pending',
+        'confirmed': 'admin.reservations.confirmed',
+        'cancelled': 'admin.reservations.cancelled',
+        'completed': 'admin.reservations.completed'
     }
-    return texts[status] || status
+    return statusKeys[status] ? t(statusKeys[status]) : status
 }
 
 const formatDate = (date) => {
-    return new Date(date).toLocaleDateString('es-ES', {
+    return new Date(date).toLocaleDateString(t('reservations.dateLocale'), {
         year: 'numeric',
         month: 'short',
         day: 'numeric'
@@ -465,7 +465,7 @@ const formatDate = (date) => {
 }
 
 const formatTime = (date) => {
-    return new Date(date).toLocaleTimeString('es-ES', {
+    return new Date(date).toLocaleTimeString(t('reservations.dateLocale'), {
         hour: '2-digit',
         minute: '2-digit'
     })
