@@ -4,6 +4,7 @@ import AuthenticationCard from '@/Components/AuthenticationCard.vue';
 import AuthenticationCardLogo from '@/Components/AuthenticationCardLogo.vue';
 import { useNotifications } from '@/composables/useNotifications';
 import { useI18n } from 'vue-i18n';
+import ThemeManager from '@/Components/ThemeManager.vue';
 
 defineProps({
     status: String,
@@ -30,6 +31,7 @@ const submit = () => {
 
 <template>
     <Head :title="t('auth.forgot_password_title')" />
+    <ThemeManager />
 
     <AuthenticationCard>
         <template #logo>

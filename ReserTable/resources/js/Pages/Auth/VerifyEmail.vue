@@ -5,6 +5,7 @@ import AuthenticationCard from '@/Components/AuthenticationCard.vue';
 import AuthenticationCardLogo from '@/Components/AuthenticationCardLogo.vue';
 import { useNotifications } from '@/composables/useNotifications';
 import { useI18n } from 'vue-i18n';
+import ThemeManager from '@/Components/ThemeManager.vue';
 
 const props = defineProps({
     status: String,

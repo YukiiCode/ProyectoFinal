@@ -5,6 +5,7 @@ import AuthenticationCardLogo from '@/Components/AuthenticationCardLogo.vue';
 import { useNotifications } from '@/composables/useNotifications';
 import { useI18n } from 'vue-i18n';
 import { ref } from 'vue';
+import ThemeManager from '@/Components/ThemeManager.vue';
 
 // PrimeVue components
 import Button from 'primevue/button';
@@ -20,7 +21,7 @@ defineProps({
     status: String,
 });
 
-const { t } = useI18n();
+const { t, locale } = useI18n();
 const { showSuccess, showError } = useNotifications();
 
 const form = useForm({
@@ -49,6 +50,7 @@ const submit = () => {
 
 <template>
     <Head :title="t('auth.login_title')" />
+    <ThemeManager />
 
     <AuthenticationCard>
         <template #logo>
