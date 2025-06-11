@@ -120,11 +120,10 @@
                 </div>
 
                 <!-- Historial de uso (placeholder - se puede implementar después) -->
-                <div class="bg-gray-50 rounded-lg p-6">
-                  <h4 class="text-lg font-medium text-gray-900 mb-4">Historial de Uso</h4>
+                <div class="bg-gray-50 rounded-lg p-6">                  <h4 class="text-lg font-medium text-gray-900 mb-4">{{ t('admin.coupons.usage_history') }}</h4>
                   <div class="text-center py-8 text-gray-500">
                     <GiftIcon class="w-12 h-12 mx-auto mb-4 text-gray-300" />
-                    <p>El historial detallado de uso estará disponible próximamente</p>
+                    <p>{{ t('admin.coupons.usage_history_description') }}</p>
                   </div>
                 </div>
               </div>
@@ -133,7 +132,7 @@
               <div class="space-y-6">
                 <!-- Estadísticas de uso -->
                 <div class="bg-white border border-gray-200 rounded-lg p-6">
-                  <h4 class="text-lg font-medium text-gray-900 mb-4">Estadísticas</h4>
+                  <h4 class="text-lg font-medium text-gray-900 mb-4">{{ t('admin.coupons.usage_stats') }}</h4>
                   <div class="space-y-4">
                     <!-- Usos -->
                     <div>
@@ -173,14 +172,14 @@
 
                 <!-- Acciones rápidas -->
                 <div class="bg-white border border-gray-200 rounded-lg p-6">
-                  <h4 class="text-lg font-medium text-gray-900 mb-4">Acciones</h4>
+                  <h4 class="text-lg font-medium text-gray-900 mb-4">{{ t('admin.coupons.quick_actions') }}</h4>
                   <div class="space-y-3">
                     <button
                       @click="copyCode"
                       class="w-full inline-flex items-center justify-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                     >
                       <ClipboardDocumentIcon class="w-4 h-4 mr-2" />
-                      Copiar Código
+                      {{ t('admin.coupons.copy_code') }}
                     </button>
                     
                     <Link
@@ -240,6 +239,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { Link } from '@inertiajs/vue3'
+import { useI18n } from 'vue-i18n'
 import AdminLayout from '@/Layouts/AdminLayout.vue'
 import {
   PencilIcon,
@@ -254,6 +254,8 @@ import {
 const props = defineProps({
   coupon: Object
 })
+
+const { t } = useI18n()
 
 const showToast = ref(false)
 const toastMessage = ref('')
@@ -330,17 +332,17 @@ const getStatusClass = (coupon) => {
 
 const getStatusText = (coupon) => {
   if (!isActive.value) {
-    return 'Inactivo'
+    return t('admin.coupons.status.inactive')
   }
-  return 'Activo'
+  return t('admin.coupons.status.active')
 }
 
 const copyCode = async () => {
   try {
     await navigator.clipboard.writeText(props.coupon.code)
-    showToastMessage('Código copiado al portapapeles')
+    showToastMessage(t('notifications.toast.code_copied'))
   } catch (error) {
-    showToastMessage('Error al copiar el código')
+    showToastMessage(t('notifications.toast.copy_error'))
   }
 }
 

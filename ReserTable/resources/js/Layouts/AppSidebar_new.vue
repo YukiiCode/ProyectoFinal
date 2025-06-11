@@ -103,10 +103,6 @@
                     </Link>
                 </div>
             </div>
-                        <span>Alérgenos</span>
-                    </Link>
-                </div>
-            </div>
 
             <!-- Pedidos -->
             <Link href="/admin/orders" 

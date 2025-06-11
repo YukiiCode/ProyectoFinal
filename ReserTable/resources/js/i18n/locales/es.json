@@ -1,5 +1,4 @@
-{
-  "common": {
+{  "common": {
     "welcome": "Bienvenido",
     "home": "Inicio",
     "menu": "Menú",
@@ -31,9 +30,18 @@
     "loading": "Cargando...",
     "error": "Error",
     "success": "Éxito",
-    "warning": "Advertencia",
-    "info": "Información"
-  },  "navigation": {
+    "warning": "Advertencia",    "info": "Información",
+    "optional": "opcional",
+    "days": {
+      "monday_short": "Lun",
+      "tuesday_short": "Mar",
+      "wednesday_short": "Mié",
+      "thursday_short": "Jue",
+      "friday_short": "Vie",
+      "saturday_short": "Sáb",
+      "sunday_short": "Dom"
+    }
+  },"navigation": {
     "dashboard": "Dashboard",
     "reservations": "Reservas",
     "all_reservations": "Todas las Reservas",
@@ -409,8 +417,7 @@
         "orange": "Naranja",
         "red": "Rojo",
         "gray": "Gris"
-      }    },
-    "coupons": {
+      }    },    "coupons": {
       "title": "Códigos de Descuento",
       "management": "Gestión de Cupones",
       "description": "Administra los códigos de descuento del restaurante",
@@ -427,8 +434,61 @@
       "validity": "Validez",
       "uses": "Usos",
       "client": "Cliente",
-      "advanced_management": "Gestión Avanzada"
-    },    "auth": {      "login_title": "Iniciar Sesión - La Trattoria",
+      "advanced_management": "Gestión Avanzada",
+      "advanced_management_title": "Gestión Avanzada de Cupones",
+      "statistics": "Estadísticas",
+      "total_coupons": "Total Cupones",
+      "active_coupons": "Cupones Activos",
+      "used_coupons": "Cupones Usados",
+      "total_savings": "Ahorro Total",
+      "recent_coupons": "Cupones Recientes",
+      "bulk_generation": "Generación Masiva de Cupones",
+      "bulk_generation_title": "Generación Masiva de Cupones",
+      "validator_title": "Validador de Cupones",
+      "count": "Cantidad",
+      "prefix": "Prefijo",
+      "discount_type": "Tipo de descuento",
+      "percentage": "Porcentaje",
+      "fixed_amount": "Cantidad fija",
+      "discount_value": "Valor del descuento",
+      "valid_from": "Válido desde",
+      "valid_until": "Válido hasta",
+      "max_uses": "Usos máximos",
+      "unlimited": "Ilimitado",
+      "generate_coupons": "Generar Cupones",
+      "delete_expired": "Eliminar Expirados",
+      "view_all": "Ver todos",
+      "global": "Global",
+      "custom": "Personalizado",
+      "code": "Código",
+      "type": "Tipo",
+      "discount": "Descuento",
+      "status_title": "Estado",
+      "status": {
+        "active": "Activo",
+        "inactive": "Inactivo",
+        "expired": "Expirado",
+        "depleted": "Agotado",
+        "unknown": "Desconocido"
+      },
+      "actions": "Acciones",
+      "copy_code": "Copiar Código",
+      "usage_history": "Historial de Uso",
+      "usage_history_description": "El historial detallado de uso estará disponible próximamente",
+      "usage_stats": "Estadísticas de Uso",
+      "validity_remaining": "Validez restante",
+      "quick_actions": "Acciones Rápidas",      "bulk_generated_success": "Se generaron {count} cupones exitosamente",
+      "generation_error": "Error al generar cupones. Verifica los datos.",
+      "coupon_validated": "Cupón {code} validado correctamente",
+      "validity_limits": "Validez y Límites",
+      "coupon_details": "Detalles del Cupón",
+      "create_coupon": "Crear Cupón",
+      "edit_coupon": "Editar Cupón",
+      "coupon_code": "Código del Cupón",
+      "coupon_type": "Tipo de Cupón",
+      "coupon_description": "Descripción",
+      "discount_details": "Detalles del Descuento"
+    },"auth": {      "login_title": "Iniciar Sesión - La Trattoria",
       "register_title": "Registro - La Trattoria",
       "forgot_password_title": "Recuperar Contraseña - La Trattoria",
       "reset_password_title": "Restablecer Contraseña - La Trattoria",
@@ -563,12 +623,15 @@
       "check_data": "Por favor, revisa los datos ingresados",
       "incomplete_data": "Datos incompletos",
       "validation_errors": "Hay errores en el formulario"
-    },
-    "network": {
+    },    "network": {
       "connection_error": "Error de conexión",
       "connection_failed": "No se pudo conectar con el servidor. Revisa tu conexión.",
       "session_expired": "Sesión expirada",
       "unauthorized": "Tu sesión ha expirado. Por favor, inicia sesión nuevamente."
+    },
+    "toast": {
+      "code_copied": "Código copiado al portapapeles",
+      "copy_error": "Error al copiar el código"
     }
   }
 }

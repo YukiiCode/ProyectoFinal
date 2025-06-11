@@ -309,13 +309,13 @@ const formatShortDate = (date) => {
 
 const getDayName = (day) => {
     const days = {
-        'Monday': 'Lun',
-        'Tuesday': 'Mar',
-        'Wednesday': 'Mié',
-        'Thursday': 'Jue',
-        'Friday': 'Vie',
-        'Saturday': 'Sáb',
-        'Sunday': 'Dom'
+        'Monday': t('common.days.monday_short'),
+        'Tuesday': t('common.days.tuesday_short'),
+        'Wednesday': t('common.days.wednesday_short'),
+        'Thursday': t('common.days.thursday_short'),
+        'Friday': t('common.days.friday_short'),
+        'Saturday': t('common.days.saturday_short'),
+        'Sunday': t('common.days.sunday_short')
     }
     return days[day] || day
 }

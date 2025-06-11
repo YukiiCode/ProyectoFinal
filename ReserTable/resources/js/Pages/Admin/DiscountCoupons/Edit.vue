@@ -161,7 +161,7 @@
 
               <!-- Validez y límites -->
               <div class="border-t border-gray-200 pt-6">
-                <h4 class="text-md font-medium text-gray-900 mb-4">Validez y Límites</h4>
+                <h4 class="text-md font-medium text-gray-900 mb-4">{{ t('admin.coupons.validity_limits') }}</h4>
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <!-- Fecha de inicio -->
@@ -283,6 +283,7 @@
 
 <script setup>
 import { Link, useForm } from '@inertiajs/vue3'
+import { useI18n } from 'vue-i18n'
 import AdminLayout from '@/Layouts/AdminLayout.vue'
 import PrimaryButton from '@/Components/PrimaryButton.vue'
 import SecondaryButton from '@/Components/SecondaryButton.vue'
@@ -292,6 +293,8 @@ const props = defineProps({
   coupon: Object,
   clients: Array
 })
+
+const { t } = useI18n()
 
 const form = useForm({
   code: props.coupon.code,

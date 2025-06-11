@@ -57,12 +57,10 @@ class DiscountCouponController extends Controller
                 'exists:clients,id',
                 Rule::requiredIf($request->type === 'personalized')
             ]
-        ]);
-
-        // Validaciones adicionales
+        ]);        // Validaciones adicionales
         if ($request->discount_type === 'percentage' && $request->value > 100) {
             return back()->withErrors([
-                'value' => 'El descuento por porcentaje no puede ser mayor al 100%'
+                'value' => __('validation.percentage_max_100')
             ]);
         }
 
@@ -129,12 +127,10 @@ class DiscountCouponController extends Controller
                 'exists:clients,id',
                 Rule::requiredIf($request->type === 'personalized')
             ]
-        ]);
-
-        // Validaciones adicionales
+        ]);        // Validaciones adicionales
         if ($request->discount_type === 'percentage' && $request->value > 100) {
             return back()->withErrors([
-                'value' => 'El descuento por porcentaje no puede ser mayor al 100%'
+                'value' => __('validation.percentage_max_100')
             ]);
         }
 
@@ -377,11 +373,9 @@ class DiscountCouponController extends Controller
      */
     public function markAsUsed(DiscountCoupon $discountCoupon)
     {
-        $discountCoupon->markAsUsed();
-
-        return response()->json([
+        $discountCoupon->markAsUsed();        return response()->json([
             'success' => true,
-            'message' => 'Cupón marcado como usado',
+            'message' => __('coupons.marked_as_used'),
             'coupon' => $discountCoupon->fresh()
         ]);
     }
@@ -597,12 +591,10 @@ class DiscountCouponController extends Controller
         $request->validate([
             'days_expired' => 'integer|min:0|max:365',
             'confirm' => 'required|boolean'
-        ]);
-
-        if (!$request->confirm) {
+        ]);        if (!$request->confirm) {
             return response()->json([
                 'success' => false,
-                'message' => 'Debe confirmar la operación de limpieza'
+                'message' => __('coupons.must_confirm_cleanup')
             ], 400);
         }
 
@@ -614,11 +606,10 @@ class DiscountCouponController extends Controller
             ->where('used_count', 0); // Solo cupones no utilizados
 
         $count = $expiredCoupons->count();
-        
-        if ($count === 0) {
+          if ($count === 0) {
             return response()->json([
                 'success' => true,
-                'message' => 'No se encontraron cupones expirados para eliminar',
+                'message' => __('coupons.no_expired_found'),
                 'deleted_count' => 0
             ]);
         }

@@ -1,8 +1,8 @@
 <template>
-  <AdminLayout title="Gestión Avanzada de Cupones">
+  <AdminLayout :title="t('admin.coupons.advanced_management_title')">
     <template #header>
       <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-        Gestión Avanzada de Cupones
+        {{ t('admin.coupons.advanced_management_title') }}
       </h2>
     </template>
 
@@ -19,7 +19,7 @@
                 </div>
               </div>
               <div class="ml-4">
-                <div class="text-sm font-medium text-gray-500 dark:text-gray-400">Total Cupones</div>
+                <div class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ t('admin.coupons.total_coupons') }}</div>
                 <div class="text-2xl font-bold text-gray-900 dark:text-white">{{ stats.total_coupons }}</div>
               </div>
             </div>
@@ -33,7 +33,7 @@
                 </div>
               </div>
               <div class="ml-4">
-                <div class="text-sm font-medium text-gray-500 dark:text-gray-400">Cupones Activos</div>
+                <div class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ t('admin.coupons.active_coupons') }}</div>
                 <div class="text-2xl font-bold text-gray-900 dark:text-white">{{ stats.active_coupons }}</div>
               </div>
             </div>
@@ -47,7 +47,7 @@
                 </div>
               </div>
               <div class="ml-4">
-                <div class="text-sm font-medium text-gray-500 dark:text-gray-400">Cupones Usados</div>
+                <div class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ t('admin.coupons.used_coupons') }}</div>
                 <div class="text-2xl font-bold text-gray-900 dark:text-white">{{ stats.used_coupons }}</div>
               </div>
             </div>
@@ -61,7 +61,7 @@
                 </div>
               </div>
               <div class="ml-4">
-                <div class="text-sm font-medium text-gray-500 dark:text-gray-400">Ahorro Total</div>
+                <div class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ t('admin.coupons.total_savings') }}</div>
                 <div class="text-2xl font-bold text-gray-900 dark:text-white">€{{ stats.total_savings }}</div>
               </div>
             </div>
@@ -75,14 +75,14 @@
             <div class="p-6">
               <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">
                 <i class="pi pi-copy mr-2"></i>
-                Generación Masiva de Cupones
+                {{ t('admin.coupons.bulk_generation_title') }}
               </h3>
               
               <form @submit.prevent="generateBulkCoupons" class="space-y-4">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                      Cantidad a generar
+                      {{ t('admin.coupons.count') }}
                     </label>
                     <input
                       v-model="bulkForm.count"
@@ -96,7 +96,7 @@
                   
                   <div>
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                      Prefijo (opcional)
+                      {{ t('admin.coupons.prefix') }} ({{ t('common.optional') }})
                     </label>
                     <input
                       v-model="bulkForm.prefix"
@@ -109,21 +109,21 @@
 
                   <div>
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                      Tipo de descuento
+                      {{ t('admin.coupons.discount_type') }}
                     </label>
                     <select
                       v-model="bulkForm.discount_type"
                       required
                       class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                     >
-                      <option value="percentage">Porcentaje</option>
-                      <option value="fixed">Cantidad fija</option>
+                      <option value="percentage">{{ t('admin.coupons.percentage') }}</option>
+                      <option value="fixed">{{ t('admin.coupons.fixed_amount') }}</option>
                     </select>
                   </div>
 
                   <div>
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                      Valor del descuento
+                      {{ t('admin.coupons.discount_value') }}
                     </label>
                     <input
                       v-model="bulkForm.value"
@@ -138,7 +138,7 @@
 
                   <div>
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                      Válido desde
+                      {{ t('admin.coupons.valid_from') }}
                     </label>
                     <input
                       v-model="bulkForm.valid_from"
@@ -150,7 +150,7 @@
 
                   <div>
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                      Válido hasta
+                      {{ t('admin.coupons.valid_until') }}
                     </label>
                     <input
                       v-model="bulkForm.valid_to"
@@ -162,14 +162,14 @@
 
                   <div class="md:col-span-2">
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                      Máximo de usos (opcional)
+                      {{ t('admin.coupons.max_uses') }} ({{ t('common.optional') }})
                     </label>
                     <input
                       v-model="bulkForm.max_uses"
                       type="number"
                       min="1"
                       class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-                      placeholder="Ilimitado"
+                      :placeholder="t('admin.coupons.unlimited')"
                     />
                   </div>
                 </div>
@@ -181,7 +181,7 @@
                     class="bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 text-white font-medium py-2 px-4 rounded-md transition-colors duration-200"
                   >
                     <i class="pi pi-plus mr-2"></i>
-                    Generar Cupones
+                    {{ t('admin.coupons.generate_coupons') }}
                   </button>
                 </div>
               </form>
@@ -193,7 +193,7 @@
             <div class="p-6">
               <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">
                 <i class="pi pi-search mr-2"></i>
-                Validador de Cupones
+                {{ t('admin.coupons.validator_title') }}
               </h3>
               
               <DiscountCouponValidator
@@ -210,13 +210,13 @@
             <div class="flex justify-between items-center mb-4">
               <h3 class="text-lg font-medium text-gray-900 dark:text-white">
                 <i class="pi pi-list mr-2"></i>
-                Cupones Recientes
+                {{ t('admin.coupons.recent_coupons') }}
               </h3>
               <Link
                 :href="route('admin.discount-coupons.index')"
                 class="text-indigo-600 hover:text-indigo-700 dark:text-indigo-400 dark:hover:text-indigo-300 text-sm font-medium"
               >
-                Ver todos →
+                {{ t('admin.coupons.view_all') }} →
               </Link>
             </div>
 
@@ -225,19 +225,19 @@
                 <thead class="bg-gray-50 dark:bg-gray-700">
                   <tr>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                      Código
+                      {{ t('admin.coupons.code') }}
                     </th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                      Tipo
+                      {{ t('admin.coupons.type') }}
                     </th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                      Descuento
+                      {{ t('admin.coupons.discount') }}
                     </th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                      Estado
+                      {{ t('admin.coupons.status_title') }}
                     </th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                      Usos
+                      {{ t('admin.coupons.uses') }}
                     </th>
                   </tr>
                 </thead>
@@ -251,7 +251,7 @@
                         class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium"
                         :class="coupon.type === 'global' ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300' : 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-300'"
                       >
-                        {{ coupon.type === 'global' ? 'Global' : 'Personalizado' }}
+                        {{ coupon.type === 'global' ? t('admin.coupons.global') : t('admin.coupons.custom') }}
                       </span>
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
@@ -303,8 +303,11 @@
 <script setup>
 import { ref, reactive, onMounted } from 'vue'
 import { Link, useForm, router } from '@inertiajs/vue3'
+import { useI18n } from 'vue-i18n'
 import AdminLayout from '@/Layouts/AdminLayout.vue'
 import DiscountCouponValidator from '@/Components/DiscountCouponValidator.vue'
+
+const { t } = useI18n()
 
 const props = defineProps({
   stats: Object,
@@ -340,20 +343,20 @@ const showNotification = (type, message) => {
 const generateBulkCoupons = () => {
   bulkForm.post(route('admin.discount-coupons.bulk-generate'), {
     onSuccess: (page) => {
-      showNotification('success', `Se generaron ${bulkForm.count} cupones exitosamente`)
+      showNotification('success', t('admin.coupons.bulk_generated_success', { count: bulkForm.count }))
       bulkForm.reset()
       // Recargar datos
       router.reload({ only: ['stats', 'recentCoupons'] })
     },
     onError: (errors) => {
-      showNotification('error', 'Error al generar cupones. Verifica los datos.')
+      showNotification('error', t('admin.coupons.generation_error'))
     }
   })
 }
 
 const onCouponValidated = (coupon) => {
   if (coupon) {
-    showNotification('success', `Cupón ${coupon.code} validado correctamente`)
+    showNotification('success', t('admin.coupons.coupon_validated', { code: coupon.code }))
   }
 }
 
@@ -375,15 +378,15 @@ const getStatusClass = (status) => {
 const getStatusLabel = (status) => {
   switch (status) {
     case 'active':
-      return 'Activo'
+      return t('admin.coupons.status.active')
     case 'expired':
-      return 'Expirado'
+      return t('admin.coupons.status.expired')
     case 'depleted':
-      return 'Agotado'
+      return t('admin.coupons.status.depleted')
     case 'inactive':
-      return 'Inactivo'
+      return t('admin.coupons.status.inactive')
     default:
-      return 'Desconocido'
+      return t('admin.coupons.status.unknown')
   }
 }
 </script>

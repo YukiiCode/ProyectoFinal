@@ -225,7 +225,7 @@
                     </div>
                   </div>
                   <div class="ml-4">
-                    <div class="text-sm font-medium text-gray-500">Total Cupones</div>
+                    <div class="text-sm font-medium text-gray-500">{{ t('admin.coupons.total_coupons') }}</div>
                     <div class="text-2xl font-bold text-gray-900">{{ stats.total_coupons || 0 }}</div>
                   </div>
                 </div>
@@ -239,7 +239,7 @@
                     </div>
                   </div>
                   <div class="ml-4">
-                    <div class="text-sm font-medium text-gray-500">Cupones Activos</div>
+                    <div class="text-sm font-medium text-gray-500">{{ t('admin.coupons.active_coupons') }}</div>
                     <div class="text-2xl font-bold text-gray-900">{{ stats.active_coupons || 0 }}</div>
                   </div>
                 </div>
@@ -253,7 +253,7 @@
                     </div>
                   </div>
                   <div class="ml-4">
-                    <div class="text-sm font-medium text-gray-500">Cupones Usados</div>
+                    <div class="text-sm font-medium text-gray-500">{{ t('admin.coupons.used_coupons') }}</div>
                     <div class="text-2xl font-bold text-gray-900">{{ stats.used_coupons || 0 }}</div>
                   </div>
                 </div>
@@ -267,7 +267,7 @@
                     </div>
                   </div>
                   <div class="ml-4">
-                    <div class="text-sm font-medium text-gray-500">Ahorro Total</div>
+                    <div class="text-sm font-medium text-gray-500">{{ t('admin.coupons.total_savings') }}</div>
                     <div class="text-2xl font-bold text-gray-900">€{{ stats.total_savings || 0 }}</div>
                   </div>
                 </div>
@@ -308,13 +308,12 @@
                     
                     <div class="grid grid-cols-2 gap-4">
                       <div>
-                        <label class="block text-sm font-medium text-gray-700">Tipo de descuento</label>
+                        <label class="block text-sm font-medium text-gray-700">{{ t('admin.coupons.discount_type') }}</label>
                         <select 
                           v-model="bulkForm.discount_type"
                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-                        >
-                          <option value="percentage">Porcentaje</option>
-                          <option value="fixed">Cantidad fija</option>
+                        >                          <option value="percentage">{{ t('admin.coupons.percentage') }}</option>
+                          <option value="fixed">{{ t('admin.coupons.fixed_amount') }}</option>
                         </select>
                       </div>
                       
