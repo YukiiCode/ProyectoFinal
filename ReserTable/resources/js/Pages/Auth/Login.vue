@@ -6,6 +6,7 @@ import { useNotifications } from '@/composables/useNotifications';
 import { useI18n } from 'vue-i18n';
 import { ref } from 'vue';
 import ThemeManager from '@/Components/ThemeManager.vue';
+import AuthControls from '@/Components/AuthControls.vue';
 
 // PrimeVue components
 import Button from 'primevue/button';
@@ -51,6 +52,7 @@ const submit = () => {
 <template>
     <Head :title="t('auth.login_title')" />
     <ThemeManager />
+    <AuthControls />
 
     <AuthenticationCard>
         <template #logo>

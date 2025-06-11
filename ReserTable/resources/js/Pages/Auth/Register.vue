@@ -5,6 +5,7 @@ import AuthenticationCardLogo from '@/Components/AuthenticationCardLogo.vue';
 import { useNotifications } from '@/composables/useNotifications';
 import { useI18n } from 'vue-i18n';
 import ThemeManager from '@/Components/ThemeManager.vue';
+import AuthControls from '@/Components/AuthControls.vue';
 
 const { t } = useI18n();
 const { showSuccess, showError } = useNotifications();
@@ -37,6 +38,7 @@ const submit = () => {
 <template>
     <Head :title="t('auth.register_title')" />
     <ThemeManager />
+    <AuthControls />
 
     <AuthenticationCard>
         <template #logo>

@@ -35,6 +35,9 @@
     "success": "Success",
     "warning": "Warning",    "info": "Information",
     "optional": "optional",
+    "change_language": "Change language",
+    "light_mode": "Light mode",
+    "dark_mode": "Dark mode",
     "days": {
       "monday_short": "Mon",
       "tuesday_short": "Tue",
