@@ -7,12 +7,20 @@ import { useI18n } from 'vue-i18n';
 import ThemeManager from '@/Components/ThemeManager.vue';
 import AuthControls from '@/Components/AuthControls.vue';
 
+// PrimeVue components
+import Button from 'primevue/button';
+import InputText from 'primevue/inputtext';
+import Checkbox from 'primevue/checkbox';
+import Password from 'primevue/password';
+import Message from 'primevue/message';
+
 const { t } = useI18n();
 const { showSuccess, showError } = useNotifications();
 
 const form = useForm({
     name: '',
     email: '',
+    phone: '',
     password: '',
     password_confirmation: '',
     terms: false,
@@ -46,158 +54,170 @@ const submit = () => {
         </template>
 
         <!-- Título del formulario -->
-        <div class="form-header">
-            <h2 class="form-title">{{ t('auth.create_account') }}</h2>
-            <p class="form-subtitle">{{ t('auth.register_subtitle') }}</p>
+        <div class="text-center mb-6">
+            <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+                {{ t('auth.create_account') }}
+            </h2>
+            <p class="text-gray-600 dark:text-gray-400">
+                {{ t('auth.register_subtitle') }}
+            </p>
         </div>
 
-        <form @submit.prevent="submit" class="register-form">
+        <form @submit.prevent="submit" class="space-y-6">
             <!-- Campo Nombre -->
-            <div class="input-group">
-                <label for="name" class="input-label">
-                    <i class="fas fa-user"></i>
+            <div class="field">
+                <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    <i class="pi pi-user mr-2"></i>
                     {{ t('auth.full_name') }}
                 </label>
-                <div class="input-wrapper">
-                    <input
-                        id="name"
-                        v-model="form.name"
-                        type="text"
-                        class="form-input"
-                        :class="{ 'error': form.errors.name }"
-                        :placeholder="t('auth.full_name_placeholder')"
-                        required
-                        autofocus
-                        autocomplete="name"
-                    />
-                </div>
-                <div v-if="form.errors.name" class="input-error">
-                    <i class="fas fa-exclamation-triangle"></i>
+                <InputText
+                    id="name"
+                    v-model="form.name"
+                    type="text"
+                    class="w-full"
+                    :class="{ 'p-invalid': form.errors.name }"
+                    :placeholder="t('auth.full_name_placeholder')"
+                    autocomplete="name"
+                    autofocus
+                />
+                <small v-if="form.errors.name" class="p-error">
+                    <i class="pi pi-exclamation-triangle mr-1"></i>
                     {{ form.errors.name }}
-                </div>
+                </small>
             </div>
 
             <!-- Campo Email -->
-            <div class="input-group">
-                <label for="email" class="input-label">
-                    <i class="fas fa-envelope"></i>
+            <div class="field">
+                <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    <i class="pi pi-envelope mr-2"></i>
                     {{ t('auth.email') }}
                 </label>
-                <div class="input-wrapper">
-                    <input
-                        id="email"
-                        v-model="form.email"
-                        type="email"
-                        class="form-input"
-                        :class="{ 'error': form.errors.email }"
-                        :placeholder="t('auth.email_placeholder')"
-                        required
-                        autocomplete="username"
-                    />
-                </div>
-                <div v-if="form.errors.email" class="input-error">
-                    <i class="fas fa-exclamation-triangle"></i>
+                <InputText
+                    id="email"
+                    v-model="form.email"
+                    type="email"
+                    class="w-full"
+                    :class="{ 'p-invalid': form.errors.email }"
+                    :placeholder="t('auth.email_placeholder')"
+                    autocomplete="username"
+                />
+                <small v-if="form.errors.email" class="p-error">
+                    <i class="pi pi-exclamation-triangle mr-1"></i>
                     {{ form.errors.email }}
-                </div>
+                </small>
+            </div>
+
+            <!-- Campo Teléfono -->
+            <div class="field">
+                <label for="phone" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    <i class="pi pi-phone mr-2"></i>
+                    {{ t('auth.phone') }}
+                </label>
+                <InputText
+                    id="phone"
+                    v-model="form.phone"
+                    type="tel"
+                    class="w-full"
+                    :class="{ 'p-invalid': form.errors.phone }"
+                    :placeholder="t('auth.phone_placeholder')"
+                    autocomplete="tel"
+                />
+                <small v-if="form.errors.phone" class="p-error">
+                    <i class="pi pi-exclamation-triangle mr-1"></i>
+                    {{ form.errors.phone }}
+                </small>
             </div>
 
             <!-- Campo Password -->
-            <div class="input-group">
-                <label for="password" class="input-label">
-                    <i class="fas fa-lock"></i>
+            <div class="field">
+                <label for="password" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    <i class="pi pi-lock mr-2"></i>
                     {{ t('auth.password') }}
                 </label>
-                <div class="input-wrapper">
-                    <input
-                        id="password"
-                        v-model="form.password"
-                        type="password"
-                        class="form-input"
-                        :class="{ 'error': form.errors.password }"
-                        :placeholder="t('auth.password_placeholder')"
-                        required
-                        autocomplete="new-password"
-                    />
-                </div>
-                <div v-if="form.errors.password" class="input-error">
-                    <i class="fas fa-exclamation-triangle"></i>
+                <Password
+                    id="password"
+                    v-model="form.password"
+                    :feedback="false"
+                    :toggle-mask="true"
+                    class="w-full"
+                    :class="{ 'p-invalid': form.errors.password }"
+                    :placeholder="t('auth.password_placeholder')"
+                    autocomplete="new-password"
+                    input-class="w-full"
+                />
+                <small v-if="form.errors.password" class="p-error">
+                    <i class="pi pi-exclamation-triangle mr-1"></i>
                     {{ form.errors.password }}
-                </div>
+                </small>
             </div>
 
             <!-- Campo Confirmar Password -->
-            <div class="input-group">
-                <label for="password_confirmation" class="input-label">
-                    <i class="fas fa-lock"></i>
+            <div class="field">
+                <label for="password_confirmation" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    <i class="pi pi-lock mr-2"></i>
                     {{ t('auth.confirm_password') }}
                 </label>
-                <div class="input-wrapper">
-                    <input
-                        id="password_confirmation"
-                        v-model="form.password_confirmation"
-                        type="password"
-                        class="form-input"
-                        :class="{ 'error': form.errors.password_confirmation }"
-                        :placeholder="t('auth.confirm_password_placeholder')"
-                        required
-                        autocomplete="new-password"
-                    />
-                </div>
-                <div v-if="form.errors.password_confirmation" class="input-error">
-                    <i class="fas fa-exclamation-triangle"></i>
+                <Password
+                    id="password_confirmation"
+                    v-model="form.password_confirmation"
+                    :feedback="false"
+                    :toggle-mask="true"
+                    class="w-full"
+                    :class="{ 'p-invalid': form.errors.password_confirmation }"
+                    :placeholder="t('auth.confirm_password_placeholder')"
+                    autocomplete="new-password"
+                    input-class="w-full"
+                />
+                <small v-if="form.errors.password_confirmation" class="p-error">
+                    <i class="pi pi-exclamation-triangle mr-1"></i>
                     {{ form.errors.password_confirmation }}
-                </div>
+                </small>
             </div>
 
             <!-- Términos y condiciones -->
-            <div v-if="$page.props.jetstream.hasTermsAndPrivacyPolicyFeature" class="form-options">
-                <label class="checkbox-label">
-                    <input 
-                        v-model="form.terms" 
-                        type="checkbox" 
-                        name="terms" 
-                        class="checkbox-input"
-                        required
-                    />
-                    <span class="checkbox-custom"></span>
-                    <span class="checkbox-text">
-                        {{ t('auth.accept_terms_start') }} 
-                        <a target="_blank" :href="route('terms.show')" class="auth-link">{{ t('auth.terms_of_service') }}</a> 
-                        {{ t('auth.and') }} 
-                        <a target="_blank" :href="route('policy.show')" class="auth-link">{{ t('auth.privacy_policy') }}</a>
-                    </span>
+            <div v-if="$page.props.jetstream.hasTermsAndPrivacyPolicyFeature" class="flex items-start">
+                <Checkbox
+                    id="terms"
+                    v-model="form.terms"
+                    :binary="true"
+                    class="mr-2 mt-1"
+                />
+                <label for="terms" class="text-sm text-gray-700 dark:text-gray-300 cursor-pointer">
+                    {{ t('auth.accept_terms_start') }} 
+                    <a target="_blank" :href="route('terms.show')" class="font-medium text-primary-600 hover:text-primary-800 dark:text-primary-400 dark:hover:text-primary-200 transition-colors duration-200">
+                        {{ t('auth.terms_of_service') }}
+                    </a> 
+                    {{ t('auth.and') }} 
+                    <a target="_blank" :href="route('policy.show')" class="font-medium text-primary-600 hover:text-primary-800 dark:text-primary-400 dark:hover:text-primary-200 transition-colors duration-200">
+                        {{ t('auth.privacy_policy') }}
+                    </a>
                 </label>
-                <div v-if="form.errors.terms" class="input-error">
-                    <i class="fas fa-exclamation-triangle"></i>
+                <small v-if="form.errors.terms" class="p-error block w-full mt-1">
+                    <i class="pi pi-exclamation-triangle mr-1"></i>
                     {{ form.errors.terms }}
-                </div>
+                </small>
             </div>
 
-            <!-- Botones de acción -->
-            <div class="form-actions">
-                <button 
-                    type="submit" 
-                    class="btn-primary"
-                    :class="{ 'loading': form.processing }" 
-                    :disabled="form.processing"
-                >
-                    <span v-if="!form.processing" class="btn-content">
-                        <i class="fas fa-user-plus"></i>
-                        {{ t('auth.create_account') }}
-                    </span>
-                    <span v-else class="btn-loading">
-                        <i class="fas fa-spinner fa-spin"></i>
-                        {{ t('auth.creating_account') }}
-                    </span>
-                </button>
-            </div>
+            <!-- Botón de envío -->
+            <Button
+                type="submit"
+                :label="form.processing ? t('auth.creating_account') : t('auth.create_account')"
+                icon="pi pi-user-plus"
+                class="w-full p-3 text-lg"
+                :loading="form.processing"
+                loading-icon="pi pi-spinner pi-spin"
+                severity="primary"
+            />
         </form>
 
         <!-- Enlaces adicionales -->
-        <div class="auth-footer">
-            <p class="auth-footer-text">
+        <div class="text-center mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
+            <p class="text-sm text-gray-600 dark:text-gray-400">
                 {{ t('auth.already_have_account') }} 
-                <Link :href="route('login')" class="auth-link">
+                <Link 
+                    :href="route('login')" 
+                    class="font-medium text-primary-600 hover:text-primary-800 dark:text-primary-400 dark:hover:text-primary-200 transition-colors duration-200 ml-1"
+                >
                     {{ t('auth.login_here') }}
                 </Link>
             </p>

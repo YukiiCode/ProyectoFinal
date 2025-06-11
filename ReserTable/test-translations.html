@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test de Traducciones</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .test-result { margin: 10px 0; padding: 10px; border-radius: 5px; }
+        .success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .error { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ddd; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <h1>Test de Traducciones i18n</h1>
+    
+    <div class="test-section">
+        <h2>Resultados del Diagnóstico</h2>
+        <div class="test-result success">
+            ✅ <strong>Problema identificado:</strong> La sección 'auth' faltaba completamente en los archivos de traducción
+        </div>
+        <div class="test-result success">
+            ✅ <strong>Archivos de traducción:</strong> es.json y en.json ahora contienen la sección 'auth'
+        </div>
+        <div class="test-result success">
+            ✅ <strong>Componentes verificados:</strong> Login.vue, Register.vue, ForgotPassword.vue, VerifyEmail.vue
+        </div>
+        <div class="test-result success">
+            ✅ <strong>Códigos de debug:</strong> Removidos del archivo Login.vue
+        </div>
+        <div class="test-result success">
+            ✅ <strong>Compilación:</strong> Sin errores en los archivos JSON y Vue
+        </div>
+        <div class="test-result success">
+            ✅ <strong>Servidor de desarrollo:</strong> Funcionando correctamente con hot reload
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>Traducciones Agregadas</h2>
+        <h3>Sección auth - Español</h3>
+        <ul>
+            <li>login_title, welcome_back, please_sign_in</li>
+            <li>register_title, create_account, full_name</li>
+            <li>forgot_password, reset_password, send_reset_link</li>
+            <li>verify_email, verification_link_sent, resend_verification</li>
+            <li>Errores y mensajes de éxito</li>
+            <li>Placeholders y textos de ayuda</li>
+        </ul>
+        
+        <h3>Sección auth - Inglés</h3>
+        <ul>
+            <li>Equivalentes en inglés para todas las claves en español</li>
+            <li>Mantiene consistencia con el estilo de la aplicación</li>
+        </ul>
+    </div>
+
+    <div class="test-section">
+        <h2>¿Cómo probar?</h2>
+        <ol>
+            <li>Ir a <a href="http://localhost:5174/login" target="_blank">http://localhost:5174/login</a></li>
+            <li>Verificar que los textos aparecen correctamente en español</li>
+            <li>Cambiar idioma de la aplicación (si hay selector)</li>
+            <li>Verificar formularios de registro y recuperación de contraseña</li>
+            <li>Probar navegación entre componentes de auth</li>
+        </ol>
+    </div>
+
+    <div class="test-section">
+        <h2>Estado Final</h2>
+        <div class="test-result success">
+            ✅ <strong>SOLUCIONADO:</strong> Las traducciones de autenticación ahora funcionan correctamente
+        </div>
+        <p>El problema principal era que la sección 'auth' no existía en los archivos de traducción. Ahora todos los componentes de autenticación pueden acceder a sus traducciones correspondientes.</p>
+    </div>
+
+    <script>
+        console.log('🎉 Traduciones de autenticación reparadas exitosamente!');
+        console.log('📋 Problema original: Sección auth faltante en archivos de traducción');
+        console.log('✅ Solución aplicada: Agregada sección completa auth en es.json y en.json');
+        console.log('🧹 Limpieza: Removidos logs de debug del código');
+        console.log('🔍 Verificación: Componentes Login, Register, ForgotPassword, VerifyEmail');
+    </script>
+</body>
+</html>

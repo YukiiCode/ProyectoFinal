@@ -8,6 +8,10 @@ import { useI18n } from 'vue-i18n';
 import ThemeManager from '@/Components/ThemeManager.vue';
 import AuthControls from '@/Components/AuthControls.vue';
 
+// PrimeVue components
+import Button from 'primevue/button';
+import Message from 'primevue/message';
+
 const props = defineProps({
     status: String,
 });
@@ -38,54 +42,64 @@ const verificationLinkSent = computed(() => props.status === 'verification-link-
             <AuthenticationCardLogo />
         </template>
 
+        <!-- Mensaje de estado con PrimeVue -->
+        <Message 
+            v-if="verificationLinkSent" 
+            severity="success" 
+            :closable="false"
+            class="mb-4"
+        >
+            <i class="pi pi-check-circle mr-2"></i>
+            {{ t('auth.verification_link_sent') }}
+        </Message>
+
         <!-- Título del formulario -->
-        <div class="form-header">
-            <h2 class="form-title">{{ t('auth.verify_email') }}</h2>
-            <p class="form-subtitle">{{ t('auth.verify_email_subtitle') }}</p>
+        <div class="text-center mb-6">
+            <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+                {{ t('auth.verify_email') }}
+            </h2>
+            <p class="text-gray-600 dark:text-gray-400">
+                {{ t('auth.verify_email_subtitle') }}
+            </p>
         </div>
 
         <!-- Descripción -->
-        <div class="form-description">
+        <div class="text-gray-600 dark:text-gray-400 mb-6 text-center">
             {{ t('auth.verify_email_description') }}
         </div>
 
-        <!-- Mensaje de estado -->
-        <div v-if="verificationLinkSent" class="status-message success">
-            <i class="fas fa-check-circle"></i>
-            {{ t('auth.verification_link_sent') }}
-        </div>
-
-        <form @submit.prevent="submit" class="verify-form">
-            <!-- Botones de acción -->
-            <div class="form-actions">
-                <button 
-                    type="submit" 
-                    class="btn-primary"
-                    :class="{ 'loading': form.processing }" 
-                    :disabled="form.processing"
-                >
-                    <span v-if="!form.processing" class="btn-content">
-                        <i class="fas fa-envelope"></i>
-                        {{ t('auth.resend_verification') }}
-                    </span>
-                    <span v-else class="btn-loading">
-                        <i class="fas fa-spinner fa-spin"></i>
-                        {{ t('auth.sending') }}
-                    </span>
-                </button>
-            </div>
+        <form @submit.prevent="submit" class="space-y-6">
+            <!-- Botón de reenvío -->
+            <Button
+                type="submit"
+                :label="form.processing ? t('auth.sending') : t('auth.resend_verification')"
+                icon="pi pi-send"
+                class="w-full p-3 text-lg"
+                :loading="form.processing"
+                loading-icon="pi pi-spinner pi-spin"
+                severity="primary"
+            />
         </form>
 
         <!-- Enlaces adicionales -->
-        <div class="auth-footer">
-            <div class="auth-footer-links">
-                <Link :href="route('profile.show')" class="auth-link">
-                    <i class="fas fa-user"></i>
+        <div class="text-center mt-6 pt-6 border-t border-gray-200 dark:border-gray-700 space-y-2">
+            <div>
+                <Link 
+                    :href="route('profile.show')" 
+                    class="text-sm text-primary-600 hover:text-primary-800 dark:text-primary-400 dark:hover:text-primary-200 transition-colors duration-200"
+                >
+                    <i class="pi pi-user mr-1"></i>
                     {{ t('auth.edit_profile') }}
                 </Link>
-                
-                <Link :href="route('logout')" method="post" as="button" class="auth-link logout-link">
-                    <i class="fas fa-sign-out-alt"></i>
+            </div>
+            <div>
+                <Link 
+                    :href="route('logout')" 
+                    method="post" 
+                    as="button"
+                    class="text-sm text-gray-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200 transition-colors duration-200"
+                >
+                    <i class="pi pi-sign-out mr-1"></i>
                     {{ t('auth.logout') }}
                 </Link>
             </div>

@@ -2,7 +2,20 @@
 
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
+
+// Rutas de autenticación personalizadas (solo para usuarios no autenticados)
+Route::middleware(['guest'])->group(function () {
+    Route::get('/login', [\App\Http\Controllers\Auth\DualLoginController::class, 'create'])->name('login');
+    Route::post('/login', [\App\Http\Controllers\Auth\DualLoginController::class, 'store']);
+    
+    Route::get('/register', [\App\Http\Controllers\Auth\ClientRegisterController::class, 'create'])->name('register');
+    Route::post('/register', [\App\Http\Controllers\Auth\ClientRegisterController::class, 'store']);
+});
+
+// Ruta de logout (disponible para todos los autenticados)
+Route::post('/logout', [\App\Http\Controllers\Auth\DualLoginController::class, 'destroy'])->name('logout');
 
 Route::get('/', function () {
     $products = \App\Models\Product::where('available', 1)->get();
@@ -15,23 +28,8 @@ Route::get('/', function () {
     ]);
 })->name('home');
 
-Route::middleware([
-    'auth:sanctum',
-    config('jetstream.auth_session'),
-    'verified',
-])->group(function () {
-    Route::get('/reserva', function () {
-        return Inertia::render('Reserva');
-    })->name('reserva');
-    
-    Route::get('/menu', function () {
-        $products = \App\Models\Product::where('available', 1)->get();
-        return Inertia::render('Menu', [
-            'products' => $products
-        ]);
-    })->name('menu');
-
-    // Rutas administrativas
+// Rutas administrativas (solo para admins)
+Route::middleware(['admin'])->group(function () {
     Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/dashboard', [\App\Http\Controllers\AdminController::class, 'dashboard'])->name('dashboard');
         Route::get('/tables', [\App\Http\Controllers\AdminController::class, 'tables'])->name('tables');
@@ -89,4 +87,27 @@ Route::middleware([
         Route::patch('/settings/dark-mode-alias', [\App\Http\Controllers\SettingsController::class, 'toggleDarkMode'])->name('admin.settings.dark-mode');
         Route::patch('/settings/language-alias', [\App\Http\Controllers\SettingsController::class, 'updateLanguage'])->name('admin.settings.language');
     });
+});
+
+// Rutas para clientes autenticados
+Route::middleware(['client'])->group(function () {
+    Route::get('/reserva', function () {
+        return Inertia::render('Reserva');
+    })->name('reserva');
+    
+    Route::get('/menu', function () {
+        $products = \App\Models\Product::where('available', 1)->get();
+        return Inertia::render('Menu', [
+            'products' => $products
+        ]);
+    })->name('menu');
+    
+    // Rutas específicas para clientes
+    Route::get('/mis-reservas', function () {
+        $client = Auth::guard('client')->user();
+        $reservations = $client->reservations()->with('table')->get();
+        return Inertia::render('Client/MyReservations', [
+            'reservations' => $reservations
+        ]);
+    })->name('client.reservations');
 });

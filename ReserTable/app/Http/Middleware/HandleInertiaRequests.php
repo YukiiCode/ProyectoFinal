@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Middleware;
 
 class HandleInertiaRequests extends Middleware
@@ -38,11 +39,42 @@ class HandleInertiaRequests extends Middleware
         return [
             ...parent::share($request),
             'auth' => [
-                'user' => $request->user() ? [
-                    ...$request->user()->toArray(),
-                    'settings' => $request->user()->getUserSettings(),
-                ] : null,
+                'user' => $this->getAuthenticatedUser($request),
             ],
         ];
+    }
+
+    /**
+     * Get the authenticated user from either admin or client guard.
+     */
+    private function getAuthenticatedUser(Request $request)
+    {
+        // Verificar si hay un admin autenticado
+        if (Auth::guard('web')->check()) {
+            $user = Auth::guard('web')->user();
+            $userData = [
+                'id' => $user->id,
+                'name' => $user->name,
+                'email' => $user->email,
+                'role' => $user->role ?? 'admin',
+                'type' => 'admin',
+            ];
+            
+            return $userData;
+        }
+
+        // Verificar si hay un cliente autenticado
+        if (Auth::guard('client')->check()) {
+            $client = Auth::guard('client')->user();
+            return [
+                'id' => $client->id,
+                'name' => $client->name,
+                'email' => $client->email,
+                'phone' => $client->phone ?? null,
+                'type' => 'client',
+            ];
+        }
+
+        return null;
     }
 }

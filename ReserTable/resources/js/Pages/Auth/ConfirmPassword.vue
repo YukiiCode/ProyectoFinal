@@ -7,6 +7,9 @@ import { useNotifications } from '@/composables/useNotifications';
 import { useI18n } from 'vue-i18n';
 import ThemeManager from '@/Components/ThemeManager.vue';
 import AuthControls from '@/Components/AuthControls.vue';
+import Button from 'primevue/button';
+import InputText from 'primevue/inputtext';
+import Password from 'primevue/password';
 
 const { t } = useI18n();
 const { showError } = useNotifications();
@@ -41,55 +44,51 @@ const submit = () => {
         </template>
 
         <!-- Título del formulario -->
-        <div class="form-header">
-            <h2 class="form-title">{{ t('auth.confirm_password_title').replace(' - ReserTable', '') }}</h2>
-            <p class="form-subtitle">{{ t('auth.confirm_password_subtitle') }}</p>
+        <div class="text-center mb-8">
+            <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+                {{ t('auth.confirm_password_title').replace(' - ReserTable', '') }}
+            </h2>
+            <p class="text-gray-600 dark:text-gray-400 text-lg">
+                {{ t('auth.confirm_password_subtitle') }}
+            </p>
         </div>
 
-        <form @submit.prevent="submit" class="confirm-form">
+        <form @submit.prevent="submit" class="space-y-6">
             <!-- Campo Password -->
-            <div class="input-group">
-                <label for="password" class="input-label">
-                    <i class="fas fa-lock"></i>
+            <div class="field">
+                <label for="password" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    <i class="fas fa-lock mr-2 text-blue-500"></i>
                     {{ t('auth.password') }}
                 </label>
-                <div class="input-wrapper">
-                    <input
-                        id="password"
-                        ref="passwordInput"
-                        v-model="form.password"
-                        type="password"
-                        class="form-input"
-                        :class="{ 'error': form.errors.password }"
-                        :placeholder="t('auth.password_placeholder')"
-                        required
-                        autocomplete="current-password"
-                        autofocus
-                    />
-                </div>
-                <div v-if="form.errors.password" class="input-error">
-                    <i class="fas fa-exclamation-triangle"></i>
+                <Password
+                    id="password"
+                    ref="passwordInput"
+                    v-model="form.password"
+                    class="w-full"
+                    :class="{ 'p-invalid': form.errors.password }"
+                    :placeholder="t('auth.password_placeholder')"
+                    :feedback="false"
+                    toggle-mask
+                    required
+                    autocomplete="current-password"
+                    autofocus
+                />
+                <small v-if="form.errors.password" class="p-error">
+                    <i class="fas fa-exclamation-triangle mr-1"></i>
                     {{ form.errors.password }}
-                </div>
+                </small>
             </div>
 
-            <!-- Botones de acción -->
+            <!-- Botón de acción -->
             <div class="form-actions">
-                <button 
+                <Button 
                     type="submit" 
-                    class="btn-primary"
-                    :class="{ 'loading': form.processing }" 
+                    class="w-full p-3 text-lg font-semibold"
+                    :loading="form.processing"
                     :disabled="form.processing"
-                >
-                    <span v-if="!form.processing" class="btn-content">
-                        <i class="fas fa-check"></i>
-                        {{ t('auth.confirm_button') }}
-                    </span>
-                    <span v-else class="btn-loading">
-                        <i class="fas fa-spinner fa-spin"></i>
-                        {{ t('auth.confirming') }}
-                    </span>
-                </button>
+                    icon="fas fa-check"
+                    :label="form.processing ? t('auth.confirming') : t('auth.confirm_button')"
+                />
             </div>
         </form>
     </AuthenticationCard>

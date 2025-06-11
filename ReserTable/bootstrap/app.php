@@ -21,6 +21,13 @@ return Application::configure(basePath: dirname(__DIR__))
             \App\Http\Middleware\LoadUserSettings::class,
         ]);
 
+        // Registrar middleware personalizado
+        $middleware->alias([
+            'admin' => \App\Http\Middleware\AdminAuth::class,
+            'client' => \App\Http\Middleware\ClientAuth::class,
+            'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
+        ]);
+
         //
     })
     ->withExceptions(function (Exceptions $exceptions) {
