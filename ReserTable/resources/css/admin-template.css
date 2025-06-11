@@ -804,3 +804,27 @@
         border: 1px solid #000 !important;
     }
 }
+
+/* ============================================ */
+/* CORRECCIÓN DROPDOWN CONFIGURACIÓN - MODO OSCURO */
+/* ============================================ */
+
+/* Forzar visibilidad del idioma seleccionado en modo oscuro */
+.dark .space-y-1 > div[class*="bg-blue-50"],
+html.dark .space-y-1 > div[class*="bg-blue-50"],
+body.dark-mode .space-y-1 > div[class*="bg-blue-50"] {
+    background-color: rgba(29, 78, 216, 0.4) !important;
+    color: #ffffff !important;
+}
+
+.dark .space-y-1 > div[class*="bg-blue-50"] span,
+html.dark .space-y-1 > div[class*="bg-blue-50"] span,
+body.dark-mode .space-y-1 > div[class*="bg-blue-50"] span {
+    color: #ffffff !important;
+}
+
+.dark .space-y-1 > div[class*="bg-blue-50"] i,
+html.dark .space-y-1 > div[class*="bg-blue-50"] i,
+body.dark-mode .space-y-1 > div[class*="bg-blue-50"] i {
+    color: #bfdbfe !important;
+}

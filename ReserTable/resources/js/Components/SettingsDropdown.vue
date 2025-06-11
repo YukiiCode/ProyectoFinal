@@ -157,11 +157,11 @@ watch(() => page.props.auth?.user?.settings, (newSettings) => {
             :key="language.code"
             @click="changeLanguage(language)"
             class="flex items-center gap-2 px-2 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer rounded transition-colors"
-            :class="{ 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300': language.code === currentLanguage.code }"
+            :class="{ 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-white font-semibold': language.code === currentLanguage.code }"
           >
             <span class="text-lg">{{ language.flag }}</span>
             <span class="flex-1">{{ language.name }}</span>
-            <i v-if="language.code === currentLanguage.code" class="pi pi-check text-blue-500"></i>
+            <i v-if="language.code === currentLanguage.code" class="pi pi-check text-blue-500 dark:text-blue-200"></i>
           </div>
         </div>
       </div>
