@@ -2,10 +2,12 @@
 import { ref, onMounted, computed, nextTick, watch } from 'vue';
 import { router, usePage } from '@inertiajs/vue3';
 import { useNotifications } from '@/composables/useNotifications';
+import { useI18n } from 'vue-i18n';
 import interact from 'interact.js';
 
-// Inicializar notificaciones
+// Inicializar notificaciones e i18n
 const { showWarning, showError, showSuccess } = useNotifications();
+const { t } = useI18n();
 
 // Textos estáticos por ahora
 const texts = {
@@ -266,27 +268,27 @@ const tableLegs = [
 
 <template>
     <div class="w-full">
-        <!-- Leyenda de estados de las mesas -->
-        <div class="mb-4 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
-            <h3 class="text-sm font-semibold text-gray-900 dark:text-gray-100 mb-3 flex items-center">
-                <i class="pi pi-info-circle mr-2 text-blue-500"></i>
-                Estado de las mesas
-            </h3>            <div class="flex flex-wrap gap-4 text-sm">
-                <div class="flex items-center">
-                    <div class="w-4 h-4 rounded mr-2 border border-gray-300 bg-green-500"></div>
-                    <span class="text-gray-700 dark:text-gray-300">Disponible</span>
+        <!-- Leyenda de estados de las mesas -->        <div class="mb-4 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-600">            <h3 style="font-size: 14px; font-weight: 600; color: #000; margin-bottom: 12px; display: flex; align-items: center;">
+                <svg style="width: 16px; height: 16px; margin-right: 8px; color: #3b82f6;" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
+                </svg>
+                {{ t('reservations.table_status') }}
+            </h3><div style="display: flex; flex-wrap: wrap; gap: 16px; font-size: 14px;">
+                <div style="display: flex; align-items: center;">
+                    <div style="width: 20px; height: 20px; background-color: #22c55e; border: 2px solid #000; margin-right: 8px; border-radius: 4px;"></div>
+                    <span style="color: #000; font-weight: 500;">{{ t('reservations.available') }}</span>
                 </div>
-                <div class="flex items-center">
-                    <div class="w-4 h-4 rounded mr-2 border border-gray-300 bg-yellow-400"></div>
-                    <span class="text-gray-700 dark:text-gray-300">Reservada</span>
+                <div style="display: flex; align-items: center;">
+                    <div style="width: 20px; height: 20px; background-color: #fbbf24; border: 2px solid #000; margin-right: 8px; border-radius: 4px;"></div>
+                    <span style="color: #000; font-weight: 500;">{{ t('reservations.reserved') }}</span>
                 </div>
-                <div class="flex items-center">
-                    <div class="w-4 h-4 rounded mr-2 border border-gray-300 bg-red-500"></div>
-                    <span class="text-gray-700 dark:text-gray-300">Ocupada</span>
+                <div style="display: flex; align-items: center;">
+                    <div style="width: 20px; height: 20px; background-color: #ef4444; border: 2px solid #000; margin-right: 8px; border-radius: 4px;"></div>
+                    <span style="color: #000; font-weight: 500;">{{ t('reservations.occupied') }}</span>
                 </div>
-                <div class="flex items-center">
-                    <div class="w-4 h-4 rounded mr-2 border border-gray-300 bg-gray-400"></div>
-                    <span class="text-gray-700 dark:text-gray-300">No disponible</span>
+                <div style="display: flex; align-items: center;">
+                    <div style="width: 20px; height: 20px; background-color: #6b7280; border: 2px solid #000; margin-right: 8px; border-radius: 4px;"></div>
+                    <span style="color: #000; font-weight: 500;">{{ t('reservations.unavailable') }}</span>
                 </div>
             </div>
         </div>

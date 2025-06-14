@@ -80,21 +80,10 @@ class HomeController extends Controller
                     'usage_count' => $coupon->used_count,
                     'minimum_amount' => $coupon->minimum_amount ?? 0
                 ];
-            });
-
-        // Estadísticas del restaurante
-        $stats = [
-            'total_tables' => Table::count(),
-            'available_tables' => Table::where('status', 'available')->count(),
-            'total_products' => Product::where('available', true)->count(),
-            'categories_count' => ProductCategory::count()
-        ];
-
-        return Inertia::render('Home', [
+            });        return Inertia::render('Home', [
             'featuredProducts' => $featuredProducts,
             'categories' => $categories,
-            'coupons' => $coupons,
-            'stats' => $stats
+            'coupons' => $coupons
         ]);
     }
 

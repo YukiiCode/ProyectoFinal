@@ -30,8 +30,8 @@
     "loading": "Cargando...",
     "error": "Error",
     "success": "Éxito",
-    "warning": "Advertencia",    "info": "Información",
-    "optional": "opcional",
+    "warning": "Advertencia",    "info": "Información",    "optional": "opcional",
+    "allergens": "alérgenos",
     "change_language": "Cambiar idioma",
     "light_mode": "Modo claro",
     "dark_mode": "Modo oscuro",
@@ -173,23 +173,44 @@
     "view_menu": "Ver Nuestro Menú",
     "featured_menu": "Nuestro Menú Destacado",    "featured_menu_description": "Descubre algunos de nuestros platos más populares, preparados con ingredientes frescos y técnicas tradicionales",
     "view_more": "Ver más",
-    "view_complete_menu": "Ver Menú Completo",
-    "featured": "Destacado",    "stats": {
-      "total_tables": "Mesas Totales",
-      "available_tables": "Disponibles",
-      "total_products": "Platos",
-      "categories": "Categorías"
-    },
+    "view_complete_menu": "Ver Menú Completo",    "featured": "Destacado",
+    "chef_special": "Especial del Chef",
+    "more_specialties": "Más Especialidades",
+    "more_specialties_description": "Otras delicias que no puedes perderte",
     "allergens": "Alérgenos",    "categories_section": {
       "title": "Nuestras Categorías",
       "description": "Explora nuestra variada carta gastronómica"
-    },
-    "offers_section": {
+    },    "offers_section": {
       "title": "Ofertas Especiales",
       "description": "Aprovecha nuestros descuentos limitados",
       "code": "Código",
       "expires": "Expira el",
       "minimum": "Mínimo"
+    },
+    "why_choose_us": "¿Por qué elegirnos?",
+    "why_choose_us_description": "Descubre lo que nos hace únicos y especiales",
+    "features": {
+      "fast_service": {
+        "title": "Servicio Rápido",
+        "description": "Atención eficiente y profesional para que disfrutes sin esperas"
+      },
+      "quality_food": {
+        "title": "Comida de Calidad",
+        "description": "Ingredientes frescos y técnicas tradicionales en cada plato"
+      },
+      "great_atmosphere": {
+        "title": "Ambiente Excepcional",
+        "description": "Un espacio acogedor perfecto para cualquier ocasión"
+      }
+    },
+    "cta": {
+      "title": "¿Listo para una experiencia única?",
+      "description": "Reserva tu mesa ahora y déjanos sorprenderte con sabores inolvidables",
+      "button": "Hacer Reserva"
+    },
+    "footer": {
+      "tagline": "Tu experiencia gastronómica perfecta nos espera",
+      "rights": "Todos los derechos reservados."
     }
   },"menu": {
     "page_title": "Menú - ReserTable",
@@ -398,6 +419,11 @@
       "error_update": "Error al actualizar la reserva",
       "error_create": "Error al crear la reserva",
       "error_confirm": "Error al confirmar la reserva",
+      "table_status": "Estado de las mesas",
+      "available": "Disponible",
+      "reserved": "Reservada",
+      "occupied": "Ocupada",
+      "unavailable": "No disponible",
       "error_cancel": "Error al cancelar la reserva",
       "error_delete": "Error al eliminar la reserva",
       "dateLocale": "es-ES"

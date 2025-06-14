@@ -1,13 +1,11 @@
 <script setup>
-import { Head, usePage, router } from '@inertiajs/vue3'
-import { computed } from 'vue'
+import { Head, Link } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
 import TableMapInertia from '@/Components/TableMapInertia.vue'
 import GlobalToast from '@/Components/GlobalToast.vue'
-import SettingsDropdown from '@/Components/SettingsDropdown.vue'
+import ModernNavbar from '@/Components/ModernNavbar.vue'
 
 const { t } = useI18n()
-const page = usePage()
 
 const props = defineProps({
     tables: {
@@ -15,17 +13,6 @@ const props = defineProps({
         default: () => []
     }
 })
-
-// Usuario autenticado
-const user = computed(() => page.props.auth?.user || null)
-const isAuthenticated = computed(() => !!user.value)
-
-// Función para cerrar sesión
-const logout = () => {
-    if (confirm(t('auth.confirm_logout') || '¿Estás seguro de que quieres cerrar sesión?')) {
-        router.post('/logout')
-    }
-}
 
 const handleReservationMade = () => {
     // Recargar la página o actualizar los datos
@@ -35,56 +22,9 @@ const handleReservationMade = () => {
 
 <template>
     <Head :title="t('reservations.page_title')" />
-    
-    <div class="min-h-screen bg-gray-50 dark:bg-gray-900">
-        <!-- Header Simple -->
-        <nav class="bg-white dark:bg-gray-800 shadow-lg">
-            <div class="container mx-auto px-4">
-                <div class="flex justify-between items-center h-16">
-                    <div class="flex items-center">
-                        <a href="/" class="text-2xl font-bold text-red-600 dark:text-red-400">
-                            ReserTable
-                        </a>
-                    </div>                    <div class="flex items-center space-x-4">                        <div class="hidden md:flex space-x-8">
-                            <a href="/" class="text-gray-700 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400">
-                                {{ t('common.home') }}
-                            </a>
-                            <a href="/reservas" class="text-red-600 dark:text-red-400 font-semibold">
-                                {{ t('common.reservations') }}
-                            </a>
-                            <a href="/menu" class="text-gray-700 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400">
-                                {{ t('common.menu') }}
-                            </a>
-                        </div>
-                        
-                        <!-- Auth Status -->
-                        <div v-if="isAuthenticated" class="flex items-center space-x-4">
-                            <div class="hidden sm:flex items-center space-x-2 text-sm">
-                                <span class="text-gray-600 dark:text-gray-400">{{ t('common.welcome') }},</span>
-                                <span class="font-semibold text-gray-900 dark:text-white">{{ user.name }}</span>
-                            </div>
-                            <button 
-                                @click="logout"
-                                class="text-gray-700 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 text-sm font-medium"
-                            >
-                                {{ t('common.logout') }}
-                            </button>
-                        </div>
-                        <div v-else class="flex items-center space-x-4">
-                            <a href="/login" class="text-gray-700 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 text-sm font-medium">
-                                {{ t('common.login') }}
-                            </a>
-                            <a href="/register" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
-                                {{ t('common.register') }}
-                            </a>
-                        </div>
-                        
-                        <!-- Settings Dropdown -->
-                        <SettingsDropdown variant="public" />
-                    </div>
-                </div>
-            </div>
-        </nav>        <!-- Contenido Principal -->
+      <div class="min-h-screen bg-gray-50 dark:bg-gray-900">
+        <!-- Modern Navigation -->
+        <ModernNavbar current-page="reservations" />
         <div class="container mx-auto px-4 py-8">
             <!-- Título -->
             <div class="text-center mb-8">

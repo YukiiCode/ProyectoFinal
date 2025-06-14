@@ -1,12 +1,11 @@
 <script setup>
-import { Head, Link, usePage, router } from '@inertiajs/vue3'
+import { Head, Link } from '@inertiajs/vue3'
 import { ref, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import GlobalToast from '@/Components/GlobalToast.vue'
-import SettingsDropdown from '@/Components/SettingsDropdown.vue'
+import ModernNavbar from '@/Components/ModernNavbar.vue'
 
 const { t } = useI18n()
-const page = usePage()
 
 const props = defineProps({
     products: {
@@ -18,17 +17,6 @@ const props = defineProps({
         default: () => []
     }
 })
-
-// Usuario autenticado
-const user = computed(() => page.props.auth?.user || null)
-const isAuthenticated = computed(() => !!user.value)
-
-// Función para cerrar sesión
-const logout = () => {
-    if (confirm(t('auth.confirm_logout') || '¿Estás seguro de que quieres cerrar sesión?')) {
-        router.post('/logout')
-    }
-}
 
 // Estado para filtrado
 const selectedCategory = ref(null)
@@ -103,63 +91,56 @@ const getCategoryIcon = (categoryName) => {
     }
     return icons[categoryName] || '🍽️'
 }
+
+// Obtener icono de alérgeno
+const getAllergenIcon = (allergen) => {
+    // Si ya tiene icono emoji, usar ese
+    if (allergen.icon && allergen.icon.match(/[\u{1F600}-\u{1F64F}]|[\u{1F300}-\u{1F5FF}]|[\u{1F680}-\u{1F6FF}]|[\u{1F1E0}-\u{1F1FF}]/u)) {
+        return allergen.icon
+    }
+    
+    // Mapeo de alérgenos a emojis
+    const allergenIcons = {
+        'Gluten': '🌾',
+        'Lácteos': '🥛',
+        'Lactosa': '🥛',
+        'Huevos': '🥚',
+        'Frutos Secos': '🥜',
+        'Mariscos': '🦐',
+        'Pescado': '🐟',
+        'Apio': '🥬',
+        'Mostaza': '🟡',
+        'Soja': '🌱'
+    }
+    
+    return allergenIcons[allergen.name] || '⚠️'
+}
+
+// Obtener color de fondo para alérgeno
+const getAllergenColor = (allergen) => {
+    const allergenColors = {
+        'Gluten': 'bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-200',
+        'Lácteos': 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200',
+        'Lactosa': 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200',
+        'Huevos': 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200',
+        'Frutos Secos': 'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200',
+        'Mariscos': 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200',
+        'Pescado': 'bg-cyan-100 text-cyan-800 dark:bg-cyan-900 dark:text-cyan-200',
+        'Apio': 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',
+        'Mostaza': 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200',
+        'Soja': 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
+    }
+    
+    return allergenColors[allergen.name] || 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200'
+}
 </script>
 
 <template>
     <Head :title="t('menu.page_title', 'Menú - ReserTable')" />
     
     <div class="min-h-screen bg-gray-50 dark:bg-gray-900">
-        <!-- Header Simple -->
-        <nav class="bg-white dark:bg-gray-800 shadow-lg">
-            <div class="container mx-auto px-4">
-                <div class="flex justify-between items-center h-16">
-                    <div class="flex items-center">
-                        <Link href="/" class="text-2xl font-bold text-red-600 dark:text-red-400">
-                            ReserTable
-                        </Link>
-                    </div>
-                    
-                    <div class="flex items-center space-x-4">
-                        <div class="hidden md:flex space-x-8">
-                            <Link href="/" class="text-gray-700 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400">
-                                {{ t('common.home') }}
-                            </Link>
-                            <Link href="/reservas" class="text-gray-700 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400">
-                                {{ t('common.reservations') }}
-                            </Link>
-                            <Link href="/menu" class="text-red-600 dark:text-red-400 font-semibold">
-                                {{ t('common.menu') }}
-                            </Link>
-                        </div>
-                        
-                        <!-- Auth Status -->
-                        <div v-if="isAuthenticated" class="flex items-center space-x-4">
-                            <div class="hidden sm:flex items-center space-x-2 text-sm">
-                                <span class="text-gray-600 dark:text-gray-400">{{ t('common.welcome') }},</span>
-                                <span class="font-semibold text-gray-900 dark:text-white">{{ user.name }}</span>
-                            </div>
-                            <button 
-                                @click="logout"
-                                class="text-gray-700 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 text-sm font-medium"
-                            >
-                                {{ t('common.logout') }}
-                            </button>
-                        </div>
-                        <div v-else class="flex items-center space-x-4">
-                            <Link href="/login" class="text-gray-700 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 text-sm font-medium">
-                                {{ t('common.login') }}
-                            </Link>
-                            <Link href="/register" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
-                                {{ t('common.register') }}
-                            </Link>
-                        </div>
-                        
-                        <!-- Settings Dropdown -->
-                        <SettingsDropdown variant="public" />
-                    </div>
-                </div>
-            </div>
-        </nav>
+        <!-- Modern Navigation -->
+        <ModernNavbar current-page="menu" />
 
         <!-- Contenido Principal -->
         <div class="container mx-auto px-4 py-8">
@@ -274,25 +255,27 @@ const getCategoryIcon = (categoryName) => {
                                     </p>
                                 </div>
                                 
-                                <!-- Alérgenos - Siempre al final -->
+                                <!-- Alérgenos mejorados - Siempre al final -->
                                 <div v-if="product.allergens && product.allergens.length > 0" class="mt-auto">
-                                    <div class="text-xs text-gray-500 dark:text-gray-400 font-medium mb-2">
-                                        {{ t('menu.contains', 'Contiene') }}:
-                                    </div>
-                                    <div class="flex flex-wrap gap-1">
-                                        <span 
-                                            v-for="allergen in product.allergens.slice(0, 4)" 
-                                            :key="allergen.id"
-                                            :title="allergen.name"
-                                            class="text-xs bg-yellow-100 dark:bg-yellow-900/50 text-yellow-800 dark:text-yellow-200 px-2 py-1 rounded-full border border-yellow-200 dark:border-yellow-700"
-                                        >
-                                            {{ allergen.icon || allergen.name.charAt(0).toUpperCase() }}
+                                    <div class="flex items-center mb-2">
+                                        <svg class="w-4 h-4 text-amber-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                                        </svg>
+                                        <span class="text-xs font-semibold text-amber-700 dark:text-amber-300">
+                                            {{ t('menu.allergen_warning', 'Contiene alérgenos') }}
                                         </span>
+                                    </div>
+                                    <div class="flex flex-wrap gap-1.5">
                                         <span 
-                                            v-if="product.allergens.length > 4"
-                                            class="text-xs bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 px-2 py-1 rounded-full"
+                                            v-for="allergen in product.allergens" 
+                                            :key="allergen.id"
+                                            :title="`${t('menu.allergen', 'Alérgeno')}: ${allergen.name}`"
+                                            :class="getAllergenColor(allergen)"
+                                            class="inline-flex items-center text-xs font-medium px-2.5 py-1 rounded-full border transition-all duration-200 hover:scale-105"
                                         >
-                                            +{{ product.allergens.length - 4 }}
+                                            <span class="mr-1">{{ getAllergenIcon(allergen) }}</span>
+                                            <span class="hidden sm:inline">{{ allergen.name }}</span>
+                                            <span class="sm:hidden">{{ allergen.name.substring(0, 3) }}</span>
                                         </span>
                                     </div>
                                 </div>
@@ -361,6 +344,7 @@ const getCategoryIcon = (categoryName) => {
 .line-clamp-2 {
     display: -webkit-box;
     -webkit-line-clamp: 2;
+    line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
@@ -368,6 +352,7 @@ const getCategoryIcon = (categoryName) => {
 .line-clamp-3 {
     display: -webkit-box;
     -webkit-line-clamp: 3;
+    line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
