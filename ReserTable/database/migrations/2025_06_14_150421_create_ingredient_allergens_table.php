@@ -11,10 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            if (!Schema::hasColumn('users', 'role')) {
-                $table->string('role')->default('employee')->after('email');
-            }
+        Schema::create('ingredient_allergens', function (Blueprint $table) {
+            $table->integer('ingredient_id');
+            $table->integer('allergen_id');
+            
+            $table->primary(['ingredient_id', 'allergen_id']);
         });
     }
 
@@ -23,8 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('role');
-        });
+        Schema::dropIfExists('ingredient_allergens');
     }
 };

@@ -112,4 +112,29 @@ class TableController extends Controller
 
         return back()->with('success', __('tables.status_updated_successfully'));
     }
+
+    /**
+     * Get tables for public access (for reservations map)
+     */
+    public function publicIndex()
+    {
+        $tables = Table::where('status', '!=', 'maintenance')
+            ->orderBy('table_number')
+            ->get()
+            ->map(function ($table) {
+                return [
+                    'id' => $table->id,
+                    'table_number' => $table->table_number,
+                    'capacity' => $table->capacity,
+                    'status' => $table->status,
+                    'position_x' => $table->position_x,
+                    'position_y' => $table->position_y,
+                ];
+            });
+
+        return response()->json([
+            'success' => true,
+            'tables' => $tables
+        ]);
+    }
 }

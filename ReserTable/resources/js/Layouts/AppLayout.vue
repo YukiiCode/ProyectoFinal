@@ -9,6 +9,7 @@ import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import ThemeManager from '@/Components/ThemeManager.vue';
 import GlobalToast from '@/Components/GlobalToast.vue';
+import SettingsDropdown from '@/Components/SettingsDropdown.vue';
 
 defineProps({
     title: String,
@@ -121,6 +122,9 @@ const logout = () => {
                                 </Dropdown>
                             </div>
 
+                            <!-- Settings Dropdown (Language + Dark mode) -->
+                            <SettingsDropdown variant="public" />
+
                             <!-- Settings Dropdown -->
                             <div class="ms-3 relative">
                                 <Dropdown align="right" width="48">
@@ -202,6 +206,13 @@ const logout = () => {
                         <ResponsiveNavLink :href="route('admin.dashboard')" :active="route().current('admin.dashboard')">
                             Dashboard
                         </ResponsiveNavLink>
+                    </div>
+
+                    <!-- Settings Dropdown for Mobile -->
+                    <div class="pt-4 pb-1 border-t border-gray-200">
+                        <div class="px-4">
+                            <SettingsDropdown variant="public" />
+                        </div>
                     </div>
 
                     <!-- Responsive Settings Options -->

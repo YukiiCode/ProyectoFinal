@@ -236,11 +236,72 @@ class ReservationController extends Controller
                     'table_number' => $table->table_number,
                     'capacity' => $table->capacity,
                 ];
-            });
+            });        return response()->json([
+            'success' => true,
+            'tables' => $availableTables
+        ]);
+    }
+
+    /**
+     * Store a public reservation (for non-authenticated users)
+     * This method will be intercepted by middleware if user is not authenticated
+     */
+    public function publicStore(Request $request)
+    {
+        $request->validate([
+            'table_id' => 'required|exists:tables,id',
+            'reservation_date' => 'required|date|after:now',
+            'party_size' => 'required|integer|min:1',
+            'client_name' => 'required|string|max:255',
+            'client_email' => 'required|email|max:255',
+            'special_requests' => 'nullable|string|max:500',
+        ]);
+
+        // Check if client exists, if not create one
+        $client = Client::firstOrCreate(
+            ['email' => $request->client_email],
+            ['name' => $request->client_name]
+        );
+
+        $table = Table::findOrFail($request->table_id);
+
+        // Check table availability for the date/time
+        $conflictingReservation = Reservation::where('table_id', $table->id)
+            ->where('reservation_date', $request->reservation_date)
+            ->whereIn('status', ['pending', 'confirmed'])
+            ->exists();
+
+        if ($conflictingReservation) {
+            return response()->json([
+                'success' => false,
+                'message' => 'La mesa ya tiene una reserva confirmada para esa fecha y hora'
+            ], 400);
+        }
+
+        $reservation = Reservation::create([
+            'client_id' => $client->id,
+            'table_id' => $request->table_id,
+            'reservation_date' => $request->reservation_date,
+            'party_size' => $request->party_size,
+            'status' => 'pending',
+            'special_requests' => $request->special_requests,
+        ]);
+
+        $reservation->load(['client', 'table']);
 
         return response()->json([
             'success' => true,
-            'tables' => $availableTables
+            'message' => 'Reserva creada exitosamente',
+            'reservation' => [
+                'id' => $reservation->id,
+                'client_name' => $reservation->client->name,
+                'client_email' => $reservation->client->email,
+                'table_number' => $reservation->table->table_number,
+                'reservation_date' => $reservation->reservation_date,
+                'party_size' => $reservation->party_size,
+                'status' => $reservation->status,
+                'created_at' => $reservation->created_at,
+            ]
         ]);
     }
 }

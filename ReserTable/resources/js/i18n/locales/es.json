@@ -71,6 +71,7 @@
     "verification_link_sent": "Se ha enviado un nuevo enlace de verificación a tu dirección de correo electrónico.",
     "resend_verification": "Reenviar correo de verificación",
     "logout_button": "Cerrar Sesión",
+    "confirm_logout": "¿Estás seguro de que quieres cerrar sesión?",
     "password_confirmation": "Confirmación de Contraseña",
     "current_password": "Contraseña Actual",
     "new_password": "Nueva Contraseña",
@@ -170,43 +171,45 @@
     "subtitle": "Descubre una experiencia culinaria inolvidable donde cada bocado cuenta una historia. Tradición, calidad y sabores únicos que han cautivado paladares durante más de 25 años.",
     "reserve_now": "¡Reserva tu Mesa Ahora!",
     "view_menu": "Ver Nuestro Menú",
-    "featured_menu": "Nuestro Menú Destacado",
-    "featured_menu_description": "Descubre algunos de nuestros platos más populares, preparados con ingredientes frescos y técnicas tradicionales",
+    "featured_menu": "Nuestro Menú Destacado",    "featured_menu_description": "Descubre algunos de nuestros platos más populares, preparados con ingredientes frescos y técnicas tradicionales",
     "view_more": "Ver más",
     "view_complete_menu": "Ver Menú Completo",
-    "featured": "Destacado"
-  },  "menu": {
-    "page_title": "Menú - La Trattoria",
+    "featured": "Destacado",    "stats": {
+      "total_tables": "Mesas Totales",
+      "available_tables": "Disponibles",
+      "total_products": "Platos",
+      "categories": "Categorías"
+    },
+    "allergens": "Alérgenos",    "categories_section": {
+      "title": "Nuestras Categorías",
+      "description": "Explora nuestra variada carta gastronómica"
+    },
+    "offers_section": {
+      "title": "Ofertas Especiales",
+      "description": "Aprovecha nuestros descuentos limitados",
+      "code": "Código",
+      "expires": "Expira el",
+      "minimum": "Mínimo"
+    }
+  },"menu": {
+    "page_title": "Menú - ReserTable",
     "title": "Nuestro Menú",
-    "subtitle": "Descubre nuestra selección de platos auténticos preparados con ingredientes frescos y técnicas tradicionales.",
-    "experience_description": "Cada plato cuenta una historia de tradición y sabor auténtico",
-    "all_categories": "Todas las Categorías",
-    "add_to_cart": "Añadir al Carrito",
-    "view_cart": "Ver Carrito",
-    "view_order": "Ver Pedido",
-    "cart": "Carrito",
-    "items": "artículos",
-    "total": "Total",
-    "checkout": "Finalizar Pedido",
-    "empty_cart": "Tu carrito está vacío",
-    "continue_shopping": "Continuar Comprando",
-    "novelty": "¡Novedad!",
-    "online_ordering_info": "Próximamente podrás realizar pedidos online directamente desde nuestro menú.",
-    "available": "Disponible",
-    "your_order": "Tu Pedido",
-    "close": "Cerrar",
-    "cart_empty": "El carrito está vacío.",
-    "add_dishes": "Añade algunos platos de nuestro menú",
-    "selected_products": "Productos seleccionados",
-    "quantity_price": "Cantidad y precio",
-    "per_unit": "por unidad",
-    "apply_coupon": "Aplicar Cupón",
-    "discount_code": "Código de Descuento (Opcional)",
-    "coupon_applied": "¡Cupón aplicado!",
-    "discount": "Descuento",
-    "subtotal": "Subtotal",
-    "order_error": "Error al realizar el pedido.",    "order_success": "¡Pedido realizado con éxito!"
-  },  "coupons": {
+    "subtitle": "Descubre nuestra selección de platos tradicionales preparados con ingredientes frescos",
+    "search_placeholder": "Buscar platos...",
+    "all_categories": "Todas las categorías",    "clear_filters": "Limpiar filtros",
+    "results_found": "resultados encontrados",
+    "add_to_order": "Pedir",
+    "show_all": "Ver todos los platos",
+    "no_products": "No se encontraron productos",
+    "try_different_filters": "Intenta con diferentes filtros o busca otro término",
+    "cta_title": "¿Te gustó lo que viste?",
+    "cta_subtitle": "Reserva tu mesa ahora y disfruta de una experiencia gastronómica única",
+    "cta_button": "Reservar Mesa",
+    "footer_tagline": "Tu experiencia gastronómica perfecta",
+    "products_count": "{count} platos",
+    "contains": "Contiene"
+  },
+  "coupons": {
     "discountCode": "Código de Descuento",
     "enterDiscountCode": "Ingresa tu código de descuento",
     "validate": "Validar",
@@ -255,10 +258,10 @@
     "validity": "Validez",
     "uses": "Usos",
     "client": "Cliente",
-    "advanced_management": "Gestión Avanzada"
-  },"reservations": {
-    "title": "Reserva tu mesa",
-    "subtitle": "Selecciona tu mesa preferida en nuestro mapa interactivo y reserva tu experiencia gastronómica perfecta",
+    "advanced_management": "Gestión Avanzada"  },"reservations": {
+    "page_title": "Reservar Mesa - ReserTable",
+    "title": "Reservar Mesa",
+    "subtitle": "Selecciona fecha, hora y número de personas, luego haz clic en una mesa disponible",
     "table_status": "Estado de las mesas",
     "available": "Disponible",
     "reserved": "Reservada",
@@ -280,7 +283,25 @@
     "discount": "Descuento",
     "reservation_success": "¡Reserva confirmada!",
     "redirecting": "Redirigiendo...",
-    "reservation_error": "Error al reservar la mesa."
+    "reservation_error": "Error al reservar la mesa.",
+    "info": {
+      "title": "Información sobre las Reservas",
+      "schedule": {
+        "title": "Horarios Disponibles",
+        "description": "Lunes a Domingo\n12:00 - 22:30"
+      },
+      "confirmation": {
+        "title": "Confirmación Inmediata",
+        "description": "Tu reserva se confirma\nal instante"
+      },
+      "table_selection": {
+        "title": "Elige tu Mesa",
+        "description": "Selecciona la mesa que\nmás te guste"
+      }
+    },
+    "footer": {
+      "tagline": "Tu experiencia gastronómica perfecta"
+    }
   },  "footer": {
     "company_name": "La Trattoria",
     "description": "Experiencias culinarias únicas desde 1995",
@@ -453,7 +474,7 @@
       "show": "Mostrar",
       "confirm_delete_product": "¿Estás seguro de que quieres eliminar este producto?",
       "ingredients": "Ingredientes",      
-      "allergens": "Alérgenos",
+      "alergens": "Alérgenos",
       "categories": {
         "appetizers": "Entrantes",
         "main_courses": "Principales",
@@ -474,7 +495,7 @@
       "actions": "Acciones",
       "admin": "Administrador",
       "employee": "Empleado",
-      "confirm_delete": "¿Seguro que quieres eliminar este usuario?"    },"settings": {
+      "confirm_delete": "¿Seguro que quieres eliminar este usuario?"    },    "settings": {
       "title": "Configuración del Sistema",
       "subtitle": "Personaliza tu experiencia en La Trattoria",
       "appearance": "Apariencia",
@@ -512,7 +533,8 @@
         "orange": "Naranja",
         "red": "Rojo",
         "gray": "Gris"
-      }    },    "coupons": {
+      }
+    },"coupons": {
       "title": "Códigos de Descuento",
       "management": "Gestión de Cupones",
       "description": "Administra los códigos de descuento del restaurante",

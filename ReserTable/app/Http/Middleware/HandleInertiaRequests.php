@@ -41,6 +41,13 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 'user' => $this->getAuthenticatedUser($request),
             ],
+            'flash' => [
+                'message' => $request->session()->get('message'),
+                'error' => $request->session()->get('error'),
+                'warning' => $request->session()->get('warning'),
+                'success' => $request->session()->get('success'),
+                'login_required' => $request->session()->get('login_required'),
+            ],
         ];
     }
 

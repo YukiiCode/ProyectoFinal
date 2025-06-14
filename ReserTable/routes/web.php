@@ -17,16 +17,22 @@ Route::middleware(['guest'])->group(function () {
 // Ruta de logout (disponible para todos los autenticados)
 Route::post('/logout', [\App\Http\Controllers\Auth\DualLoginController::class, 'destroy'])->name('logout');
 
-Route::get('/', function () {
-    $products = \App\Models\Product::where('available', 1)->get();
-    return Inertia::render('Home', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-        'products' => $products,
-    ]);
-})->name('home');
+Route::get('/', [\App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+// Página pública de reservas
+Route::get('/reservas', [\App\Http\Controllers\HomeController::class, 'reservas'])->name('reservas');
+
+// Página pública del menú
+Route::get('/menu', [\App\Http\Controllers\HomeController::class, 'menu'])->name('menu');
+
+// Rutas públicas para reservas (con notificación si no autenticado)
+Route::prefix('public')->name('public.')->group(function () {
+    Route::get('/tables', [\App\Http\Controllers\TableController::class, 'publicIndex'])->name('tables');
+    Route::post('/reservations', [\App\Http\Controllers\ReservationController::class, 'publicStore'])
+        ->middleware('auth.notify')
+        ->name('reservations.store');
+    Route::get('/reservations/available-tables', [\App\Http\Controllers\ReservationController::class, 'getAvailableTables'])->name('reservations.available-tables');
+});
 
 // Rutas administrativas (solo para admins)
 Route::middleware(['admin'])->group(function () {
@@ -91,23 +97,23 @@ Route::middleware(['admin'])->group(function () {
 
 // Rutas para clientes autenticados
 Route::middleware(['client'])->group(function () {
-    Route::get('/reserva', function () {
-        return Inertia::render('Reserva');
-    })->name('reserva');
+    // Página de reserva
+    Route::get('/reserva', [\App\Http\Controllers\ClientReservationController::class, 'create'])->name('reserva');
     
-    Route::get('/menu', function () {
-        $products = \App\Models\Product::where('available', 1)->get();
-        return Inertia::render('Menu', [
-            'products' => $products
-        ]);
-    })->name('menu');
+    // Rutas para reservas de clientes
+    Route::prefix('client')->name('client.')->group(function () {
+        // Reservas
+        Route::get('/reservations', [\App\Http\Controllers\ClientReservationController::class, 'index'])->name('reservations');
+        Route::post('/reservations', [\App\Http\Controllers\ClientReservationController::class, 'store'])->name('reservations.store');
+        Route::put('/reservations/{reservation}/cancel', [\App\Http\Controllers\ClientReservationController::class, 'cancel'])->name('reservations.cancel');
+        Route::get('/reservations/available-tables', [\App\Http\Controllers\ClientReservationController::class, 'getAvailableTables'])->name('reservations.available-tables');
+        
+        // Menú con alérgenos
+        Route::get('/menu', [\App\Http\Controllers\ClientMenuController::class, 'index'])->name('menu');
+        Route::get('/menu/product/{id}', [\App\Http\Controllers\ClientMenuController::class, 'show'])->name('menu.product');
+        Route::get('/menu/search-by-allergen', [\App\Http\Controllers\ClientMenuController::class, 'searchByAllergen'])->name('menu.search-allergen');
+    });
     
-    // Rutas específicas para clientes
-    Route::get('/mis-reservas', function () {
-        $client = Auth::guard('client')->user();
-        $reservations = $client->reservations()->with('table')->get();
-        return Inertia::render('Client/MyReservations', [
-            'reservations' => $reservations
-        ]);
-    })->name('client.reservations');
+    // Alias para compatibilidad con rutas existentes
+    Route::get('/mis-reservas', [\App\Http\Controllers\ClientReservationController::class, 'index'])->name('mis-reservas');
 });

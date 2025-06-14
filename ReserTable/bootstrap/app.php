@@ -26,6 +26,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'admin' => \App\Http\Middleware\AdminAuth::class,
             'client' => \App\Http\Middleware\ClientAuth::class,
             'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
+            'auth.notify' => \App\Http\Middleware\RedirectIfUnauthenticatedWithNotification::class,
         ]);
 
         //

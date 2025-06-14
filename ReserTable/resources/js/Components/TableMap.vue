@@ -1,13 +1,37 @@
 <script setup>
 import { ref, onMounted, computed, nextTick } from 'vue';
-import axios from 'axios';
-import { usePage } from '@inertiajs/vue3';
-import { useI18n } from 'vue-i18n';
+import { router, usePage } from '@inertiajs/vue3';
 import interact from 'interact.js';
-import { Modal } from 'bootstrap';
-import DiscountCouponValidator from '@/Components/DiscountCouponValidator.vue';
 
-const { t } = useI18n();
+// Eliminamos useI18n por ahora para evitar problemas
+// import { useI18n } from 'vue-i18n';
+// const { t } = useI18n();
+
+// Textos estáticos por ahora
+const texts = {
+    reservations: {
+        people: 'personas',
+        reserve_table: 'Reservar Mesa',
+        date_time: 'Fecha y Hora',
+        discount_code: 'Código de Descuento',
+        applied: 'aplicado',
+        discount: 'Descuento',
+        select_date_time: 'Selecciona fecha y hora',
+        reservation_success: '¡Reserva realizada con éxito!',
+        redirecting: 'Redirigiendo...',
+        confirm_reservation: 'Confirmar Reserva',
+        reservation_error: 'Error al realizar la reserva'
+    }
+};
+
+const props = defineProps({
+    tables: {
+        type: Array,
+        default: () => []
+    }
+});
+
+const emit = defineEmits(['tables-updated', 'reservation-made']);
 
 const tables = ref([]);
 const selectedTable = ref(null);
@@ -20,14 +44,20 @@ const isEmployee = computed(() => usePage().props.auth?.user?.role === 'employee
 const mapWidth = 800;
 const mapHeight = 500;
 
-// Cargar mesas
-const fetchTables = async () => {
-    const response = await axios.get('/api/tables/map');
-    tables.value = response.data;
+// Inicializar mesas desde props
+const initializeTables = () => {
+    tables.value = props.tables.map(table => ({
+        id: table.id,
+        x: table.position_x || 50,
+        y: table.position_y || 50,
+        status: table.status,
+        capacity: table.capacity,
+        table_number: table.table_number
+    }));
 };
 
 onMounted(async () => {
-    await fetchTables();
+    initializeTables();
     await nextTick();
     
     if (isEmployee.value) {
@@ -59,13 +89,27 @@ onMounted(async () => {
                     const newX = Math.round((centerX / rect.width) * 100);
                     const newY = Math.round((centerY / rect.height) * 100);
                     
-                    // Actualizar en la base de datos
-                    await axios.put(`/api/tables/${target.dataset.id}`, {
+                    // Actualizar en la base de datos con Inertia
+                    router.put(`/admin/tables/${target.dataset.id}`, {
                         position_x: newX,
                         position_y: newY
+                    }, {
+                        preserveState: true,
+                        preserveScroll: true,
+                        onSuccess: () => {
+                            emit('tables-updated');
+                            // Actualizar la posición local
+                            const tableIndex = tables.value.findIndex(t => t.id == target.dataset.id);
+                            if (tableIndex !== -1) {
+                                tables.value[tableIndex].x = newX;
+                                tables.value[tableIndex].y = newY;
+                            }
+                        },
+                        onError: () => {
+                            console.error('Error updating table position');
+                        }
                     });
                     
-                    await fetchTables();
                     target.style.transform = '';
                     target.setAttribute('data-x', 0);
                     target.setAttribute('data-y', 0);
@@ -76,6 +120,8 @@ onMounted(async () => {
 });
 
 // Selección de mesa (solo si está disponible)
+const showReservationModal = ref(false);
+
 const selectTable = (table) => {
     if (table.status === 'available') {
         selectedTable.value = table;
@@ -83,10 +129,13 @@ const selectTable = (table) => {
         reservationSuccess.value = false;
         reservationError.value = '';
         appliedCoupon.value = null;
-        
-        const modal = new Modal(document.getElementById('reservationModal'));
-        modal.show();
+        showReservationModal.value = true;
     }
+};
+
+const closeReservationModal = () => {
+    showReservationModal.value = false;
+    selectedTable.value = null;
 };
 
 const onCouponValidated = (coupon) => {
@@ -98,36 +147,37 @@ const removeCoupon = () => {
 };
 
 // Confirmar reserva
-const confirmReservation = async () => {
+const confirmReservation = () => {
     reservationError.value = '';
     reservationSuccess.value = false;
     
     if (!reservationDateTime.value) {
-        reservationError.value = t('reservations.select_date_time');
+        reservationError.value = texts.reservations.select_date_time;
         return;
     }
     
-    try {
-        const reservationData = {
-            table_id: selectedTable.value.id,
-            reservation_date: reservationDateTime.value,
-            party_size: selectedTable.value.capacity,
-            discount_coupon_id: appliedCoupon.value?.id || null
-        };
-        
-        await axios.post('/api/reservations', reservationData);
-        
-        reservationSuccess.value = true;
-        await fetchTables();
-        
-        // Cerrar modal después de 2 segundos
-        setTimeout(() => {
-            const modal = Modal.getInstance(document.getElementById('reservationModal'));
-            modal.hide();
-        }, 2000);
-    } catch (e) {
-        reservationError.value = e.response?.data?.message || t('reservations.reservation_error');
-    }
+    const reservationData = {
+        table_id: selectedTable.value.id,
+        reservation_date: reservationDateTime.value,
+        party_size: selectedTable.value.capacity,
+        discount_coupon_id: appliedCoupon.value?.id || null
+    };
+    
+    router.post('/client/reservations', reservationData, {
+        preserveState: true,
+        onSuccess: () => {
+            reservationSuccess.value = true;
+            emit('reservation-made');
+            
+            // Cerrar modal después de 2 segundos
+            setTimeout(() => {
+                closeReservationModal();
+            }, 2000);
+        },
+        onError: (errors) => {
+            reservationError.value = errors.message || texts.reservations.reservation_error;
+        }
+    });
 };
 
 // Colores según estado
@@ -212,23 +262,30 @@ const tableLegs = [
                     </svg>                    <!-- Información de la mesa -->
                     <div class="table-info">
                         <div class="table-number text-gray-900 dark:text-gray-100">{{ table.id }}</div>
-                        <div class="table-capacity text-gray-600 dark:text-gray-300">{{ table.capacity }} {{ t('reservations.people') }}</div>
+                        <div class="table-capacity text-gray-600 dark:text-gray-300">{{ table.capacity }} {{ texts.reservations.people }}</div>
                     </div>
                 </div>
             </div>
-        </div>        <!-- Modal de Reserva -->
-        <div class="modal fade" id="reservationModal" tabindex="-1">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content bg-white dark:bg-gray-800 border-0">
-                    <div class="modal-header bg-blue-600 text-white border-0">
-                        <h5 class="modal-title">
-                            <i class="pi pi-calendar-plus mr-2"></i>
-                            {{ t('reservations.reserve_table') }} {{ selectedTable?.id }}
-                        </h5>
-                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+
+        <!-- Modal de Reserva -->
+        <div v-if="showReservationModal" 
+             class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div class="bg-white dark:bg-gray-800 rounded-xl max-w-md w-full mx-4 shadow-2xl">
+                <div class="bg-blue-600 text-white p-6 rounded-t-xl">
+                    <div class="flex justify-between items-center">
+                        <h3 class="text-xl font-bold">
+                            📅 {{ texts.reservations.reserve_table }} {{ selectedTable?.id }}
+                        </h3>
+                        <button @click="closeReservationModal" 
+                                class="text-white hover:text-gray-200">
+                            ✕
+                        </button>
                     </div>
-                    <div class="modal-body p-6">
-                        <form @submit.prevent="confirmReservation">
+                </div>
+                
+                <div class="p-6">
+                    <form @submit.prevent="confirmReservation" class="space-y-4">
                             <div class="mb-4">
                                 <label class="form-label text-gray-700 dark:text-gray-300 font-medium">
                                     <i class="pi pi-calendar mr-2"></i>

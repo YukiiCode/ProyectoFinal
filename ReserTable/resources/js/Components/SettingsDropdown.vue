@@ -124,31 +124,37 @@ watch(() => page.props.auth?.user?.settings, (newSettings) => {
 </script>
 
 <template>
-  <div class="relative">    <!-- Botón principal del dropdown -->
+  <div class="relative">
+    <!-- Botón principal del dropdown -->
     <button 
       @click="toggleDropdown"
       :class="[
-        'flex items-center gap-2 px-3 py-2 text-sm rounded-md transition-colors',
+        'flex items-center gap-2 px-3 py-2 text-sm rounded-lg font-medium transition-all duration-200',
         variant === 'admin' 
-          ? 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-600'
-          : 'bg-white/10 hover:bg-white/20 border border-white/20 text-white',
-        { 'ring-2': isOpen, 'ring-white/50': isOpen && variant === 'public', 'ring-blue-500': isOpen && variant === 'admin' }
+          ? 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 shadow-sm'
+          : 'text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 border border-gray-200 dark:border-gray-600',
+        { 
+          'ring-2 ring-blue-500 ring-opacity-50': isOpen,
+          'shadow-md': isOpen 
+        }
       ]"
     >
-      <i class="pi pi-cog"></i>
+      <!-- Icono de configuración con animación -->
+      <i class="pi pi-cog transition-transform duration-200" :class="{ 'rotate-90': isOpen }"></i>
       <span class="hidden sm:inline">{{ t('common.settings') }}</span>
-      <i class="pi pi-chevron-down text-xs transition-transform" :class="{ 'rotate-180': isOpen }"></i>
+      <i class="pi pi-chevron-down text-xs transition-transform duration-200" :class="{ 'rotate-180': isOpen }"></i>
     </button>
 
     <!-- Contenido del dropdown -->
     <div 
       v-show="isOpen"
-      class="absolute top-full right-0 mt-1 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-lg z-50 min-w-[220px]"
+      class="absolute top-full right-0 mt-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg shadow-xl z-50 min-w-[240px] overflow-hidden"
       @click.stop
     >
       <!-- Sección de idioma -->
-      <div class="p-3 border-b border-gray-200 dark:border-gray-700">
-        <div class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-2">
+      <div class="p-4 border-b border-gray-100 dark:border-gray-700">
+        <div class="flex items-center gap-2 text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wider mb-3">
+          <i class="pi pi-globe text-sm"></i>
           {{ t('admin.settings.language') }}
         </div>
         <div class="space-y-1">
@@ -156,40 +162,63 @@ watch(() => page.props.auth?.user?.settings, (newSettings) => {
             v-for="language in languages" 
             :key="language.code"
             @click="changeLanguage(language)"
-            class="flex items-center gap-2 px-2 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer rounded transition-colors"
-            :class="{ 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-white font-semibold': language.code === currentLanguage.code }"
+            class="flex items-center gap-3 px-3 py-2.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-blue-900/20 cursor-pointer rounded-md transition-all duration-150 group"
+            :class="{ 
+              'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-200 font-medium shadow-sm': language.code === currentLanguage.code,
+              'hover:shadow-sm': language.code !== currentLanguage.code 
+            }"
           >
             <span class="text-lg">{{ language.flag }}</span>
-            <span class="flex-1">{{ language.name }}</span>
-            <i v-if="language.code === currentLanguage.code" class="pi pi-check text-blue-500 dark:text-blue-200"></i>
+            <span class="flex-1 font-medium">{{ language.name }}</span>
+            <i 
+              v-if="language.code === currentLanguage.code" 
+              class="pi pi-check text-blue-500 dark:text-blue-400 font-bold"
+            ></i>
+            <i 
+              v-else
+              class="pi pi-angle-right text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity duration-150"
+            ></i>
           </div>
         </div>
       </div>
 
       <!-- Sección de modo oscuro -->
-      <div class="p-3">
-        <div class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-2">
+      <div class="p-4">
+        <div class="flex items-center gap-2 text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wider mb-3">
+          <i class="pi pi-palette text-sm"></i>
           {{ t('admin.settings.appearance') }}
         </div>
         <div 
           @click="toggleDarkMode"
-          class="flex items-center justify-between px-2 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer rounded transition-colors"
+          class="flex items-center justify-between px-3 py-2.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer rounded-md transition-all duration-150 group hover:shadow-sm"
         >
-          <div class="flex items-center gap-2">
-            <i :class="isDarkMode ? 'pi pi-moon' : 'pi pi-sun'"></i>
-            <span>{{ isDarkMode ? t('admin.settings.dark_mode') : t('admin.settings.light_mode') }}</span>
+          <div class="flex items-center gap-3">
+            <div class="w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center">
+              <i 
+                :class="isDarkMode ? 'pi pi-moon text-blue-500' : 'pi pi-sun text-yellow-500'"
+                class="text-sm"
+              ></i>
+            </div>
+            <span class="font-medium">{{ isDarkMode ? t('admin.settings.dark_mode') : t('admin.settings.light_mode') }}</span>
           </div>
-          <!-- Toggle visual -->
+          <!-- Toggle visual mejorado -->
           <div class="relative">
             <div 
-              class="w-10 h-5 rounded-full transition-colors"
-              :class="isDarkMode ? 'bg-blue-500' : 'bg-gray-300'"
+              class="w-12 h-6 rounded-full transition-all duration-300 shadow-inner border-2"
+              :class="isDarkMode 
+                ? 'bg-blue-500 border-blue-400' 
+                : 'bg-gray-200 border-gray-300'"
             >
               <div 
-                class="w-4 h-4 bg-white rounded-full shadow-sm transition-transform duration-200 ease-in-out"
-                :class="isDarkMode ? 'translate-x-5' : 'translate-x-0.5'"
-                style="margin-top: 2px;"
-              ></div>
+                class="w-4 h-4 bg-white rounded-full shadow-md transition-all duration-300 ease-out flex items-center justify-center"
+                :class="isDarkMode ? 'translate-x-6' : 'translate-x-0'"
+                style="margin-top: 2px; margin-left: 2px;"
+              >
+                <div 
+                  :class="isDarkMode ? 'bg-blue-500' : 'bg-gray-400'"
+                  class="w-2 h-2 rounded-full transition-colors duration-300"
+                ></div>
+              </div>
             </div>
           </div>
         </div>

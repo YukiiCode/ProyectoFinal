@@ -15,14 +15,20 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        // Comentado porque ya existe un usuario admin en la base de datos
+        // User::factory()->create([
+        //     'name' => 'Test User',
+        //     'email' => 'test@example.com',
+        // ]);
 
         $this->call([
+            AllergenSeeder::class,
+            IngredientSeeder::class,
             ProductCategorySeeder::class,
-            ProductSeeder::class,
+            ProductSeederNew::class,
+            TableSeeder::class,
+            ClientSeeder::class,
+            DiscountCouponSeeder::class,
         ]);
     }
 }

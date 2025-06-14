@@ -74,6 +74,7 @@
     "verification_link_sent": "A new verification link has been sent to your email address.",
     "resend_verification": "Resend verification email",
     "logout_button": "Log Out",
+    "confirm_logout": "Are you sure you want to log out?",
     "password_confirmation": "Password Confirmation",
     "current_password": "Current Password",
     "new_password": "New Password",
@@ -165,42 +166,45 @@
     "subtitle": "Discover an unforgettable culinary experience where every bite tells a story. Tradition, quality, and unique flavors that have captivated palates for over 25 years.",
     "reserve_now": "Reserve Your Table Now!",
     "view_menu": "View Our Menu",
-    "featured_menu": "Our Featured Menu",
-    "featured_menu_description": "Discover some of our most popular dishes, prepared with fresh ingredients and traditional techniques",
+    "featured_menu": "Our Featured Menu",    "featured_menu_description": "Discover some of our most popular dishes, prepared with fresh ingredients and traditional techniques",
     "view_more": "View more",
     "view_complete_menu": "View Complete Menu",
-    "featured": "Featured"
-  },  "menu": {
-    "page_title": "Menu - La Trattoria",
+    "featured": "Featured",
+    "stats": {
+      "total_tables": "Total Tables",
+      "available_tables": "Available",
+      "total_products": "Dishes",
+      "categories": "Categories"
+    },
+    "allergens": "Allergens",
+    "categories_section": {
+      "title": "Our Categories",
+      "description": "Explore our varied gastronomic menu"
+    },
+    "offers_section": {
+      "title": "Special Offers",
+      "description": "Take advantage of our limited discounts",
+      "code": "Code",
+      "expires": "Expires",
+      "minimum": "Minimum"
+    }
+  },"menu": {
+    "page_title": "Menu - ReserTable",
     "title": "Our Menu",
-    "subtitle": "Discover our selection of authentic dishes prepared with fresh ingredients and traditional techniques.",
-    "experience_description": "Every dish tells a story of tradition and authentic flavor",
-    "all_categories": "All Categories",
-    "add_to_cart": "Add to Cart",
-    "view_cart": "View Cart",
-    "view_order": "View Order",
-    "cart": "Cart",
-    "items": "items",
-    "total": "Total",
-    "checkout": "Checkout",
-    "empty_cart": "Your cart is empty",
-    "continue_shopping": "Continue Shopping",
-    "novelty": "New!",
-    "online_ordering_info": "Soon you'll be able to place orders online directly from our menu.",
-    "available": "Available",
-    "your_order": "Your Order",
-    "close": "Close",
-    "cart_empty": "Cart is empty.",
-    "add_dishes": "Add some dishes from our menu",
-    "selected_products": "Selected products",
-    "quantity_price": "Quantity and price",
-    "per_unit": "per unit",
-    "apply_coupon": "Apply Coupon",
-    "discount_code": "Discount Code (Optional)",
-    "coupon_applied": "Coupon applied!",
-    "discount": "Discount",
-    "subtotal": "Subtotal",
-    "order_error": "Error placing the order.",    "order_success": "Order placed successfully!"
+    "subtitle": "Discover our selection of traditional dishes prepared with fresh ingredients",    "search_placeholder": "Search dishes...",
+    "all_categories": "All categories",
+    "clear_filters": "Clear filters",
+    "results_found": "results found",
+    "add_to_order": "Order",
+    "show_all": "Show all dishes",
+    "no_products": "No products found",
+    "try_different_filters": "Try different filters or search for another term",
+    "cta_title": "Did you like what you saw?",
+    "cta_subtitle": "Reserve your table now and enjoy a unique dining experience",
+    "cta_button": "Reserve Table",
+    "footer_tagline": "Your perfect dining experience",
+    "products_count": "{count} dishes",
+    "contains": "Contains"
   },  "coupons": {
     "discountCode": "Discount Code",
     "enterDiscountCode": "Enter your discount code",
@@ -233,10 +237,10 @@
     "expired_coupon": "This coupon has expired",
     "coupon_not_found": "Coupon not found",
     "coupon_limit_reached": "This coupon has reached its usage limit",
-    "validation_error": "Error validating coupon"
-  },  "reservations": {
-    "title": "Reserve your table",
-    "subtitle": "Select your preferred table on our interactive map and book your perfect dining experience",
+    "validation_error": "Error validating coupon"  },  "reservations": {
+    "page_title": "Reserve Table - ReserTable",
+    "title": "Reserve Table",
+    "subtitle": "Select date, time and number of people, then click on an available table",
     "table_status": "Table status",
     "available": "Available",
     "reserved": "Reserved",
@@ -259,7 +263,25 @@
     "reservation_success": "Reservation confirmed!",
     "redirecting": "Redirecting...",
     "reservation_error": "Error reserving the table.",
-    "dateLocale": "en-US"
+    "dateLocale": "en-US",
+    "info": {
+      "title": "Reservation Information",
+      "schedule": {
+        "title": "Available Hours",
+        "description": "Monday to Sunday\n12:00 - 10:30 PM"
+      },
+      "confirmation": {
+        "title": "Instant Confirmation",
+        "description": "Your reservation is confirmed\ninstantly"
+      },
+      "table_selection": {
+        "title": "Choose Your Table",
+        "description": "Select the table you\nlike the most"
+      }
+    },
+    "footer": {
+      "tagline": "Your perfect dining experience"
+    }
   },  "footer": {
     "company_name": "La Trattoria",
     "description": "Unique culinary experiences since 1995",

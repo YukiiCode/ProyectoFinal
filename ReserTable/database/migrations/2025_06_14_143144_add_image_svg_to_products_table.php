@@ -11,10 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('discount_coupons', function (Blueprint $table) {
-            if (!Schema::hasColumn('discount_coupons', 'deleted_at')) {
-                $table->softDeletes();
-            }
+        Schema::table('products', function (Blueprint $table) {
+            $table->string('image_svg')->nullable()->after('description');
         });
     }
 
@@ -23,8 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('discount_coupons', function (Blueprint $table) {
-            $table->dropSoftDeletes();
+        Schema::table('products', function (Blueprint $table) {
+            $table->dropColumn('image_svg');
         });
     }
 };

@@ -12,9 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('clients', function (Blueprint $table) {
-            $table->string('password')->after('phone');
-            $table->timestamp('email_verified_at')->nullable()->after('password');
-            $table->rememberToken()->after('email_verified_at');
+            if (!Schema::hasColumn('clients', 'email_verified_at')) {
+                $table->timestamp('email_verified_at')->nullable();
+            }
+            if (!Schema::hasColumn('clients', 'remember_token')) {
+                $table->rememberToken();
+            }
         });
     }
 
@@ -24,7 +27,12 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('clients', function (Blueprint $table) {
-            $table->dropColumn(['password', 'email_verified_at', 'remember_token']);
+            if (Schema::hasColumn('clients', 'email_verified_at')) {
+                $table->dropColumn('email_verified_at');
+            }
+            if (Schema::hasColumn('clients', 'remember_token')) {
+                $table->dropColumn('remember_token');
+            }
         });
     }
 };

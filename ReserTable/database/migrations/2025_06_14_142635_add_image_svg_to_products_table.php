@@ -11,9 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('tables', function (Blueprint $table) {
-            $table->integer('position_x')->default(0)->after('status');
-            $table->integer('position_y')->default(0)->after('position_x');
+        Schema::table('products', function (Blueprint $table) {
+            $table->string('image_svg')->nullable()->after('available');
         });
     }
 
@@ -22,8 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('tables', function (Blueprint $table) {
-            $table->dropColumn(['position_x', 'position_y']);
+        Schema::table('products', function (Blueprint $table) {
+            $table->dropColumn('image_svg');
         });
     }
 };
