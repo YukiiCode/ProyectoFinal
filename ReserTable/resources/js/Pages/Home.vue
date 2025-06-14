@@ -117,9 +117,8 @@ const featuredProducts = computed(() => page.props.featuredProducts || [])
                                             </div>
                                         </div>
                                     </div>
-                                    
-                                    <!-- Allergens -->
-                                    <div v-if="featuredProducts[0].allergens && featuredProducts[0].allergens.length > 0" class="flex items-center space-x-3 mb-8">
+                                      <!-- Allergens -->
+                                    <div v-if="featuredProducts[0].allergens && featuredProducts[0].allergens.length > 0" class="flex items-center space-x-3">
                                         <span class="text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wide">{{ t('common.allergens') }}:</span>
                                         <div class="flex space-x-1">
                                             <div v-for="allergen in featuredProducts[0].allergens.slice(0, 4)" :key="allergen.id"
@@ -133,17 +132,6 @@ const featuredProducts = computed(() => page.props.featuredProducts || [])
                                             </div>
                                         </div>
                                     </div>
-                                    
-                                    <!-- CTA Button -->
-                                    <Link href="/menu" 
-                                          class="group inline-flex items-center space-x-3 bg-gradient-to-r from-red-600 to-red-500 hover:from-red-700 hover:to-red-600 text-white font-bold py-3 px-6 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 w-fit">
-                                        <span>{{ t('welcome.view_menu') }}</span>
-                                        <div class="w-6 h-6 bg-white/20 rounded-full flex items-center justify-center group-hover:rotate-45 transition-transform duration-300">
-                                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                                <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
-                                            </svg>
-                                        </div>
-                                    </Link>
                                 </div>
                                 
                                 <!-- Visual/Image Section -->
@@ -178,81 +166,71 @@ const featuredProducts = computed(() => page.props.featuredProducts || [])
                             </div>
                         </div>
                     </div>
-                </div>
-
-                <!-- Secondary Featured Products -->
-                <div v-if="featuredProducts.length > 1" class="mb-20">
-                    <div class="text-center mb-12">
-                        <h3 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+                </div>                <!-- Additional Featured Products -->
+                <div v-if="featuredProducts.length > 1" class="mb-16">
+                    <div class="text-center mb-8">
+                        <h3 class="text-xl md:text-2xl font-bold text-gray-900 dark:text-white mb-3">
                             {{ t('welcome.more_specialties') }}
                         </h3>
-                        <p class="text-lg text-gray-600 dark:text-gray-400">
+                        <p class="text-sm text-gray-600 dark:text-gray-400">
                             {{ t('welcome.more_specialties_description') }}
                         </p>
                     </div>
                     
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         <div v-for="product in featuredProducts.slice(1, 4)" :key="product.id" 
-                             class="group bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-gray-100 dark:border-gray-700 overflow-hidden">
+                             class="group bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl transition-all duration-500 transform hover:-translate-y-1 border border-gray-100 dark:border-gray-700 overflow-hidden">
                             
                             <!-- Product image area -->
-                            <div class="h-48 bg-gradient-to-br from-red-100 to-orange-100 dark:from-red-900/30 dark:to-orange-900/30 relative overflow-hidden">
-                                <div class="absolute inset-0 flex items-center justify-center text-6xl opacity-30">
+                            <div class="h-40 bg-gradient-to-br from-red-100 to-orange-100 dark:from-red-900/30 dark:to-orange-900/30 relative overflow-hidden">
+                                <div class="absolute inset-0 flex items-center justify-center text-5xl opacity-30">
                                     🍽️
                                 </div>
-                                <div class="absolute top-4 right-4 bg-red-600 text-white px-3 py-1 rounded-full text-sm font-bold">
+                                <div class="absolute top-3 right-3 bg-red-600 text-white px-2 py-1 rounded-lg text-sm font-bold">
                                     €{{ product.price }}
                                 </div>
                             </div>
                             
                             <!-- Product info -->
-                            <div class="p-6">
-                                <div class="flex justify-between items-start mb-3">
-                                    <h4 class="text-xl font-bold text-gray-900 dark:text-white group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors">
+                            <div class="p-5">
+                                <div class="flex justify-between items-start mb-2">
+                                    <h4 class="text-lg font-bold text-gray-900 dark:text-white group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors">
                                         {{ product.name }}
                                     </h4>
                                 </div>
                                 
-                                <p class="text-gray-600 dark:text-gray-400 text-sm mb-4 line-clamp-2">
+                                <p class="text-gray-600 dark:text-gray-400 text-sm mb-3 line-clamp-2">
                                     {{ product.description }}
                                 </p>
                                 
                                 <!-- Category -->
-                                <div class="inline-flex items-center px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-full text-xs font-medium mb-4">
+                                <div class="inline-flex items-center px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-full text-xs font-medium mb-3">
                                     {{ product.category }}
                                 </div>
-                                
-                                <!-- Allergens -->
-                                <div v-if="product.allergens && product.allergens.length > 0" class="flex items-center space-x-2 mb-4">
+                                  <!-- Allergens -->
+                                <div v-if="product.allergens && product.allergens.length > 0" class="flex items-center space-x-2">
                                     <div class="flex space-x-1">
                                         <span v-for="allergen in product.allergens.slice(0, 3)" :key="allergen.id"
-                                              class="w-6 h-6 bg-yellow-100 dark:bg-yellow-900/50 rounded-lg flex items-center justify-center text-xs"
+                                              class="w-5 h-5 bg-yellow-100 dark:bg-yellow-900/50 rounded-md flex items-center justify-center text-xs"
                                               :title="allergen.name">
                                             {{ allergen.icon }}
                                         </span>
                                         <span v-if="product.allergens.length > 3" 
-                                              class="w-6 h-6 bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center text-xs font-bold text-gray-500 dark:text-gray-400">
+                                              class="w-5 h-5 bg-gray-100 dark:bg-gray-700 rounded-md flex items-center justify-center text-xs font-bold text-gray-500 dark:text-gray-400">
                                             +{{ product.allergens.length - 3 }}
                                         </span>
                                     </div>
                                 </div>
-                                
-                                <!-- Action button -->
-                                <button class="w-full bg-gray-50 dark:bg-gray-700 hover:bg-red-50 dark:hover:bg-red-900/20 text-gray-700 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 font-semibold py-3 px-4 rounded-xl transition-all duration-300 flex items-center justify-center space-x-2 group">
-                                    <span>{{ t('welcome.view_more') }}</span>
-                                    <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
-                                    </svg>
-                                </button>
                             </div>
                         </div>
                     </div>
-                </div>
-
-                <!-- Final CTA -->
-                <div class="text-center">
+                </div>                <!-- Final CTA -->
+                <div class="text-center pt-8 border-t border-gray-200 dark:border-gray-700">
+                    <p class="text-lg text-gray-600 dark:text-gray-400 mb-6">
+                        {{ t('welcome.explore_complete_menu_text') }}
+                    </p>
                     <Link href="/menu" 
-                          class="group inline-flex items-center space-x-4 bg-gradient-to-r from-red-600 via-red-500 to-orange-500 hover:from-red-700 hover:via-red-600 hover:to-orange-600 text-white font-bold py-6 px-12 rounded-3xl transition-all duration-300 shadow-2xl hover:shadow-3xl transform hover:scale-105 text-lg">
+                          class="group inline-flex items-center space-x-4 bg-gradient-to-r from-red-600 via-red-500 to-orange-500 hover:from-red-700 hover:via-red-600 hover:to-orange-600 text-white font-bold py-5 px-10 rounded-2xl transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:scale-105 text-lg">
                         <span>🍽️</span>
                         <span>{{ t('welcome.view_complete_menu') }}</span>
                         <div class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center group-hover:rotate-45 transition-transform duration-300">
@@ -332,27 +310,22 @@ const featuredProducts = computed(() => page.props.featuredProducts || [])
                     </svg>
                 </Link>
             </div>
-        </section>
-
-        <!-- Footer -->
-        <footer class="bg-gray-900 text-white py-16">
-            <div class="container mx-auto px-4">
-                <div class="text-center">
-                    <div class="flex items-center justify-center space-x-2 mb-6">
-                        <div class="w-12 h-12 bg-gradient-to-br from-red-500 to-red-600 rounded-xl flex items-center justify-center">
-                            <span class="text-white font-bold text-2xl">R</span>
+        </section>        <!-- Footer -->
+        <footer class="bg-gray-900 text-white py-12">
+            <div class="container mx-auto px-4 text-center">
+                <div class="mb-8">
+                    <div class="flex items-center justify-center space-x-2 mb-4">
+                        <div class="w-8 h-8 bg-gradient-to-br from-red-500 to-red-600 rounded-lg flex items-center justify-center">
+                            <span class="text-white font-bold">R</span>
                         </div>
                         <span class="text-3xl font-bold text-white">ReserTable</span>
                     </div>
-                    <p class="text-gray-400 mb-8 text-lg">{{ t('welcome.footer.tagline') }}</p>
-                    <div class="flex justify-center space-x-8 mb-8">
-                        <Link href="/" class="text-gray-400 hover:text-white transition-colors">{{ t('common.home') }}</Link>
-                        <Link href="/menu" class="text-gray-400 hover:text-white transition-colors">{{ t('common.menu') }}</Link>
-                        <Link href="/reservas" class="text-gray-400 hover:text-white transition-colors">{{ t('common.reservations') }}</Link>
-                    </div>
-                    <div class="text-gray-500 text-sm">
-                        © 2025 ReserTable. {{ t('welcome.footer.rights') }}
-                    </div>
+                    <p class="text-gray-400 max-w-md mx-auto">
+                        {{ t('welcome.footer.tagline') }}
+                    </p>
+                </div>
+                <div class="text-gray-500 text-sm">
+                    © 2025 ReserTable. {{ t('welcome.footer.rights') }}
                 </div>
             </div>
         </footer>
