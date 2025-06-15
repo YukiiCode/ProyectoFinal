@@ -30,6 +30,8 @@ class User extends Authenticatable
         'email',
         'password',
         'role', // Add role attribute
+        'google_id', // Para login con Google
+        'avatar', // Para foto de perfil de Google
     ];
 
     /**

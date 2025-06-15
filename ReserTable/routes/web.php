@@ -12,6 +12,10 @@ Route::middleware(['guest'])->group(function () {
     
     Route::get('/register', [\App\Http\Controllers\Auth\ClientRegisterController::class, 'create'])->name('register');
     Route::post('/register', [\App\Http\Controllers\Auth\ClientRegisterController::class, 'store']);
+    
+    // Rutas de Google OAuth
+    Route::get('/auth/google', [\App\Http\Controllers\Auth\GoogleController::class, 'redirectToGoogle'])->name('auth.google');
+    Route::get('/auth/google/callback', [\App\Http\Controllers\Auth\GoogleController::class, 'handleGoogleCallback'])->name('auth.google.callback');
 });
 
 // Ruta de logout (disponible para todos los autenticados)
