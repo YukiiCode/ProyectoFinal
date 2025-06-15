@@ -75,7 +75,13 @@ Route::middleware(['admin'])->group(function () {
         Route::patch('/discount-coupons/{discountCoupon}/mark-used', [\App\Http\Controllers\DiscountCouponController::class, 'markAsUsed'])->name('discount-coupons.mark-used');
         Route::resource('discount-coupons', \App\Http\Controllers\DiscountCouponController::class);
         
-        // Rutas CRUD para Products (Menu)
+        // Rutas CRUD para Menu (usando AdminMenuController con Inertia)
+        Route::post('/menu', [\App\Http\Controllers\AdminMenuController::class, 'store'])->name('menu.store');
+        Route::put('/menu/{product}', [\App\Http\Controllers\AdminMenuController::class, 'update'])->name('menu.update');
+        Route::delete('/menu/{product}', [\App\Http\Controllers\AdminMenuController::class, 'destroy'])->name('menu.destroy');
+        Route::patch('/menu/{product}/toggle', [\App\Http\Controllers\AdminMenuController::class, 'toggle'])->name('menu.toggle');
+        
+        // Mantener las rutas del ProductController original para APIs si es necesario
         Route::post('/menu/products', [\App\Http\Controllers\ProductController::class, 'store'])->name('products.store');
         Route::put('/menu/products/{product}', [\App\Http\Controllers\ProductController::class, 'update'])->name('products.update');
         Route::delete('/menu/products/{product}', [\App\Http\Controllers\ProductController::class, 'destroy'])->name('products.destroy');

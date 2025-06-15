@@ -10,6 +10,36 @@ const page = usePage()
 
 // Props del controlador
 const featuredProducts = computed(() => page.props.featuredProducts || [])
+
+// Obtener imagen del producto
+const getProductImage = (product) => {
+    if (!product.image_svg) return null
+    
+    // Si es una URL externa, devolverla tal como está
+    if (product.image_svg.startsWith('http')) {
+        return product.image_svg
+    }
+    
+    // Si es un archivo local, agregar el prefijo de storage
+    return `/storage/${product.image_svg}`
+}
+
+// Manejar error de imagen
+const handleImageError = (event) => {
+    // Evitar bucle infinito - solo intentar una vez
+    if (event.target.dataset.errorHandled) return
+    event.target.dataset.errorHandled = 'true'
+    
+    // Al fallar la imagen, ocultar el elemento img y mostrar el emoji fallback
+    event.target.style.display = 'none'
+    const parent = event.target.closest('.relative')
+    if (parent) {
+        const emojiDiv = parent.querySelector('.emoji-fallback')
+        if (emojiDiv) {
+            emojiDiv.style.display = 'flex'
+        }
+    }
+}
 </script>
 
 <template>
@@ -133,35 +163,49 @@ const featuredProducts = computed(() => page.props.featuredProducts || [])
                                         </div>
                                     </div>
                                 </div>
-                                
-                                <!-- Visual/Image Section -->
+                                  <!-- Visual/Image Section -->
                                 <div class="relative bg-gradient-to-br from-red-100 via-orange-100 to-yellow-100 dark:from-red-900/30 dark:via-orange-900/30 dark:to-yellow-900/30 min-h-[400px] lg:min-h-full flex items-center justify-center overflow-hidden">
-                                    <!-- Large decorative emoji -->
-                                    <div class="absolute inset-0 flex items-center justify-center">
+                                    <!-- Imagen real del producto destacado si existe -->
+                                    <div v-if="featuredProducts[0].image_svg" class="absolute inset-0">
+                                        <img 
+                                            :src="getProductImage(featuredProducts[0])" 
+                                            :alt="featuredProducts[0].name"
+                                            class="w-full h-full object-cover"
+                                            @error="handleImageError"
+                                        />
+                                        <div class="absolute inset-0 bg-black/30"></div>
+                                        <!-- Emoji fallback oculto -->
+                                        <div class="emoji-fallback absolute inset-0 flex items-center justify-center" style="display: none;">
+                                            <div class="text-[12rem] opacity-20 select-none">🍝</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Emoji fallback si no hay imagen -->
+                                    <div v-else class="absolute inset-0 flex items-center justify-center">
                                         <div class="text-[12rem] opacity-20 select-none">🍝</div>
                                     </div>
                                     
                                     <!-- Floating ingredient elements -->
-                                    <div class="absolute inset-0">
+                                    <div class="absolute inset-0 z-10">
                                         <div class="absolute top-16 right-16 w-20 h-20 bg-white dark:bg-gray-700 rounded-2xl shadow-xl flex items-center justify-center animate-bounce" style="animation-delay: 0s;">
-                                            <span class="text-3xl">�</span>
+                                            <span class="text-3xl">🍅</span>
                                         </div>
                                         <div class="absolute top-32 left-16 w-16 h-16 bg-white dark:bg-gray-700 rounded-2xl shadow-xl flex items-center justify-center animate-bounce" style="animation-delay: 1s;">
                                             <span class="text-2xl">🧄</span>
                                         </div>
                                         <div class="absolute bottom-32 right-20 w-18 h-18 bg-white dark:bg-gray-700 rounded-2xl shadow-xl flex items-center justify-center animate-bounce" style="animation-delay: 2s;">
-                                            <span class="text-2xl">�</span>
+                                            <span class="text-2xl">🧀</span>
                                         </div>
                                         <div class="absolute bottom-16 left-20 w-14 h-14 bg-white dark:bg-gray-700 rounded-2xl shadow-xl flex items-center justify-center animate-bounce" style="animation-delay: 0.5s;">
-                                            <span class="text-xl">�</span>
+                                            <span class="text-xl">🌿</span>
                                         </div>
                                         <div class="absolute top-1/2 right-8 w-12 h-12 bg-white dark:bg-gray-700 rounded-2xl shadow-xl flex items-center justify-center animate-bounce" style="animation-delay: 1.5s;">
-                                            <span class="text-lg">�️</span>
+                                            <span class="text-lg">🫒</span>
                                         </div>
                                     </div>
                                     
                                     <!-- Gradient overlay for depth -->
-                                    <div class="absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-transparent"></div>
+                                    <div class="absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-transparent z-20"></div>
                                 </div>
                             </div>
                         </div>
@@ -180,13 +224,29 @@ const featuredProducts = computed(() => page.props.featuredProducts || [])
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         <div v-for="product in featuredProducts.slice(1, 4)" :key="product.id" 
                              class="group bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl transition-all duration-500 transform hover:-translate-y-1 border border-gray-100 dark:border-gray-700 overflow-hidden">
-                            
-                            <!-- Product image area -->
+                              <!-- Product image area -->
                             <div class="h-40 bg-gradient-to-br from-red-100 to-orange-100 dark:from-red-900/30 dark:to-orange-900/30 relative overflow-hidden">
-                                <div class="absolute inset-0 flex items-center justify-center text-5xl opacity-30">
+                                <!-- Imagen real del producto si existe -->
+                                <div v-if="product.image_svg" class="absolute inset-0">
+                                    <img 
+                                        :src="getProductImage(product)" 
+                                        :alt="product.name"
+                                        class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                                        @error="handleImageError"
+                                    />
+                                    <div class="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors duration-300"></div>
+                                    <!-- Emoji fallback oculto -->
+                                    <div class="emoji-fallback absolute inset-0 flex items-center justify-center text-5xl opacity-30" style="display: none;">
+                                        🍽️
+                                    </div>
+                                </div>
+                                
+                                <!-- Emoji fallback si no hay imagen -->
+                                <div v-else class="absolute inset-0 flex items-center justify-center text-5xl opacity-30">
                                     🍽️
                                 </div>
-                                <div class="absolute top-3 right-3 bg-red-600 text-white px-2 py-1 rounded-lg text-sm font-bold">
+                                
+                                <div class="absolute top-3 right-3 bg-red-600 text-white px-2 py-1 rounded-lg text-sm font-bold z-20">
                                     €{{ product.price }}
                                 </div>
                             </div>

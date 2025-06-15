@@ -61,9 +61,8 @@
                                 class="p-datatable-sm"
                             >                                <Column field="image" :header="t('admin.menu.image')" style="width: 80px">
                                     <template #body="{ data }">
-                                        <div class="product-image-container">
-                                            <img 
-                                                :src="data.image_path || '/images/placeholder-dish.jpg'" 
+                                        <div class="product-image-container">                                            <img 
+                                                :src="data.image_path || 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDMwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIzMDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjRjNGNEY2Ii8+CjxwYXRoIGQ9Ik0xMjUgNjVIMTc1VjExNUgxMjVWNjVaIiBzdHJva2U9IiM5Q0EzQUYiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIvPgo8Y2lyY2xlIGN4PSIxNDAiIGN5PSI4MCIgcj0iNSIgZmlsbD0iIzlDQTNBRiIvPgo8cGF0aCBkPSJNMTMwIDEwMEwxNDUgODVMMTYwIDEwMEwxNzAgOTBWMTEwSDE0MFYxMDBIMTMwWiIgZmlsbD0iIzlDQTNBRiIvPgo8dGV4dCB4PSIxNTAiIHk9IjE0MCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjEyIiBmaWxsPSIjNkI3Mjg0IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5TaW4gSW1hZ2VuPC90ZXh0Pgo8L3N2Zz4K'" 
                                                 :alt="data.name"
                                                 class="product-image"
                                                 @error="handleImageError"
@@ -181,14 +180,52 @@
                             :min="0"
                             placeholder="0.00"
                         />
-                    </div>
-                    <div class="col-12">
-                        <label class="form-label">{{ t('admin.menu.image_url') }}</label>
-                        <InputText 
-                            v-model="form.image_path" 
-                            class="w-100" 
-                            :placeholder="t('admin.menu.image_url_placeholder')"
-                        />
+                    </div>                    <div class="col-12">
+                        <label class="form-label">{{ t('admin.menu.image') }}</label>
+                        
+                        <!-- Vista previa de imagen actual -->
+                        <div v-if="form.image_path || imagePreview" class="mb-3">
+                            <div class="image-preview-container">
+                                <img 
+                                    :src="imagePreview || form.image_path" 
+                                    :alt="form.name || 'Preview'"
+                                    class="image-preview"
+                                />
+                                <button 
+                                    type="button" 
+                                    class="btn btn-sm btn-danger remove-image-btn"
+                                    @click="removeImage"
+                                    :title="t('common.remove')"
+                                >
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Opciones de imagen -->
+                        <div class="row g-2">
+                            <div class="col-md-6">
+                                <label class="form-label small">{{ t('admin.menu.upload_image') }}</label>
+                                <input 
+                                    type="file" 
+                                    class="form-control form-control-sm" 
+                                    accept="image/*"
+                                    @change="handleImageUpload"
+                                    ref="fileInput"
+                                />
+                                <small class="text-muted">{{ t('admin.menu.max_size_2mb') }}</small>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small">{{ t('admin.menu.or_image_url') }}</label>
+                                <InputText 
+                                    v-model="form.image_path" 
+                                    class="w-100" 
+                                    size="small"
+                                    :placeholder="t('admin.menu.image_url_placeholder')"
+                                    @input="handleUrlInput"
+                                />
+                            </div>
+                        </div>
                     </div>
                     <div class="col-12">
                         <div class="form-check">
@@ -258,8 +295,12 @@ const form = useForm({
     category: '',
     price: '',
     image_path: '',
+    image: null, // Para archivos subidos
     available: true,
 })
+
+const imagePreview = ref(null)
+const fileInput = ref(null)
 
 const categoryOptions = computed(() => [
     { label: t('admin.menu.categories.appetizers'), value: 'entrantes' },
@@ -293,6 +334,10 @@ const openCreateModal = () => {
     editingProduct.value = null
     form.reset()
     form.available = true
+    imagePreview.value = null
+    if (fileInput.value) {
+        fileInput.value.value = ''
+    }
     showModal.value = true
 }
 
@@ -303,7 +348,12 @@ const editProduct = (product) => {
     form.category = product.category
     form.price = product.price
     form.image_path = product.image_path || ''
+    form.image = null
     form.available = product.available
+    imagePreview.value = null
+    if (fileInput.value) {
+        fileInput.value.value = ''
+    }
     showModal.value = true
 }
 
@@ -312,6 +362,10 @@ const closeModal = () => {
     editingProduct.value = null
     form.reset()
     form.available = true
+    imagePreview.value = null
+    if (fileInput.value) {
+        fileInput.value.value = ''
+    }
 }
 
 const submitProduct = () => {
@@ -372,7 +426,60 @@ const formatDate = (date) => {
 }
 
 const handleImageError = (event) => {
-    event.target.src = '/images/placeholder-dish.jpg'
+    // Evitar bucle infinito - solo intentar una vez
+    if (event.target.dataset.errorHandled) return
+    event.target.dataset.errorHandled = 'true'
+    
+    // Usar placeholder SVG inline
+    event.target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDMwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIzMDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjRjNGNEY2Ii8+CjxwYXRoIGQ9Ik0xMjUgNjVIMTc1VjExNUgxMjVWNjVaIiBzdHJva2U9IiM5Q0EzQUYiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIvPgo8Y2lyY2xlIGN4PSIxNDAiIGN5PSI4MCIgcj0iNSIgZmlsbD0iIzlDQTNBRiIvPgo8cGF0aCBkPSJNMTMwIDEwMEwxNDUgODVMMTYwIDEwMEwxNzAgOTBWMTEwSDE0MFYxMDBIMTMwWiIgZmlsbD0iIzlDQTNBRiIvPgo8dGV4dCB4PSIxNTAiIHk9IjE0MCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjEyIiBmaWxsPSIjNkI3Mjg0IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5TaW4gSW1hZ2VuPC90ZXh0Pgo8L3N2Zz4K'
+}
+
+const handleImageUpload = (event) => {
+    const file = event.target.files[0]
+    if (file) {
+        // Validar tamaño (2MB máximo)
+        if (file.size > 2 * 1024 * 1024) {
+            alert(t('admin.menu.image_too_large'))
+            event.target.value = ''
+            return
+        }
+
+        // Validar tipo de archivo
+        if (!file.type.match(/^image\/(jpeg|jpg|png|gif|webp)$/)) {
+            alert(t('admin.menu.invalid_image_type'))
+            event.target.value = ''
+            return
+        }
+
+        form.image = file
+        form.image_path = '' // Limpiar URL si se sube un archivo
+
+        // Crear preview
+        const reader = new FileReader()
+        reader.onload = (e) => {
+            imagePreview.value = e.target.result
+        }
+        reader.readAsDataURL(file)
+    }
+}
+
+const handleUrlInput = () => {
+    if (form.image_path) {
+        form.image = null // Limpiar archivo si se ingresa URL
+        imagePreview.value = null // Limpiar preview
+        if (fileInput.value) {
+            fileInput.value.value = '' // Limpiar input de archivo
+        }
+    }
+}
+
+const removeImage = () => {
+    form.image = null
+    form.image_path = ''
+    imagePreview.value = null
+    if (fileInput.value) {
+        fileInput.value.value = ''
+    }
 }
 </script>
 
@@ -418,5 +525,45 @@ const handleImageError = (event) => {
 .status-badge-danger {
     background-color: #f8d7da;
     color: #721c24;
+}
+
+.image-preview-container {
+    position: relative;
+    display: inline-block;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+}
+
+.image-preview {
+    width: 150px;
+    height: 100px;
+    object-fit: cover;
+    display: block;
+}
+
+.remove-image-btn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    opacity: 0.8;
+    transition: opacity 0.2s;
+}
+
+.remove-image-btn:hover {
+    opacity: 1;
+}
+
+.image-preview-container:hover .remove-image-btn {
+    opacity: 1;
 }
 </style>

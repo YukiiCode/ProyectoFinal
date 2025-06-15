@@ -133,6 +133,36 @@ const getAllergenColor = (allergen) => {
     
     return allergenColors[allergen.name] || 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200'
 }
+
+// Obtener imagen del producto
+const getProductImage = (product) => {
+    if (!product.image_svg) return null
+    
+    // Si es una URL externa, devolverla tal como está
+    if (product.image_svg.startsWith('http')) {
+        return product.image_svg
+    }
+    
+    // Si es un archivo local, agregar el prefijo de storage
+    return `/storage/${product.image_svg}`
+}
+
+// Manejar error de imagen
+const handleImageError = (event) => {
+    // Evitar bucle infinito - solo intentar una vez
+    if (event.target.dataset.errorHandled) return
+    event.target.dataset.errorHandled = 'true'
+    
+    // Al fallar la imagen, ocultar el elemento img y mostrar el emoji fallback
+    event.target.style.display = 'none'
+    const parent = event.target.closest('.relative')
+    if (parent) {
+        const emojiDiv = parent.querySelector('.emoji-fallback')
+        if (emojiDiv) {
+            emojiDiv.style.display = 'flex'
+        }
+    }
+}
 </script>
 
 <template>
@@ -232,14 +262,32 @@ const getAllergenColor = (allergen) => {
                             :key="product.id"
                             class="group bg-white dark:bg-gray-800 rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 flex flex-col h-full"
                         >
-                            <!-- Imagen con emoji - Altura fija -->
+                            <!-- Imagen del producto - Altura fija -->
                             <div class="relative h-48 bg-gradient-to-br from-red-50 to-red-100 dark:from-gray-700 dark:to-gray-600 flex items-center justify-center overflow-hidden">
                                 <div class="absolute inset-0 bg-gradient-to-br from-red-400/10 to-orange-400/10"></div>
-                                <div class="relative z-10 text-6xl group-hover:scale-110 transition-transform duration-300">
+                                
+                                <!-- Imagen real del producto si existe -->
+                                <div v-if="product.image_svg" class="absolute inset-0">
+                                    <img 
+                                        :src="getProductImage(product)" 
+                                        :alt="product.name"
+                                        class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                                        @error="handleImageError"
+                                    />
+                                    <div class="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors duration-300"></div>
+                                    <!-- Emoji fallback oculto -->
+                                    <div class="emoji-fallback absolute inset-0 flex items-center justify-center text-6xl group-hover:scale-110 transition-transform duration-300" style="display: none;">
+                                        {{ getCategoryIcon(product.category) }}
+                                    </div>
+                                </div>
+                                
+                                <!-- Emoji fallback si no hay imagen -->
+                                <div v-else class="relative z-10 text-6xl group-hover:scale-110 transition-transform duration-300">
                                     {{ getCategoryIcon(product.category) }}
                                 </div>
+                                
                                 <!-- Precio destacado -->
-                                <div class="absolute top-3 right-3 bg-red-600 text-white px-3 py-1 rounded-full font-bold text-sm shadow-lg">
+                                <div class="absolute top-3 right-3 bg-red-600 text-white px-3 py-1 rounded-full font-bold text-sm shadow-lg z-20">
                                     {{ formatPrice(product.price) }}
                                 </div>
                             </div>

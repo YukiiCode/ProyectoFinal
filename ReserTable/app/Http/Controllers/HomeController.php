@@ -27,22 +27,20 @@ class HomeController extends Controller
                     ->pluck('allergens')
                     ->flatten()
                     ->unique('id')
-                    ->values();
-
-                return [
+                    ->values();                return [
                     'id' => $product->id,
                     'name' => $product->name,
                     'description' => $product->description,
                     'price' => $product->price,
                     'category' => $product->category->name ?? 'Sin categoría',
+                    'image_svg' => $product->image_svg, // Incluir imagen
                     'allergens' => $allergens->map(function ($allergen) {
                         return [
                             'id' => $allergen->id,
                             'name' => $allergen->name,
                             'icon' => $allergen->icon ?? null
                         ];
-                    }),
-                    'image' => null // Por ahora sin imágenes
+                    })
                 ];
             });
 

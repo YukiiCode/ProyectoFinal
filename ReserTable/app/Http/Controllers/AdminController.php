@@ -122,30 +122,13 @@ class AdminController extends Controller
         return Inertia::render('Admin/Reservations', [
             'reservations' => $reservations,
         ]);
-    }
-
-    /**
+    }    /**
      * Display menu management
      */
     public function menu()
     {
-        $products = Product::orderBy('name')->get()->map(function ($product) {
-            return [
-                'id' => $product->id,
-                'name' => $product->name,
-                'description' => $product->description,
-                'price' => $product->price,
-                'category' => $product->category,
-                'available' => $product->available,
-                'image_path' => $product->image_path,
-                'created_at' => $product->created_at,
-                'updated_at' => $product->updated_at,
-            ];
-        });
-
-        return Inertia::render('Admin/Menu', [
-            'products' => $products,
-        ]);
+        // Redirigir al nuevo controlador AdminMenuController
+        return app(\App\Http\Controllers\AdminMenuController::class)->index();
     }
 
     /**

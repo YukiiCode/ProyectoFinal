@@ -12,8 +12,10 @@ class Product extends Model
         'description',
         'price',
         'category_id',
+        'category', // Para backward compatibility
         'available',
         'image_svg',
+        'image_path', // Para backward compatibility
     ];
 
     protected $casts = [
