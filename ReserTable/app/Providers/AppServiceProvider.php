@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class AppServiceProvider extends ServiceProvider
@@ -22,15 +23,38 @@ class AppServiceProvider extends ServiceProvider
     {
         \Inertia\Inertia::share([
             'auth' => function () {
-                $user = auth()->user();
+                // Verificar ambos guardias: web (User) y client (Client)
+                $user = Auth::user();
+                $client = Auth::guard('client')->user();
+                
+                if ($user && $user instanceof \App\Models\User) {
+                    // Usuario admin/empleado autenticado
+                    return [
+                        'user' => [
+                            'id' => $user->id,
+                            'name' => $user->name,
+                            'email' => $user->email,
+                            'role' => $user->role ?? 'user',
+                            'settings' => $user->settings
+                        ],
+                        'client' => null
+                    ];
+                } elseif ($client && $client instanceof \App\Models\Client) {
+                    // Cliente autenticado
+                    return [
+                        'user' => null,
+                        'client' => [
+                            'id' => $client->id,
+                            'name' => $client->name,
+                            'email' => $client->email,
+                            'phone' => $client->phone
+                        ]
+                    ];
+                }
                 
                 return [
-                    'user' => $user ? [
-                        'id' => $user->id,
-                        'name' => $user->name,
-                        'email' => $user->email,
-                        'settings' => $user->settings
-                    ] : null
+                    'user' => null,
+                    'client' => null
                 ];
             },
         ]);

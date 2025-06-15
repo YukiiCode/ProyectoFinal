@@ -5,8 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Reservation;
 use App\Models\Table;
 use App\Models\DiscountCoupon;
+use App\Mail\ReservationConfirmation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
 use Inertia\Inertia;
 
@@ -89,9 +92,7 @@ class ClientReservationController extends Controller
                     'discount_coupon_id' => 'El cupón de descuento no es válido o ha expirado.'
                 ]);
             }
-        }
-
-        // Crear la reserva
+        }        // Crear la reserva
         $reservation = Reservation::create([
             'client_id' => $client->id,
             'table_id' => $table->id,
@@ -102,12 +103,21 @@ class ClientReservationController extends Controller
             'special_requests' => $request->special_requests,
         ]);
 
+        // Cargar las relaciones necesarias para el email
+        $reservation->load(['client', 'table', 'discountCoupon']);
+
         // Actualizar estado de la mesa
         $table->update(['status' => 'reserved']);
 
         // Incrementar uso del cupón si aplica
         if ($discountCoupon) {
             $discountCoupon->increment('used_count');
+        }        // Enviar correo de confirmación
+        try {
+            Mail::to($client->email)->send(new ReservationConfirmation($reservation));
+        } catch (\Exception $e) {
+            // Log del error pero no fallar la reserva
+            Log::error('Error enviando correo de confirmación de reserva: ' . $e->getMessage());
         }
 
         return redirect()->route('client.reservations')
@@ -199,21 +209,18 @@ class ClientReservationController extends Controller
         }
 
         return back()->with('success', 'Reserva cancelada exitosamente.');
-    }
-
-    /**
+    }    /**
      * Obtener mesas disponibles para una fecha/hora específica
      * Esta función se puede usar vía Inertia para actualizar dinámicamente las mesas disponibles
      */
     public function getAvailableTables(Request $request)
     {
         $request->validate([
-            'date' => 'required|date|after_or_equal:today',
-            'time' => 'required|date_format:H:i',
+            'reservation_date' => 'required|date|after_or_equal:today',
             'party_size' => 'required|integer|min:1|max:20'
         ]);
 
-        $dateTime = Carbon::parse($request->date . ' ' . $request->time);
+        $dateTime = Carbon::parse($request->reservation_date);
 
         // Obtener mesas con capacidad suficiente y disponibles en esa fecha/hora
         $availableTables = Table::where('capacity', '>=', $request->party_size)
@@ -244,7 +251,7 @@ class ClientReservationController extends Controller
                 ];
             });
 
-        return response()->json([
+        return Inertia::render('Client/Reserva', [
             'tables' => $availableTables,
             'requested_datetime' => $dateTime->format('Y-m-d H:i:s'),
         ]);

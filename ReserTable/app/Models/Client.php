@@ -11,20 +11,23 @@ class Client extends Authenticatable
 {
     use HasFactory, Notifiable;
 
-    protected $table = 'clients';
-
-    protected $fillable = [
+    protected $table = 'clients';    protected $fillable = [
         'name',
         'email',
         'phone',
         'password',
-    ];    protected $hidden = [
+        'promotional_emails',
+        'reservation_reminders',
+        'account_deletion_requested_at',
+        'deletion_reason',
+    ];protected $hidden = [
         'password',
         'remember_token',
-    ];
-    
-    protected $casts = [
+    ];    protected $casts = [
         'email_verified_at' => 'datetime',
+        'promotional_emails' => 'boolean',
+        'reservation_reminders' => 'boolean',
+        'account_deletion_requested_at' => 'datetime',
     ];
 
     // Relación: un cliente puede tener muchas reservas

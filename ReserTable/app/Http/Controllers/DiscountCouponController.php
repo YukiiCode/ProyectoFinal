@@ -424,12 +424,12 @@ class DiscountCouponController extends Controller
                 SUM(used_count) as total_uses
             ')
             ->groupBy('discount_type')
-            ->get();
-
-        return response()->json([
-            'general' => $stats,
-            'monthly' => $monthlyStats,
-            'by_discount_type' => $discountTypeStats
+            ->get();        return Inertia::render('Admin/DiscountCoupons/Index', [
+            'stats' => [
+                'general' => $stats,
+                'monthly' => $monthlyStats,
+                'by_discount_type' => $discountTypeStats
+            ]
         ]);
     }
 
@@ -581,24 +581,12 @@ class DiscountCouponController extends Controller
             'success' => true,
             'report' => $report
         ]);
-    }
-
-    /**
+    }    /**
      * Limpiar cupones expirados
      */
     public function cleanupExpired(Request $request)
     {
-        $request->validate([
-            'days_expired' => 'integer|min:0|max:365',
-            'confirm' => 'required|boolean'
-        ]);        if (!$request->confirm) {
-            return response()->json([
-                'success' => false,
-                'message' => __('coupons.must_confirm_cleanup')
-            ], 400);
-        }
-
-        $daysExpired = $request->days_expired ?? 30;
+        $daysExpired = 30; // Valor por defecto
         $cutoffDate = Carbon::now()->subDays($daysExpired);
 
         // Encontrar cupones expirados
@@ -606,24 +594,14 @@ class DiscountCouponController extends Controller
             ->where('used_count', 0); // Solo cupones no utilizados
 
         $count = $expiredCoupons->count();
-          if ($count === 0) {
-            return response()->json([
-                'success' => true,
-                'message' => __('coupons.no_expired_found'),
-                'deleted_count' => 0
-            ]);
+        
+        if ($count === 0) {
+            return redirect()->route('admin.discount-coupons.index')
+                ->with('info', 'No se encontraron cupones expirados para eliminar.');
         }
 
-        // Obtener información antes de eliminar
-        $deletedCoupons = $expiredCoupons->get(['id', 'code', 'valid_to', 'created_at']);
-        
         // Eliminar cupones expirados
-        $expiredCoupons->delete();        return response()->json([
-            'success' => true,
-            'message' => __('coupons.expired_deleted_successfully', ['count' => $count]),
-            'deleted_count' => $count,
-            'deleted_coupons' => $deletedCoupons,
-            'cutoff_date' => $cutoffDate->format('Y-m-d')
-        ]);
+        $expiredCoupons->delete();        return redirect()->route('admin.discount-coupons.index')
+            ->with('success', "Se eliminaron {$count} cupones expirados correctamente.");
     }
 }

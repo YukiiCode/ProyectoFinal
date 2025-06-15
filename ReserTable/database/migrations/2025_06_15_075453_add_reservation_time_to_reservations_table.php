@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('products', function (Blueprint $table) {
-            $table->string('image_svg')->nullable()->after('description');
+        Schema::table('reservations', function (Blueprint $table) {
+            $table->time('reservation_time')->nullable()->after('reservation_date');
         });
     }
 
@@ -21,8 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('products', function (Blueprint $table) {
-            $table->dropColumn('image_svg');
+        Schema::table('reservations', function (Blueprint $table) {
+            $table->dropColumn('reservation_time');
         });
     }
 };

@@ -19,7 +19,9 @@ const isMobileMenuOpen = ref(false)
 
 // Usuario autenticado
 const user = computed(() => page.props.auth?.user || null)
-const isAuthenticated = computed(() => !!user.value)
+const client = computed(() => page.props.auth?.client || null)
+const isAuthenticated = computed(() => !!(user.value || client.value))
+const authenticatedUser = computed(() => client.value || user.value)
 
 // Función para cerrar sesión
 const logout = () => {
@@ -81,22 +83,37 @@ const closeMobileMenu = () => {
                     <Link href="/reservas" :class="getLinkClasses('reservations')">
                         {{ t('common.reservations') }}
                     </Link>
-                </div>
-
-                <!-- Desktop Auth & Settings -->
-                <div class="hidden md:flex items-center space-x-4">
-                    <div v-if="isAuthenticated" class="flex items-center space-x-4">
-                        <div class="hidden lg:flex items-center space-x-2">
-                            <div class="w-8 h-8 bg-gradient-to-br from-red-500 to-red-600 rounded-full flex items-center justify-center">
-                                <span class="text-white text-sm font-medium">{{ user.name.charAt(0).toUpperCase() }}</span>
+                </div>                <!-- Desktop Auth & Settings -->
+                <div class="hidden md:flex items-center space-x-4">                    <div v-if="isAuthenticated" class="flex items-center space-x-3">                        <!-- My Account Button - Desktop -->
+                        <Link 
+                            href="/mi-dashboard"
+                            class="flex items-center space-x-2 px-4 py-2 bg-gray-50 dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 rounded-lg transition-all duration-200 group border border-gray-200 dark:border-gray-600"
+                        >
+                            <!-- User Avatar -->
+                            <div class="w-8 h-8 bg-gradient-to-br from-red-500 to-red-600 rounded-full flex items-center justify-center shadow-sm">
+                                <span class="text-white text-sm font-medium">{{ authenticatedUser.name.charAt(0).toUpperCase() }}</span>
                             </div>
-                            <span class="text-gray-900 dark:text-white font-medium">{{ user.name }}</span>
-                        </div>
+                            <!-- Account Info -->
+                            <div class="flex flex-col items-start">
+                                <span class="text-sm font-medium text-gray-900 dark:text-white group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors">
+                                    {{ t('common.my_account') }}
+                                </span>
+                                <span class="text-xs text-gray-500 dark:text-gray-400 group-hover:text-gray-600 dark:group-hover:text-gray-300 transition-colors">
+                                    {{ authenticatedUser.name }}
+                                </span>
+                            </div>
+                        </Link>
+                        
+                        <!-- Logout Button - Desktop -->
                         <button 
                             @click="logout"
-                            class="text-gray-600 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 transition-colors"
+                            class="flex items-center space-x-2 px-4 py-2 text-gray-600 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg transition-all duration-200 border border-gray-200 dark:border-gray-600 hover:border-red-300 dark:hover:border-red-600"
+                            :title="t('common.logout')"
                         >
-                            {{ t('common.logout') }}
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+                            </svg>
+                            <span class="text-sm font-medium">{{ t('common.logout') }}</span>
                         </button>
                     </div>
                     <div v-else class="flex items-center space-x-3">
@@ -156,26 +173,34 @@ const closeMobileMenu = () => {
                     @click="closeMobileMenu"
                 >
                     {{ t('common.reservations') }}
-                </Link>
-
-                <!-- Mobile Auth Section -->
-                <div class="pt-4 pb-2 border-t border-gray-200 dark:border-gray-700">
-                    <div v-if="isAuthenticated" class="space-y-2">
-                        <!-- User Info -->
-                        <div class="flex items-center space-x-3 px-3 py-2">
-                            <div class="w-8 h-8 bg-gradient-to-br from-red-500 to-red-600 rounded-full flex items-center justify-center">
-                                <span class="text-white text-sm font-medium">{{ user.name.charAt(0).toUpperCase() }}</span>
+                </Link>                <!-- Mobile Auth Section -->
+                <div class="pt-4 pb-2 border-t border-gray-200 dark:border-gray-700">                    <div v-if="isAuthenticated" class="space-y-3">                        <!-- My Account Link - Mobile -->
+                        <Link 
+                            href="/mi-dashboard"
+                            class="flex items-center space-x-3 px-4 py-3 bg-gray-50 dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 rounded-lg transition-all duration-200 border border-gray-200 dark:border-gray-600"
+                            @click="closeMobileMenu"
+                        >
+                            <!-- Avatar -->
+                            <div class="w-10 h-10 bg-gradient-to-br from-red-500 to-red-600 rounded-full flex items-center justify-center shadow-sm">
+                                <span class="text-white font-medium">{{ authenticatedUser.name.charAt(0).toUpperCase() }}</span>
                             </div>
-                            <div>
-                                <p class="text-sm font-medium text-gray-900 dark:text-white">{{ user.name }}</p>
-                                <p class="text-xs text-gray-500 dark:text-gray-400">{{ user.email }}</p>
+                            <!-- Account Info -->
+                            <div class="flex-1">
+                                <p class="text-sm font-semibold text-gray-900 dark:text-white">{{ t('common.my_account') }}</p>
+                                <p class="text-xs text-gray-500 dark:text-gray-400">{{ authenticatedUser.name }}</p>
+                                <p class="text-xs text-red-600 dark:text-red-400 mt-0.5">{{ t('common.view_account') }}</p>
                             </div>
-                        </div>
+                        </Link>
+                        
+                        <!-- Logout Button - Mobile -->
                         <button 
                             @click="logout"
-                            class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-600 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                            class="flex items-center space-x-3 w-full px-4 py-3 rounded-lg text-base font-medium text-gray-600 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors border border-gray-200 dark:border-gray-600 hover:border-red-300 dark:hover:border-red-600"
                         >
-                            {{ t('common.logout') }}
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+                            </svg>
+                            <span>{{ t('common.logout') }}</span>
                         </button>
                     </div>
                     <div v-else class="space-y-2">

@@ -32,6 +32,9 @@ Route::prefix('public')->name('public.')->group(function () {
         ->middleware('auth.notify')
         ->name('reservations.store');
     Route::get('/reservations/available-tables', [\App\Http\Controllers\ReservationController::class, 'getAvailableTables'])->name('reservations.available-tables');
+    Route::get('/reservations/available-hours', [\App\Http\Controllers\ReservationController::class, 'getAvailableHours'])->name('reservations.available-hours');
+    Route::get('/coupons/available', [\App\Http\Controllers\PublicCouponController::class, 'getAvailableCoupons'])->name('coupons.available');
+    Route::post('/coupons/validate', [\App\Http\Controllers\PublicCouponController::class, 'validateCoupon'])->name('coupons.validate');
 });
 
 // Rutas administrativas (solo para admins)
@@ -55,6 +58,7 @@ Route::middleware(['admin'])->group(function () {
         Route::delete('/reservations/{reservation}', [\App\Http\Controllers\ReservationController::class, 'destroy'])->name('reservations.destroy');
         Route::patch('/reservations/{reservation}/status', [\App\Http\Controllers\ReservationController::class, 'updateStatus'])->name('reservations.status');
         Route::get('/reservations/available-tables', [\App\Http\Controllers\ReservationController::class, 'getAvailableTables'])->name('reservations.available-tables');
+        Route::get('/reservations/available-hours', [\App\Http\Controllers\ReservationController::class, 'getAvailableHours'])->name('reservations.available-hours');
         
         // Rutas para Códigos de Descuento
         Route::get('/discount-coupons/generate-code', [\App\Http\Controllers\DiscountCouponController::class, 'generateCode'])->name('discount-coupons.generate-code');
@@ -97,6 +101,15 @@ Route::middleware(['admin'])->group(function () {
 
 // Rutas para clientes autenticados
 Route::middleware(['client'])->group(function () {
+    // Dashboard/Perfil del cliente
+    Route::get('/mi-cuenta', [\App\Http\Controllers\ClientDashboardController::class, 'account'])->name('client.account');
+    Route::get('/mi-dashboard', [\App\Http\Controllers\ClientDashboardController::class, 'index'])->name('client.dashboard');
+    Route::get('/mi-perfil', [\App\Http\Controllers\ClientDashboardController::class, 'profile'])->name('client.profile');
+    Route::put('/mi-perfil', [\App\Http\Controllers\ClientDashboardController::class, 'updateProfile'])->name('client.profile.update');
+    Route::post('/mi-perfil/eliminar-cuenta', [\App\Http\Controllers\ClientDashboardController::class, 'requestAccountDeletion'])->name('client.account.delete');
+    Route::delete('/mi-perfil/cancelar-eliminacion', [\App\Http\Controllers\ClientDashboardController::class, 'cancelAccountDeletion'])->name('client.account.cancel-deletion');
+    Route::patch('/mi-perfil/preferencias-email', [\App\Http\Controllers\ClientDashboardController::class, 'updateEmailPreferences'])->name('client.preferences.email');
+    
     // Página de reserva
     Route::get('/reserva', [\App\Http\Controllers\ClientReservationController::class, 'create'])->name('reserva');
     

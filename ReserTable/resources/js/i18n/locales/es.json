@@ -32,6 +32,8 @@
     "success": "Éxito",
     "warning": "Advertencia",    "info": "Información",    "optional": "opcional",
     "allergens": "alérgenos",
+    "my_account": "Mi Cuenta",
+    "view_account": "Ver mi cuenta",
     "change_language": "Cambiar idioma",
     "light_mode": "Modo claro",
     "dark_mode": "Modo oscuro",
@@ -279,7 +281,9 @@
     "validity": "Validez",
     "uses": "Usos",
     "client": "Cliente",
-    "advanced_management": "Gestión Avanzada"  },"reservations": {
+    "advanced_management": "Gestión Avanzada"
+  },
+  "reservations": {
     "page_title": "Reservar Mesa - ReserTable",
     "title": "Reservar Mesa",
     "subtitle": "Selecciona fecha, hora y número de personas, luego haz clic en una mesa disponible",
@@ -294,8 +298,9 @@
     "special_requests": "Peticiones especiales",
     "confirm_reservation": "Confirmar Reserva",
     "reservation_confirmed": "Reserva Confirmada",
-    "reservation_details": "Detalles de la Reserva",
-    "people": "personas",
+    "reservation_details": "Detalles de la Reserva",    "people": "personas",
+    "table": "Mesa",
+    "person": "persona",
     "reserve_table": "Reservar Mesa",
     "date_time": "Fecha y Hora",
     "select_date_time": "Selecciona fecha y hora.",
@@ -385,8 +390,7 @@
       "manage_tables": "Gestionar Mesas",
       "manage_menu": "Gestionar Menú",
       "manage_users": "Gestionar Usuarios",
-      "manage_coupons": "Cupones"
-    },    "reservations": {
+      "manage_coupons": "Cupones"    },    "reservations": {
       "title": "Gestión de Reservas",
       "subtitle": "Administra todas las reservas del restaurante",
       "new_reservation": "Nueva Reserva",
@@ -394,8 +398,11 @@
       "client": "Cliente",
       "table": "Mesa",
       "date_time": "Fecha y Hora",
+      "date": "Fecha",
+      "time": "Hora",
       "party_size": "Personas",
-      "status": "Estado",
+      "person": "persona",
+      "people": "personas",      "status": "Estado",
       "actions": "Acciones",
       "confirmed": "Confirmada",
       "pending": "Pendiente",
@@ -403,6 +410,21 @@
       "completed": "Completada",
       "confirm_reservation": "Confirmar Reserva",
       "cancel_reservation": "Cancelar Reserva",
+      "reserve_table": "Reservar Mesa",
+      "capacity": "Capacidad",
+      "duration": "Duración",
+      "hour": "hora",
+      "minimum_advance_notice": "Mínimo 1 hora de anticipación",
+      "special_requests": "Peticiones especiales",
+      "special_requests_placeholder": "Déjanos saber si tienes alguna petición especial...",      "available_coupons": "Cupones disponibles",      "applied": "aplicado",
+      "discount": "Descuento",
+      "reservation_success": "¡Reserva realizada con éxito!",
+      "redirecting": "Redirigiendo...",      "loading_hours": "Cargando horarios disponibles...",
+      "no_hours_available": "No hay horarios disponibles para esta fecha",
+      "select_date_first": "Selecciona una fecha para ver los horarios disponibles",
+      "hour_not_available": "Hora no disponible",
+      "hour_past_time": "No se pueden hacer reservas en horarios pasados",
+      "hour_reserved": "Esta hora ya tiene una reserva",
       "filter_status": "Todos los estados",
       "filter_date": "Filtrar por fecha",      "filter_table": "Número de mesa",
       "client_name": "Nombre del cliente",
@@ -410,7 +432,6 @@
       "select_table": "Seleccionar mesa",
       "reservation_date": "Fecha de reserva",
       "reservation_time": "Hora de reserva",
-      "special_requests": "Peticiones especiales",
       "update_reservation": "Actualizar Reserva",
       "delete_reservation": "Eliminar Reserva",
       "reservation_details": "Detalles de la Reserva",
@@ -775,6 +796,82 @@
     "toast": {
       "code_copied": "Código copiado al portapapeles",
       "copy_error": "Error al copiar el código"
+    }
+  },
+  "client": {
+    "dashboard": {
+      "title": "Mi Cuenta",
+      "welcome": "¡Bienvenido, {name}!",      "stats": {
+        "total_reservations": "Total Reservas",
+        "pending_reservations": "Pendientes",
+        "confirmed_reservations": "Confirmadas",
+        "completed_reservations": "Completadas",
+        "cancelled_reservations": "Canceladas"
+      },      "recent_reservations": "Reservas Recientes",
+      "view_all": "Ver todas",
+      "no_reservations": "Aún no tienes reservas",
+      "no_reservations_desc": "Aún no tienes reservas realizadas",
+      "first_reservation": "Hacer mi primera reserva",
+      "cancel_reservation": "Cancelar Reserva",
+      "cancel_reservation_confirm": "¿Estás seguro de que deseas cancelar esta reserva?",
+      "cancel_reservation_warning": "Esta acción no se puede deshacer.",
+      "cancel_confirm_btn": "Sí, cancelar reserva",
+      "cancel_keep_btn": "No, mantener reserva",
+      "reservation_cancelled": "Reserva cancelada",
+      "reservation_cancelled_desc": "Tu reserva ha sido cancelada exitosamente.","quick_actions": {
+        "title": "Acciones Rápidas",
+        "new_reservation": "Nueva Reserva",
+        "new_reservation_desc": "Reserva tu mesa",
+        "view_menu": "Ver Menú",
+        "view_menu_desc": "Explora nuestros platos",
+        "my_profile": "Mi Perfil",
+        "my_profile_desc": "Editar información"
+      }
+    },    "profile": {
+      "title": "Mi Perfil",
+      "edit_profile": "Editar Perfil",
+      "cancel_edit": "Cancelar",
+      "save_changes": "Guardar Cambios",
+      "account_info": "Información de la cuenta",
+      "member_since": "Miembro desde:",
+      "total_reservations": "Total de reservas:",
+      "reservation_history": "Historial de Reservas",
+      "back_to_dashboard": "Volver al Dashboard",
+      "view_account": "Ver mi cuenta",
+      "profile_updated": "Perfil actualizado",
+      "profile_updated_message": "Tu información personal ha sido actualizada correctamente.",
+      "special_requests": "Solicitudes especiales:",
+      "preferences": "Preferencias",
+      "email_preferences": {
+        "title": "Preferencias de Email",
+        "promotional_emails": "Recibir emails promocionales",
+        "promotional_emails_desc": "Ofertas especiales, promociones y novedades del restaurante",
+        "reservation_reminders": "Recordatorios de reserva",
+        "reservation_reminders_desc": "Recordatorios automáticos de tus próximas reservas",
+        "save_preferences": "Guardar Preferencias",
+        "preferences_updated": "Preferencias actualizadas",
+        "preferences_updated_message": "Tus preferencias de email han sido actualizadas correctamente."
+      },
+      "account_deletion": {
+        "danger_zone": "Zona de Peligro",
+        "warning_message": "Una vez que solicites la eliminación de tu cuenta, todos tus datos serán programados para eliminación. Esta acción es irreversible.",
+        "request_deletion": "Solicitar eliminación de cuenta",
+        "deletion_title": "Solicitar eliminación de cuenta",
+        "deletion_reason": "Motivo de la eliminación",
+        "deletion_reason_placeholder": "Por favor, cuéntanos por qué quieres eliminar tu cuenta...",
+        "confirm_deletion": "Entiendo que esta acción es irreversible y acepto la eliminación de mi cuenta",
+        "confirm_modal_title": "¿Confirmar eliminación de cuenta?",
+        "confirm_modal_message": "Esta acción enviará una solicitud de eliminación a nuestro equipo. Una vez procesada, no podrá deshacerse.",
+        "confirm_deletion_btn": "Sí, solicitar eliminación",
+        "keep_account_btn": "No, mantener mi cuenta",
+        "deletion_requested": "Solicitud de eliminación enviada",
+        "deletion_requested_message": "Tu solicitud de eliminación de cuenta ha sido enviada. Nos pondremos en contacto contigo pronto.",
+        "deletion_pending": "Solicitud de eliminación de cuenta pendiente",
+        "deletion_pending_desc": "Tu cuenta está marcada para eliminación. Nuestro equipo se pondrá en contacto contigo.",
+        "cancel_deletion": "Cancelar solicitud",
+        "deletion_cancelled": "Solicitud cancelada",
+        "deletion_cancelled_message": "Tu solicitud de eliminación de cuenta ha sido cancelada."
+      }
     }
   }
 }

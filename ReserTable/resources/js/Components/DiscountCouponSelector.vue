@@ -111,7 +111,7 @@
 
 <script setup>
 import { ref, computed, watch } from 'vue'
-import axios from 'axios'
+import { router } from '@inertiajs/vue3'
 import {
   TagIcon,
   CheckIcon,
@@ -160,10 +160,16 @@ const loadAvailableCoupons = async () => {
   if (!props.clientId) return
   
   try {
-    const response = await axios.get('/api/discount-coupons/available', {
-      params: { client_id: props.clientId }
+    router.get('/public/coupons/available', {
+      client_id: props.clientId
+    }, {
+      preserveState: true,
+      preserveScroll: true,
+      only: ['availableCoupons'],
+      onSuccess: (page) => {
+        availableCoupons.value = page.props.availableCoupons || []
+      }
     })
-    availableCoupons.value = response.data.coupons
   } catch (error) {
     console.error('Error cargando cupones:', error)
   }
@@ -193,28 +199,38 @@ const validateManualCode = async () => {
   validationError.value = ''
   
   try {
-    const response = await axios.post('/api/discount-coupons/validate', {
+    router.post('/public/coupons/validate', {
       code: manualCode.value.trim(),
       client_id: props.clientId
+    }, {
+      preserveState: true,
+      preserveScroll: true,
+      onSuccess: (page) => {
+        const response = page.props.validationResult
+        if (response && response.valid) {
+          appliedCoupon.value = response.coupon
+          selectedCoupon.value = response.coupon
+          emit('coupon-applied', {
+            coupon: response.coupon,
+            discountAmount: discountAmount.value
+          })
+        }
+        isValidating.value = false
+      },
+      onError: (errors) => {
+        if (errors.message) {
+          validationError.value = errors.message
+        } else {
+          validationError.value = 'Error al validar el código de descuento'
+        }
+        isValidating.value = false
+      }
     })
-    
-    if (response.data.valid) {
-      appliedCoupon.value = response.data.coupon
-      selectedCoupon.value = response.data.coupon
-      emit('coupon-applied', {
-        coupon: response.data.coupon,
-        discountAmount: discountAmount.value
-      })
-    }
   } catch (error) {
-    if (error.response && error.response.data.message) {
-      validationError.value = error.response.data.message
-    } else {
-      validationError.value = 'Error al validar el código de descuento'
-    }
-  } finally {
+    validationError.value = 'Error al validar el código de descuento'
     isValidating.value = false
   }
+}
 }
 
 const removeCoupon = () => {

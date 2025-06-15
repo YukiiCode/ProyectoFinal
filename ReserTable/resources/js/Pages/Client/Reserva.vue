@@ -1,7 +1,6 @@
 <script setup>
-import { Head, useForm } from '@inertiajs/vue3';
+import { Head, useForm, router } from '@inertiajs/vue3';
 import { ref, computed, onMounted } from 'vue';
-import axios from 'axios';
 import { useI18n } from 'vue-i18n';
 import ThemeManager from '@/Components/ThemeManager.vue';
 
@@ -46,24 +45,26 @@ const searchAvailableTables = async () => {
     }
 
     isLoading.value = true;
-    try {
-        const response = await axios.get('/client/reservations/available-tables', {
-            params: {
-                reservation_date: `${selectedDate.value} ${selectedTime.value}`,
-                party_size: selectedPartySize.value,
+    
+    router.get('/client/reservations/available-tables', {
+        reservation_date: `${selectedDate.value} ${selectedTime.value}`,
+        party_size: selectedPartySize.value,
+    }, {
+        preserveState: true,
+        preserveScroll: true,
+        onSuccess: (page) => {
+            if (page.props.tables) {
+                availableTables.value = page.props.tables;
+                showTableMap.value = true;
             }
-        });
-
-        if (response.data.success) {
-            availableTables.value = response.data.tables;
-            showTableMap.value = true;
+            isLoading.value = false;
+        },
+        onError: (errors) => {
+            console.error('Error fetching available tables:', errors);
+            alert('Error al buscar mesas disponibles');
+            isLoading.value = false;
         }
-    } catch (error) {
-        console.error('Error fetching available tables:', error);
-        alert('Error al buscar mesas disponibles');
-    } finally {
-        isLoading.value = false;
-    }
+    });
 };
 
 const selectTable = (table) => {

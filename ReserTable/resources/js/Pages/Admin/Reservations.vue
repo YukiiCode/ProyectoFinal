@@ -358,10 +358,6 @@ const submitReservation = () => {
             onSuccess: () => {
                 reservationUpdated()
                 closeModal()
-                router.get(route('admin.reservations'))
-            },
-            onError: () => {
-                formError(t('admin.reservations.error_update'))
             }
         })
     } else {
@@ -369,10 +365,6 @@ const submitReservation = () => {
             onSuccess: () => {
                 reservationCreated()
                 closeModal()
-                router.get(route('admin.reservations'))
-            },
-            onError: () => {
-                formError(t('admin.reservations.error_create'))
             }
         })
     }
@@ -384,10 +376,6 @@ const confirmReservation = (reservation) => {
         {
             onSuccess: () => {
                 reservationUpdated()
-                router.get(route('admin.reservations'))
-            },
-            onError: () => {
-                reservationError(t('admin.reservations.error_confirm'))
             }
         }
     )
@@ -400,10 +388,6 @@ const cancelReservation = (reservation) => {
             {
                 onSuccess: () => {
                     reservationCancelled()
-                    router.get(route('admin.reservations'))
-                },
-                onError: () => {
-                    reservationError(t('admin.reservations.error_cancel'))
                 }
             }
         )
@@ -414,11 +398,7 @@ const deleteReservation = (reservation) => {
     if (confirm(t('admin.reservations.confirm_delete'))) {
         router.delete(route('admin.reservations.destroy', reservation.id), {
             onSuccess: () => {
-                reservationCancelled() // Usar la misma notificación que cancelar
-                router.get(route('admin.reservations'))
-            },
-            onError: () => {
-                reservationError(t('admin.reservations.error_delete'))
+                reservationCancelled()
             }
         })
     }

@@ -11,11 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('ingredient_allergens', function (Blueprint $table) {
-            $table->integer('ingredient_id');
-            $table->integer('allergen_id');
-            
-            $table->primary(['ingredient_id', 'allergen_id']);
+        Schema::table('reservations', function (Blueprint $table) {
+            $table->integer('duration_hours')->default(1)->after('party_size');
         });
     }
 
@@ -24,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('ingredient_allergens');
+        Schema::table('reservations', function (Blueprint $table) {
+            $table->dropColumn('duration_hours');
+        });
     }
 };

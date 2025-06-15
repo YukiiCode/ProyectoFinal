@@ -415,9 +415,8 @@
 
 <script setup>
 import { ref, computed, watch } from 'vue'
-import { Link, useForm } from '@inertiajs/vue3'
+import { Link, useForm, router } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
-import axios from 'axios'
 import AdminLayout from '@/Layouts/AdminLayout.vue'
 import Pagination from '@/Components/Pagination.vue'
 import ConfirmationModal from '@/Components/ConfirmationModal.vue'
@@ -599,22 +598,29 @@ const generateReport = () => {
 
 const cleanupExpired = async () => {
   if (confirm('¿Estás seguro de que quieres eliminar todos los cupones expirados?')) {
-    try {
-      await axios.post(route('admin.discount-coupons.cleanup'))
-      loadStats()
-    } catch (error) {
-      console.error('Error limpiando cupones expirados:', error)
-    }
+    router.post(route('admin.discount-coupons.cleanup'), {}, {
+      onSuccess: () => {
+        loadStats()
+      },
+      onError: (error) => {
+        console.error('Error limpiando cupones expirados:', error)
+      }
+    })
   }
 }
 
 const loadStats = async () => {
-  try {
-    const response = await axios.get(route('admin.discount-coupons.stats'))
-    stats.value = response.data
-  } catch (error) {
-    console.error('Error cargando estadísticas:', error)
-  }
+  router.get(route('admin.discount-coupons.stats'), {}, {
+    preserveState: true,
+    preserveScroll: true,
+    only: ['stats'],
+    onSuccess: (page) => {
+      stats.value = page.props.stats
+    },
+    onError: (error) => {
+      console.error('Error cargando estadísticas:', error)
+    }
+  })
 }
 
 // Cargar estadísticas al montar el componente

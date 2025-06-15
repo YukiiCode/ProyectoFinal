@@ -7,6 +7,8 @@ use App\Models\ProductCategory;
 use App\Models\DiscountCoupon;
 use App\Models\Table;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -85,20 +87,43 @@ class HomeController extends Controller
             'categories' => $categories,
             'coupons' => $coupons
         ]);
-    }
-
-    /**
+    }    /**
      * Mostrar la página de reservas públicas
      */
     public function reservas(): Response
     {
-        // Obtener todas las mesas para mostrar en el mapa
+        // Obtener todas las mesas y calcular su estado real
         $tables = Table::all()->map(function ($table) {
+            // Verificar si hay reservas activas para esta mesa hoy
+            $now = now();
+            $currentDate = $now->format('Y-m-d');
+            $currentTime = $now->format('H:i');
+              $activeReservation = \App\Models\Reservation::where('table_id', $table->id)
+                ->where('reservation_date', $currentDate)
+                ->whereIn('status', ['confirmed', 'pending'])
+                ->get()
+                ->first(function ($reservation) use ($currentTime) {
+                    $reservationStart = $reservation->reservation_time;
+                    $reservationEnd = \Carbon\Carbon::parse($reservationStart)->addHour()->format('H:i');
+                    return $currentTime >= $reservationStart && $currentTime <= $reservationEnd;
+                });
+            
+            // Determinar el estado real de la mesa
+            $realStatus = $table->status; // Estado base de la mesa
+            
+            if ($table->status === 'available' && $activeReservation) {
+                if ($activeReservation->status === 'confirmed') {
+                    $realStatus = 'occupied';
+                } else {
+                    $realStatus = 'reserved';
+                }
+            }
+            
             return [
                 'id' => $table->id,
                 'table_number' => $table->table_number,
                 'capacity' => $table->capacity,
-                'status' => $table->status,
+                'status' => $realStatus,
                 'position_x' => $table->position_x ?? 50,
                 'position_y' => $table->position_y ?? 50,
             ];
@@ -107,7 +132,7 @@ class HomeController extends Controller
         return Inertia::render('Reservas', [
             'tables' => $tables
         ]);
-    }    /**
+    }/**
      * Mostrar la página pública del menú
      */
     public function menu(): Response
