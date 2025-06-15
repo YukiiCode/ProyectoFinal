@@ -60,13 +60,11 @@ class GoogleController extends Controller
                     'promotional_emails' => true, // Por defecto activado
                     'reservation_reminders' => true, // Por defecto activado
                 ]);
-            }
-
-            // Login del cliente usando el guard 'client'
+            }            // Login del cliente usando el guard 'client'
             Auth::guard('client')->login($client, true);
 
-            // Redirigir al dashboard del cliente
-            return redirect()->intended('/mi-dashboard');
+            // Redirigir a la página de inicio
+            return redirect()->intended('/');
 
         } catch (\Exception $e) {
             // En caso de error, redirigir al login con mensaje
